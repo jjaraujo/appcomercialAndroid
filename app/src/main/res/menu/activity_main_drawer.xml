@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item android:title="Pessoas">
+        <item
+            android:id="@+id/menuVendasEncerradas"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Vendas Fechadas" />
+        <item
+            android:id="@+id/menuClientes"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Clientes" />
+        <item
+            android:id="@+id/menuVendedores"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Vendedores" />
+        <item
+            android:id="@+id/menuFornecedores"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Fornecedores" />
+        <item
+            android:id="@+id/menuEstoque"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Estoque" />
+    </item>
+
+    <item android:title="Contas">
+        <menu>
+            <item
+                android:id="@+id/menuContaAPagar"
+                android:icon="@drawable/ic_menu_share"
+                android:title="a Pagar" />
+            <item
+                android:id="@+id/menuContaAReceber"
+                android:icon="@drawable/ic_menu_send"
+                android:title="a Receber" />
+        </menu>
+    </item>
+
+</menu>

@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.activitys.entidades.estoque.CadastroProdutoActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/inputTextNomeProduto"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:hint="Nome do Produto">
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/editTextNomeProduto"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:ems="10"
+            android:inputType="textPersonName" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="Descrição"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="70dp">
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/editTextDescricaoProduto"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:ems="10"
+            android:inputType="text" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputUnidade"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="Unidade"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="130dp">
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextViewUnidade"
+            android:layout_width="171dp"
+            android:layout_height="50dp"
+            android:ems="10"
+            android:inputType="textAutoComplete" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputGrupo"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="190dp"
+            android:ems="10"
+            android:hint="Grupo" >
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextViewGrupo"
+            android:layout_width="317dp"
+            android:layout_height="50dp"
+            android:inputType="textAutoComplete" />
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/buttonAddGrupo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignBottom="@+id/textInputGrupo"
+            android:layout_alignStart="@+id/buttonCameraCodigoBarras"
+            android:ems="10"
+            android:hint="ADD" />
+
+        <Button
+            android:id="@+id/buttonCameraCodigoBarras"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignBottom="@+id/textInputCodigoBarras"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
+            android:ems="10"
+            android:hint="ADD" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/textInputUnidade"
+            android:ems="10"
+            android:layout_marginLeft="175dp"
+            android:hint="Preço" >
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/editTextPreco"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:inputType="numberDecimal" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputCodigoBarras"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="77dp"
+            android:layout_marginTop="250dp"
+            android:ems="10"
+            android:hint="Código de barras" >
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/editTextCodigoBarras"
+            android:layout_width="314dp"
+            android:layout_height="50dp"
+            android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputCustoCompra"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="310dp"
+            android:ems="10"
+            android:hint="Custo de Compra" >
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/editTextCustoCompra"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="numberDecimal" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="370dp"
+            android:ems="10"
+            android:hint="Quantidade" >
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/editTextQtd"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="430dp"
+            android:ems="10"
+            android:hint="Quantidade mínima" >
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/editTextQtdMinima"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="490dp"
+            android:ems="10"
+            android:hint="Comissao">
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/editTextComissao"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="numberDecimal" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="550dp"
+            android:ems="10"
+            android:hint="Lucro Bruto">
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/editTextLucroBruto"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="numberDecimal" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="610dp"
+            android:ems="10"
+            android:hint="Data da Compra" >
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/editTextDataCompra"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="date" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="670dp"
+            android:ems="10"
+            android:hint="Fornecedor">
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextViewFornecedor"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="textAutoComplete" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="730dp"
+            android:ems="10"
+            android:hint="% Imposto IBPT">
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/editTextImposto"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="numberDecimal" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="790dp"
+            android:ems="10"
+            android:hint="CSOSN">
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextViewCSOSN"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="textAutoComplete" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="850dp"
+            android:ems="10"
+            android:hint="CIT">
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/editTextCIT"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="910dp"
+            android:ems="10"
+            android:hint="Tipo Item">
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextViewTipoItem"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="textAutoComplete"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="970dp"
+            android:ems="10"
+            android:hint="NCM/TIP" >
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextViewNCMTIP"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="textAutoComplete"/>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="1030dp"
+            android:ems="10"
+            android:hint="CEST">
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/editTextCEST"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="number" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="1090dp"
+            android:ems="10"
+            android:hint="CFOP NFC-e" >
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextViewCFOP"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="textAutoComplete" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="1150dp"
+            android:ems="10"
+            android:hint="CSOSN para NFC-e" >
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextViewCSOSNparaNFC"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="textAutoComplete" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="1210dp"
+            android:ems="10"
+            android:hint="Aliquota para NFC-e" >
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/editTextAliquotaParaNFC"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="numberDecimal" />
+        </android.support.design.widget.TextInputLayout>
+    </RelativeLayout>
+</ScrollView>

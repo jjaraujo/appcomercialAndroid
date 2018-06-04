@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".view.activitys.entidades.pessoas.ActivityClientes">
+
+    <SearchView
+        android:id="@+id/searchViewClientes"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:queryHint="Buscar clientes..."/>
+
+    <ListView
+        android:id="@+id/list_cientes"
+        android:layout_below="@+id/searchViewClientes"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ListView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/clientesButtonAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="19dp"
+        android:layout_marginEnd="21dp"
+        app:srcCompat="@android:drawable/ic_input_add" />
+</RelativeLayout>

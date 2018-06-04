@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <EditText
+        android:id="@+id/editTextQtdProdutoVenda"
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:layout_alignTop="@+id/buttonQtdProdutoSomar"
+        android:layout_toEndOf="@+id/buttonQtdProdutoSubtrair"
+        android:ems="10"
+        android:inputType="numberSigned"
+        tools:layout_editor_absoluteX="98dp"
+        tools:layout_editor_absoluteY="57dp"
+        android:textAlignment="center"/>
+
+    <Button
+        android:id="@+id/buttonQtdProdutoSomar"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/buttonQtdProdutoSubtrair"
+        android:layout_marginStart="120dp"
+        android:text="+" />
+
+    <Button
+        android:id="@+id/buttonQtdProdutoSubtrair"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="30dp"
+        android:text="-"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/buttonAdicionarQtdProduto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="120dp"
+        android:text="Adicionar" />
+
+</RelativeLayout>
