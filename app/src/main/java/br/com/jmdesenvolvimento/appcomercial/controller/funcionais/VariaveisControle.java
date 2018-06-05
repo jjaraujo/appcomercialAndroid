@@ -17,7 +17,7 @@ import br.com.jmdesenvolvimento.appcomercial.view.fragments.FragmentVendasAberta
 public abstract class VariaveisControle {
     public static Venda VENDA_SELECIONADA;
     public static TextView vendaSelectionada;
-    public static TextView valorTotal;
+    public static Button valorTotal;
     public static FragmentVendasAbertas fragmentVendasAbertas;
     public static FragmentProdutos fragmentProdutos;
     public static boolean produtoEdicao;

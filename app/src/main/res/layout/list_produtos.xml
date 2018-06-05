@@ -36,8 +36,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="12dp"
         android:layout_marginTop="11dp"
-        android:background="@android:color/darker_gray"
-        />
+        android:background="@drawable/imagem_redonda"/>
 
     <TextView
         android:id="@+id/textViewListProdutosNome"
@@ -84,13 +83,17 @@
         android:textSize="15dp"
         android:textStyle="bold" />
 
-    <ImageView
-        android:id="@+id/imageViewSelecionado"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/textViewListProdutoCodigo"
+        style="bold"
+        android:layout_width="66dp"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textViewListProdutosGrupo"
-        android:layout_toEndOf="@+id/textViewListProdutosPreco"
-        app:srcCompat="?android:attr/textCheckMarkInverse"
-        android:layout_marginLeft="50dp"/>
+        android:layout_alignStart="@+id/imageButton"
+        android:layout_centerVertical="true"
+        android:fontFamily="sans-serif-condensed"
+        android:text="0001"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textSize="28dp" />
 
 </RelativeLayout>

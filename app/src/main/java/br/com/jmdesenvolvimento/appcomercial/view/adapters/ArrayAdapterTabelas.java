@@ -10,6 +10,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -107,6 +109,8 @@ public class ArrayAdapterTabelas extends BaseAdapter {
 
         View view = layoutInflater.inflate(R.layout.list_produtos, null);
         Produto produto = (Produto) list.get(position);
+        TextView textId = view.findViewById(R.id.textViewListProdutoCodigo);
+        textId.setText(corrigeTextId(produto.getId()));
         TextView nome = view.findViewById(R.id.textViewListProdutosNome);
         nome.setText(produto.getNome_produto());
         TextView grupo = view.findViewById(R.id.textViewListProdutosGrupo);
@@ -138,7 +142,7 @@ public class ArrayAdapterTabelas extends BaseAdapter {
         TabelaProdutosVenda tabelaProdutosVenda = (TabelaProdutosVenda) list.get(position);
 
         TextView nomeProduto = view.findViewById(R.id.listProdutosVendaTextViewNomeProduto);
-        nomeProduto.setText(tabelaProdutosVenda.getProduto().getNome_produto());
+        nomeProduto.setText(corrigeTextId(tabelaProdutosVenda.getProduto().getId())+" - "+tabelaProdutosVenda.getProduto().getNome_produto());
 
         TextView qtd = view.findViewById(R.id.listProdutosVendaTextViewQuantidade);
         qtd.setText("x" + tabelaProdutosVenda.getQtd() + " " + tabelaProdutosVenda.getProduto().getUnidade().getNome_unidade());
@@ -147,5 +151,16 @@ public class ArrayAdapterTabelas extends BaseAdapter {
         total.setText("R$ " + (FuncoesMatematicas.calculaValorTotalProdutoVenda(tabelaProdutosVenda) + ""));
 
         return view;
+    }
+
+    private String corrigeTextId(int id){
+        String formatado = "" + id ;
+        int tamanhoId = (id + "").toCharArray().length;
+        int tamanhoMx = 4 - tamanhoId;
+       while( tamanhoMx > 0){
+               formatado = "0" + formatado;
+               tamanhoMx --;
+       }
+       return formatado;
     }
 }

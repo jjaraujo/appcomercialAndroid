@@ -16,11 +16,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.design.widget.TabLayout;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.VariaveisControle;
+import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.contas.ContasPagarActivity;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.pessoas.ActivityClientes;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.estoque.EstoqueActivity;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.pessoas.ActivityFornecedores;
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity
     private AdapterFragmentActivityPrincipal adapterFragmentActivityPrincipal;
     private int fragmentSelecionado;
     private TextView vendaSelectionada;
-    private TextView valorTotal;
+    private Button valorTotal;
 
 
     @Override
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity
         setTitle("Vendas abertas");
 
         vendaSelectionada = findViewById(R.id.textViewVendaEscolhina);
-        valorTotal = findViewById(R.id.textViewValorTotal);
+        valorTotal = findViewById(R.id.buttonFinalizarVenda);
         VariaveisControle.vendaSelectionada = vendaSelectionada;
         VariaveisControle.valorTotal = valorTotal;
 
@@ -150,11 +152,11 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.menuVendedores) {
 
         } else if (id == R.id.menuFornecedores) {
-            Intent intent = new Intent(MainActivity.this, ActivityFornecedores
-                    .class);
+            Intent intent = new Intent(MainActivity.this, ActivityFornecedores.class);
             startActivity(intent);
         } else if (id == R.id.menuContaAPagar) {
-
+            Intent intent = new Intent(MainActivity.this, ContasPagarActivity.class);
+            startActivity(intent);
         } else if (id == R.id.menuContaAReceber) {
 
         } else if (id == R.id.menuEstoque) {

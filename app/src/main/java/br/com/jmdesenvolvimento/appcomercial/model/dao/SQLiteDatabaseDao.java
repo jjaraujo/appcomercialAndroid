@@ -39,7 +39,7 @@ import br.com.jmdesenvolvimento.appcomercial.model.tabelas.TabelaProdutosVenda;
 
 public class SQLiteDatabaseDao extends SQLiteOpenHelper {
     public static final String NOME_BANCO = "appcomercial";
-    private static final int VERSAO = 1;
+    private static final int VERSAO = 2;
     Context context;
 
     private Tabela[] tabelas = {
@@ -82,6 +82,19 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper {
         }
     }
 
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        if(newVersion == 2){
+            for(Tabela t : tabelas) {
+                String sql = "DROP TABLE IF EXISTS " + t.getNomeTabela(false) +";";
+                Log.i("DROP TABLE",t.getNomeTabela(false));
+                db.execSQL(sql);
+            }
+            onCreate(db);
+        }
+
+    }
+
     private String substituiTiposVariaveis(String nome, Tabela t) {
 
         try {
@@ -116,10 +129,7 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper {
     }
 
 
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-    }
 
     public void insere(Tabela tabela) {
         if (tabela.getNomeTabela(true).equals("cliente")) {

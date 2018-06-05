@@ -24,6 +24,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.SEND" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -33,7 +34,7 @@
             android:label="@string/title_activity_estoque"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".view.activitys.entidades.estoque.CadastroProdutoActivity" />
-        <activity android:name=".view.activitys.ContasPagarActivity"></activity>
+        <activity android:name=".view.activitys.entidades.contas.ContasPagarActivity"></activity>
     </application>
 
 </manifest>
