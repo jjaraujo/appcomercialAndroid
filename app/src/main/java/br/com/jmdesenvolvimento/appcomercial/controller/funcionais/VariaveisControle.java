@@ -9,6 +9,7 @@ import java.util.Date;
 
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Cliente;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
+import br.com.jmdesenvolvimento.appcomercial.model.tabelas.configuracoes.Configuracoes;
 import br.com.jmdesenvolvimento.appcomercial.view.dialogFragment.DialogEscolherEntidade;
 import br.com.jmdesenvolvimento.appcomercial.view.dialogFragment.DialogQuantidadeProduto;
 import br.com.jmdesenvolvimento.appcomercial.view.fragments.FragmentProdutos;
@@ -24,4 +25,7 @@ public abstract class VariaveisControle {
     public static DialogEscolherEntidade dialogEscolherEntidade;
     public static DialogQuantidadeProduto dialogQuantidadeProduto;
     public static int qtdSelecionadaProdutoVenda;
+    public static Configuracoes CONFIGURACOES_SIMPLES;
+
+
 }

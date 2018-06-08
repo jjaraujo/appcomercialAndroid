@@ -16,6 +16,9 @@ public class FuncoesMatematicas {
     }
 
     public static double calculaValorTotalVenda(Venda venda) {
+        if(venda == null){
+            return  0;
+        } // corrigir erro de nullpointerException ao inciar app
         List<TabelaProdutosVenda> list = venda.getTabelaProdutosVenda();
         double valorTotal = 0;
         if (list != null) {

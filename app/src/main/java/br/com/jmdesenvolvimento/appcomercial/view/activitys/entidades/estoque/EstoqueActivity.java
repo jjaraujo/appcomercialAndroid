@@ -108,7 +108,7 @@ public class EstoqueActivity extends AppCompatActivity {
                 where = p.getIdNome() + " = " + query;
             }
         }
-        List<Tabela> produtos = (List<Tabela>) dao.buscaTodos(p, where, false);
+        List<Tabela> produtos = (List<Tabela>) dao.selectAll(p, where, false);
         dao.close();
         ArrayAdapterTabelas adapter = new ArrayAdapterTabelas(this,produtos);
         listProdutos.setAdapter(adapter);

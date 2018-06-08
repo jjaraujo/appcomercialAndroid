@@ -103,7 +103,7 @@ public class CadastroPessoasActivity extends AppCompatActivity {
 
     private ArrayAdapter getAdapterEstado(){
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(this);
-        List<Tabela> list = (List<Tabela>) dao.buscaTodos(new Estado(),null,false);
+        List<Tabela> list = (List<Tabela>) dao.selectAll(new Estado(),null,false);
         ArrayAdapter<Tabela> arrayAdapter = (ArrayAdapter<Tabela>) new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item,list);
         ArrayAdapter<Tabela> spinnerArrayAdapter = arrayAdapter;
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
@@ -164,8 +164,8 @@ public class CadastroPessoasActivity extends AppCompatActivity {
         cliente.setPessoa(pessoa);
 
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(CadastroPessoasActivity.this);
-        dao.insere(pessoa);
-        dao.insere(cliente);
+        dao.insert(pessoa);
+        dao.insert(cliente);
         dao.close();
     }
 
@@ -190,8 +190,8 @@ public class CadastroPessoasActivity extends AppCompatActivity {
         fornecedor.setPessoa(pessoa);
 
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(CadastroPessoasActivity.this);
-        dao.insere(pessoa);
-        dao.insere(fornecedor);
+        dao.insert(pessoa);
+        dao.insert(fornecedor);
         dao.close();
     }
 

@@ -14,6 +14,7 @@ import android.widget.EditText;
 import br.com.jmdesenvolvimento.appcomercial.R;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Funcoes;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.VariaveisControle;
+import br.com.jmdesenvolvimento.appcomercial.model.dao.ProdutoDAO;
 
 @SuppressLint("ValidFragment")
 public class DialogQuantidadeProduto extends DialogFragment {
@@ -106,13 +107,13 @@ public class DialogQuantidadeProduto extends DialogFragment {
         buttonAdicionarQtdProduto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                int qtdAnterior = VariaveisControle.qtdSelecionadaProdutoVenda; // para ser adicionado no estoque em caso de mudança na quantidade do produto
                 VariaveisControle.qtdSelecionadaProdutoVenda = Funcoes.corrigeValoresCamposInt(textQtd.getText().toString());
 
                 if(modificarProduto == false) {
                     VariaveisControle.dialogEscolherEntidade.addProduto(parent, position);
                 } else{
-                    VariaveisControle.fragmentProdutos.alteraQtdProdutoVenda();
+                    VariaveisControle.fragmentProdutos.alteraQtdProdutoVenda(qtdAnterior);
                 }
                 dismiss();
             }
@@ -135,28 +136,4 @@ public class DialogQuantidadeProduto extends DialogFragment {
         });
         return view;
     }
-
-
-//    @Override
-//    public Dialog onCreateDialog(Bundle savedInstanceState){
-//       super.onCreateDialog(savedInstanceState);
-//        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity())
-//                .setTitle("Teste")
-//          //      .setIcon()
-//                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        Toast.makeText(getActivity(),"Ok",Toast.LENGTH_SHORT).show();
-//                    }
-//                })
-//                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dismiss();
-//                        Toast.makeText(getActivity(),"Cancelar",Toast.LENGTH_SHORT).show();
-//                    }
-//                })
-//                ;
-//        return  null;
-//    }
 }

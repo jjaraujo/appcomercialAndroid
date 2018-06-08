@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.FuncoesConfiguracao;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.VariaveisControle;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.contas.ContasPagarActivity;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.pessoas.ActivityClientes;
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        FuncoesConfiguracao.iniciaConfiguracoes(this);
 
         setTitle("Vendas abertas");
 
@@ -124,17 +127,19 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         Toast.makeText(this, "onOptionsItemSelected -" + id, Toast.LENGTH_SHORT).show();
         //noinspection SimplifiableIfStatement
-        if (id == R.id.menu_formularios_salvar) {
+        if (id == R.id.menu_configuracoes) {
+            Intent intent = new Intent(MainActivity.this, ConfiguracoesActivity.class);
+            startActivity(intent);
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
-
+    // cliques do menu superior esquerdo
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         int id = item.getItemId();
-        Toast.makeText(this, "onContextItemSelected -" + id, Toast.LENGTH_SHORT).show();
+
         return super.onContextItemSelected(item);
     }
 

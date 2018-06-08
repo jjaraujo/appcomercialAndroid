@@ -75,7 +75,7 @@ public class ActivityFornecedores extends AppCompatActivity {
 //                clientes = dao.buscaClientesPorNomeCpf("nome_pessoa",query);
 //            }
 //        } else{
-            clientes = (List<Tabela>) dao.buscaTodos(fornecedor,null,false);
+            clientes = (List<Tabela>) dao.selectAll(fornecedor,null,false);
       //  }
         dao.close();
         ArrayAdapterTabelas adapter = new ArrayAdapterTabelas(this,clientes);

@@ -15,6 +15,7 @@ import java.util.List;
 import br.com.jmdesenvolvimento.appcomercial.R;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Funcoes;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.VariaveisControle;
+import br.com.jmdesenvolvimento.appcomercial.model.dao.ProdutoDAO;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
 import br.com.jmdesenvolvimento.appcomercial.model.tabelas.TabelaProdutosVenda;
@@ -66,18 +67,25 @@ public class FragmentProdutos extends Fragment {
         String where = null;
         if (venda != null) {
             where = " venda_id = " + venda.getId();
-            List<TabelaProdutosVenda> tpv = (List<TabelaProdutosVenda>) dao.buscaTodos(new TabelaProdutosVenda(), where, false);
+            List<TabelaProdutosVenda> tpv = (List<TabelaProdutosVenda>) dao.selectAll(new TabelaProdutosVenda(), where, false);
             ArrayAdapterTabelas adapter = new ArrayAdapterTabelas(getContext(), tpv);
             venda.setTabelaProdutosVenda(tpv);
             lista.setAdapter(adapter);
         }
+        Funcoes.alteraValorVendaSelecionada();
     }
 
-    public void alteraQtdProdutoVenda(){
+    public void alteraQtdProdutoVenda(int qtdAnterior){
 
         tabelaProdutosVendaClicado.setQtd(VariaveisControle.qtdSelecionadaProdutoVenda);
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(getContext());
         dao.updateQtdProdutoVenda(tabelaProdutosVendaClicado);
+        ProdutoDAO produtoDAO = new ProdutoDAO(getContext());
+        produtoDAO.addEstoque(tabelaProdutosVendaClicado.getProduto().getId(),qtdAnterior);
+        produtoDAO.subtraiEstoque(tabelaProdutosVendaClicado);
+        dao.close();
+        produtoDAO.close();
+        
         carregaLista();
     }
 }

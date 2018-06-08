@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,7 +132,7 @@ public class DialogEscolherEntidade extends DialogFragment {
         VariaveisControle.VENDA_SELECIONADA = venda;
         venda.setDataRegistro(Funcoes.getDataHojeDDMMAAAA());
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(getContext());
-        dao.insere(venda);
+        dao.insert(venda);
         dao.close();
         VariaveisControle.fragmentVendasAbertas.carregaLista();
         VariaveisControle.fragmentProdutos.carregaLista();
@@ -162,7 +161,7 @@ public class DialogEscolherEntidade extends DialogFragment {
         venda.getTabelaProdutosVenda().add(tpv);
         venda.setDataRegistro(Funcoes.getDataHojeDDMMAAAA());
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(getContext());
-        dao.insere(tpv);
+        dao.insert(tpv);
         ProdutoDAO produtoDao = new ProdutoDAO(getContext());
         produtoDao.subtraiEstoque(tpv);
         dao.close();
@@ -187,7 +186,7 @@ public class DialogEscolherEntidade extends DialogFragment {
                 } else if(query != null) {
                     listTabela = dao.buscaClientesPorNomeCpf("nome_pessoa", query);
                 } else{ // caso query == null, irá buscar todos os resultados
-                    listTabela = (List<Tabela>) dao.buscaTodos(cliente, query,false );
+                    listTabela = (List<Tabela>) dao.selectAll(cliente, query,false );
                 }
                 break;
 
@@ -195,19 +194,28 @@ public class DialogEscolherEntidade extends DialogFragment {
                 Produto produto = new Produto();
                 entidade = produto;
                 if (query != null) {
-                    where = " nome_produto like " + "'%" + Funcoes.removeCaracteresEspeciais(query).replace(" ", "%") + "%'"
-                            + " AND qtd > 0";
+                    where = " nome_produto like " + "'%" + Funcoes.removeCaracteresEspeciais(query).replace(" ", "%") + "%'";
+
                     if (Funcoes.somenteNumero(query)) {
                         where = produto.getIdNome() + " = " + query;
                     }
-                } else { // caso query == null, irá buscar somente os produtos com qtd > 0
-                    where = " qtd > 0";
+                    // verifica a configuração de venda sem estoque do usuário
+                    if(!VariaveisControle.CONFIGURACOES_SIMPLES.isVendaSemEstoque()){
+                        where += " AND qtd > 0";
+                    }
                 }
-                listTabela = (List<Tabela>) dao.buscaTodos(produto, where,false);
+                else { // caso query == null, irá buscar somente os produtos com qtd > 0
+                    // verifica a configuração de venda sem estoque do usuário
+                    if(!VariaveisControle.CONFIGURACOES_SIMPLES.isVendaSemEstoque()){
+                        where = " qtd > 0";
+                    }
+                }
+
+                listTabela = (List<Tabela>) dao.selectAll(produto, where,false);
                 break;
 
             default:
-                listTabela = (List<Tabela>) dao.buscaTodos(entidade, where,false);
+                listTabela = (List<Tabela>) dao.selectAll(entidade, where,false);
                 break;
         }
 

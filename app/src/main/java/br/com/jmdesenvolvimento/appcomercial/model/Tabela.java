@@ -11,7 +11,7 @@ import java.util.HashMap;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Funcoes;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.Entidade;
 
-public abstract class Tabela  implements Serializable{
+public abstract class Tabela implements Serializable {
 
     public abstract void setMapAtributos(HashMap<String, Object> map);
 
@@ -47,24 +47,24 @@ public abstract class Tabela  implements Serializable{
 
     public HashMap<String, Object> getMapAtributos() {
         // retornará o map da memória se ele já tiver sido criado uma vez
-        if(map != null){
+        if (map != null) {
             return map;
         }
 
         map = new HashMap<>();
         Field[] fields = getClass().getDeclaredFields();
 
-            //caso o id da tabela tenha valor > 0, será adicionado no map o valor atual
-            if(getId() == null) {
-                map.put(getIdNome(), 0);
-            } else
-                map.put(getIdNome(),getId());
+        //caso o id da tabela tenha valor > 0, será adicionado no map o valor atual
+        if (getId() == null) {
+            map.put(getIdNome(), 0);
+        } else
+            map.put(getIdNome(), getId());
 
         // caso a dataExclusao nao tenha nenhum valor, será criado um valor vazio
-        if(getDataExclusao() == null){
-            map.put(getDataExclusaoNome(),"");
-        } else{
-            map.put(getDataExclusaoNome(),getDataExclusao());
+        if (getDataExclusao() == null) {
+            map.put(getDataExclusaoNome(), "");
+        } else {
+            map.put(getDataExclusaoNome(), getDataExclusao());
         }
 
         for (Field field : fields) {
@@ -86,7 +86,7 @@ public abstract class Tabela  implements Serializable{
 
                         if (entidadeField.get(this) == null) {
                             map.put(field.getName() + Funcoes.prefixoChaveEstrangeira(), entidade);
-                        } else{
+                        } else {
                             map.put(field.getName() + Funcoes.prefixoChaveEstrangeira(), entidadeField.get(this));
                         }
                     } catch (InstantiationException e) {
@@ -94,13 +94,15 @@ public abstract class Tabela  implements Serializable{
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     } catch (NoSuchFieldException e) {
-                        Log.i("NoSuchFieldException","Erro ao buscar atributo " + field.getName() + " - tabela " + this.getNomeTabela(false));
+                        Log.i("NoSuchFieldException", "Erro ao buscar atributo " + field.getName() + " - tabela " + this.getNomeTabela(false));
                         e.printStackTrace();
-                    } catch (NullPointerException e){
-                        Log.i("NullPointerException","Erro ao buscar atributo " + field.getName() + " - tabela " + this.getNomeTabela(false));
+                    } catch (NullPointerException e) {
+                        Log.i("NullPointerException", "Erro ao buscar atributo " + field.getName() + " - tabela " + this.getNomeTabela(false));
                     }
                 } else {
-                    if (field.get(this) == null) {
+                    if (nomeTipoDoField.toLowerCase().contains("boolean")) {
+                        map.put(field.getName(), Funcoes.booleanToint(false));
+                    } else if (field.get(this) == null) {
                         if (nomeTipoDoField.toLowerCase().contains("string")) {
                             map.put(field.getName(), "");
                         } else if (nomeTipoDoField.toLowerCase().contains("list")) {
@@ -119,11 +121,11 @@ public abstract class Tabela  implements Serializable{
         return map;
     }
 
-    public String getIdNome(){
-        return "id_" + getNomeTabela(true)+"_pk";
+    public String getIdNome() {
+        return "id_" + getNomeTabela(true) + "_pk";
     }
 
-    public String getDataExclusaoNome(){
+    public String getDataExclusaoNome() {
         return "dataExclusao_" + getNomeTabela(true);
     }
 
@@ -142,7 +144,7 @@ public abstract class Tabela  implements Serializable{
 
             String nomeField = fields[i].getName();
             Type type = fields[i].getType();
-            String nomeTipo = type.toString().replace("class ","").toLowerCase();
+            String nomeTipo = type.toString().replace("class ", "").toLowerCase();
 
             if (nomeField.trim().equals("$change") || nomeField.trim().equals("serialVersionUID") || nomeTipo.contains("list")) {
                 continue;
@@ -159,7 +161,7 @@ public abstract class Tabela  implements Serializable{
     public String[] nomesAtibutos() {
         ArrayList<String> list = nomesAtibutosList();
         String array[] = new String[list.size()];
-        for(int i = 0; i < list.size();i++){
+        for (int i = 0; i < list.size(); i++) {
             array[i] = list.get(i);
         }
         return array;
@@ -168,8 +170,8 @@ public abstract class Tabela  implements Serializable{
     public String nomesAtibutosInLinha() {
         ArrayList<String> list = nomesAtibutosList();
         String array = list.get(0);
-        for(int i = 1; i < list.size();i++){
-            array += ","+ list.get(i);
+        for (int i = 1; i < list.size(); i++) {
+            array += "," + list.get(i);
         }
         return array;
     }

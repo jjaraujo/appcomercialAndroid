@@ -35,11 +35,9 @@ public class FragmentVendasAbertas extends Fragment{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Venda venda = (Venda) parent.getItemAtPosition(position);
                 VariaveisControle.VENDA_SELECIONADA = venda;
-                VariaveisControle.vendaSelectionada.setText(
-                        "Venda selecionada: " +
-                        venda.getCliente().getPessoa().toString());
+                Funcoes.alteraViewVendaSelecionada();
                 VariaveisControle.fragmentProdutos.carregaLista();
-                VariaveisControle.valorTotal.setText("R$ " + FuncoesMatematicas.calculaValorTotalVenda(venda));
+                Funcoes.alteraValorVendaSelecionada();
             }
         });
         return view;
@@ -62,7 +60,7 @@ public class FragmentVendasAbertas extends Fragment{
 
     public void carregaLista(){
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(getContext());
-        List<Tabela> vendas = (List<Tabela>) dao.buscaTodos(new Venda(),null, false);
+        List<Tabela> vendas = (List<Tabela>) dao.selectAll(new Venda(),null, false);
         dao.close();
         if(!vendas.isEmpty()){
             ArrayAdapter<Tabela> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, vendas);

@@ -109,13 +109,13 @@ public class CadastroProdutoActivity extends AppCompatActivity {
             case R.id.menu_formularios_salvar:
                 SQLiteDatabaseDao dao = new SQLiteDatabaseDao(this);
                 if (edicao == false) {
-                    dao.insere(getValoresProduto());
+                    dao.insert(getValoresProduto());
                     finish();
                     Toast.makeText(this,"Produto " + produto.getId() +" adicionado!",Toast.LENGTH_SHORT).show();
                 } else {
                     this.produto = getValoresProduto();
                     Produto produto = (Produto) Funcoes.getTabelaModificada(produtoAntigo, this.produto, new Produto());
-                    dao.update(produto);
+                    dao.update(produto,true);
                     finish();
                     Toast.makeText(this,"Produto " + produto.getId() +" alterado!",Toast.LENGTH_SHORT).show();
                 }
@@ -307,7 +307,7 @@ public class CadastroProdutoActivity extends AppCompatActivity {
         dialog.show();
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(CadastroProdutoActivity.this);
 
-        List<Tabela> list = (List<Tabela>) dao.buscaTodos(entidade, null, false);
+        List<Tabela> list = (List<Tabela>) dao.selectAll(entidade, null, false);
         ArrayAdapter adapter = new ArrayAdapter(CadastroProdutoActivity.this, android.R.layout.simple_dropdown_item_1line, list);
         dialog.setMessage("Concluído");
         dialog.dismiss();

@@ -74,7 +74,7 @@ public class ActivityClientes extends AppCompatActivity {
                 clientes = dao.buscaClientesPorNomeCpf("nome_pessoa",query);
             }
         } else{
-            clientes = (List<Tabela>) dao.buscaTodos(cliente,null,false);
+            clientes = (List<Tabela>) dao.selectAll(cliente,null,false);
         }
         dao.close();
         ArrayAdapterTabelas adapter = new ArrayAdapterTabelas(this,clientes);

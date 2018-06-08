@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Funcoes;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.VariaveisControle;
 import br.com.jmdesenvolvimento.appcomercial.model.Tabela;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.Entidade;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.Estado;
@@ -36,10 +37,11 @@ import br.com.jmdesenvolvimento.appcomercial.model.entidades.vendas.TipoPagament
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
 import br.com.jmdesenvolvimento.appcomercial.model.tabelas.TabelaIntermediaria;
 import br.com.jmdesenvolvimento.appcomercial.model.tabelas.TabelaProdutosVenda;
+import br.com.jmdesenvolvimento.appcomercial.model.tabelas.configuracoes.Configuracoes;
 
 public class SQLiteDatabaseDao extends SQLiteOpenHelper {
     public static final String NOME_BANCO = "appcomercial";
-    private static final int VERSAO = 2;
+    private static final int VERSAO = 3;
     Context context;
 
     private Tabela[] tabelas = {
@@ -47,7 +49,7 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper {
             new Municipio(), new Produto(), new Ncm(), new Grupo(),
             new Fornecedor(), new Cfop(), new Csons(), new TipoItem(),
             new Unidade(), new Vendedor(), new TabelaProdutosVenda(), new Venda(),
-            new TipoPagamentos(), new Cst()
+            new TipoPagamentos(), new Cst(), new Configuracoes()
     };
 ///h
     private TabelaIntermediaria[] tabelaIntermediarias = {
@@ -84,7 +86,7 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        if(newVersion == 2){
+        if(newVersion == 3){
             for(Tabela t : tabelas) {
                 String sql = "DROP TABLE IF EXISTS " + t.getNomeTabela(false) +";";
                 Log.i("DROP TABLE",t.getNomeTabela(false));
@@ -114,6 +116,8 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper {
                         nomeTipo = " TEXT ";
                     } else if (nomeTipo.toLowerCase().trim().equals("double")) {
                         nomeTipo = " REAL ";
+                    } else if(nomeTipo.toLowerCase().trim().equals("boolean")){
+                        nomeTipo = " INTEGER ";
                     }
                 }
             } else{
@@ -131,7 +135,7 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper {
 
 
 
-    public void insere(Tabela tabela) {
+    public void insert(Tabela tabela) {
         if (tabela.getNomeTabela(true).equals("cliente")) {
             Log.i("cliente", "");
         }
@@ -177,21 +181,22 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper {
         db.execSQL(sql);
         db.close();
     }
-
-    public List<?> buscaTodos(Tabela tabela, String selection, boolean pegaExcluidos) {
+    /**Informe classes que extendem de Tabela. where == null: buscará todos os campos.
+     * pegaExcluidos: informe true caso queira pegar valores excluidos de forma lógica*/
+    public List<?> selectAll(Tabela tabela, String where, boolean pegaExcluidos) {
 
         // verifica se é para pegar registros excluídos
         if(pegaExcluidos == false){
-            if(selection != null){
-                selection += " AND " + tabela.getDataExclusaoNome() + " IS NULL";
+            if(where != null){
+                where += " AND " + tabela.getDataExclusaoNome() + " IS NULL";
             } else{
-                selection = tabela.getDataExclusaoNome() + " IS NULL";
+                where = tabela.getDataExclusaoNome() + " IS NULL";
             }
         }
         Log.i("buscaTodos", "Entrou");
         SQLiteDatabase db = getReadableDatabase();
         String[] s = tabela.nomesAtibutos();
-        Cursor cursor = db.query(tabela.getNomeTabela(false), s, selection, null, null, null, null);
+        Cursor cursor = db.query(tabela.getNomeTabela(false), s, where, null, null, null, null);
         HashMap<String, Object> map = tabela.getMapAtributos();
 
         List<Tabela> listEntidades = new ArrayList();
@@ -206,31 +211,32 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper {
         return listEntidades;
 
     }
-
-    public Tabela busca(Tabela tabela, String id) {
+    /**
+     * Busca apenas apenas um registro. Usar em casos de id conhecido ou em tabelas com apenas um registro.
+     * Neste ultimo caso, informar id == null
+     * */
+    public Tabela select(Tabela tabela, String id) {
 
         SQLiteDatabase db = getReadableDatabase();
         String[] s = tabela.nomesAtibutos();
         String selection = null;
         HashMap<String, Object> map = tabela.getMapAtributos();
-        if (tabela.isEntidade()) {
+        if (id != null) {
             selection = tabela.getIdNome() + " = " + id;
-      //      map.put(((Entidade) tabela).getIdNome(), 0);
         }
         String nomeTabela = tabela.getNomeTabela(false);
         Cursor cursor = db.query(nomeTabela, s, selection, null, null, null, null);
 
-
         while (cursor.moveToNext()) {
-            tabela = adicionaValoresMap(cursor, map, tabela);
-            tabela.setMapAtributos(map);
+            adicionaValoresMap(cursor, map, tabela);
         }
         cursor.close();
         return tabela;
     }
 
+    /**Adicionará os valores encontrados no registro no map de uma nova tabela e retornará essa tabela.
+     * Parametros obrigatórios!*/
     private Tabela adicionaValoresMap(Cursor cursor, HashMap<String, Object> map, Tabela tabela) {
-
 
        int colunas = cursor.getColumnCount();
        for (int i = 0; i < colunas; i++) {
@@ -245,14 +251,14 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper {
                }
                verificaTiposColunas(nomeTipo, cursor, nomeColuna, map, i, tabela);
            }catch (NullPointerException e){
-               Log.i("coluna nula",nomeColuna);
+               Log.i("Coluna nula",nomeColuna);
                e.printStackTrace();
            }
        }
-
        try {
            Tabela novaTabela = (Tabela) Class.forName(tabela.getClass().getName()).newInstance();
            novaTabela.setMapAtributos(map);
+           tabela.setMapAtributos(map);
            return novaTabela;
 
        } catch (InstantiationException e) {
@@ -345,7 +351,7 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper {
             if (Funcoes.objectExtendsEntidade(map.get(nomeColuna))) {
                 int idEntidade = cursor.getInt(i);
                 if(idEntidade > 0) { // buscará entidade somente se id > 0
-                    Tabela tabela1 = busca((Entidade) Class.forName(nomeTipo).newInstance(), idEntidade + "");
+                    Tabela tabela1 = select((Entidade) Class.forName(nomeTipo).newInstance(), idEntidade + "");
                     map.put(nomeColuna, tabela1);
                 }
             } else if (nomeTipo.toLowerCase().contains("string")) {
@@ -374,7 +380,7 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper {
                 ParameterizedType listFieldGenericType = (ParameterizedType) listField.getGenericType();
                 Class<?> stringListClass = (Class<?>) listFieldGenericType.getActualTypeArguments()[0];
                 Tabela novaTabela = (Tabela) Class.forName(stringListClass.getSimpleName()).newInstance();
-                List list = buscaTodos(novaTabela, null, false);
+                List list = selectAll(novaTabela, null, false);
                 map.put(nomeColuna, list);
 
             }
@@ -404,7 +410,7 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper {
         return count;
     }
 
-    public void update(Tabela tabela){
+    public void update(Tabela tabela,boolean ignorarValoresVazios){
 
         String nomeEntidade = tabela.getNomeTabela(false);
         HashMap<String, Object> map = tabela.getMapAtributos();
@@ -421,11 +427,13 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper {
         String colunas = " SET ";
         for (String s : set) {
             Object atributo = map.get(s);
-            if (atributo == null || atributo.getClass().getSimpleName().contains("List")
-                    || (atributo + "").equals("0") || (atributo + "").equals("0.0")
-                    || atributo.equals("")|| atributo.equals(" ")) {
+            if(atributo.getClass().getSimpleName().contains("List"))
+                continue;
+            if ((atributo == null || (atributo + "").equals("0") || (atributo + "").equals("0.0")
+                    || atributo.equals("")|| atributo.equals(" ")) && ignorarValoresVazios) {
                 continue;
             }
+
             if (atributo.getClass().toString().trim().toLowerCase().contains("string")) {
                 String dps = Funcoes.removeCaracteresEspeciais((String) map.get(s));
                 colunas += s +" = '" + dps + "',";
@@ -455,10 +463,10 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper {
     }
 
     public void updateQtdProdutoVenda(TabelaProdutosVenda tpv){
-        String sql = "UPDATE " + tpv.getNomeTabela(false) + " SET qtd = " + tpv.getQtd()
-                + " WHERE " + tpv.getIdNome() + " = " + tpv.getId();
-        SQLiteDatabase dao = getWritableDatabase();
-        dao.execSQL(sql);
-        dao.close();
+            String sql = "UPDATE " + tpv.getNomeTabela(false) + " SET qtd = " + tpv.getQtd()
+                    + " WHERE " + tpv.getIdNome() + " = " + tpv.getId();
+            SQLiteDatabase dao = getWritableDatabase();
+            dao.execSQL(sql);
+            dao.close();
     }
 }

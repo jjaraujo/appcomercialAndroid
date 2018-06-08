@@ -34,7 +34,9 @@
             android:label="@string/title_activity_estoque"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".view.activitys.entidades.estoque.CadastroProdutoActivity" />
-        <activity android:name=".view.activitys.entidades.contas.ContasPagarActivity"></activity>
+        <activity android:name=".view.activitys.entidades.contas.ContasPagarActivity" />
+        <activity android:name=".view.activitys.ConfiguracoesActivity" />
+        <activity android:name=".view.activitys.entidades.ConfigurarPagamentosActivity"></activity>
     </application>
 
 </manifest>

@@ -193,4 +193,25 @@ public class Funcoes {
         VariaveisControle.valorTotal.setText("R$ " + FuncoesMatematicas.calculaValorTotalVenda(venda));
 
     }
+
+    public static void alteraValorVendaSelecionada(){
+        Venda venda = VariaveisControle.VENDA_SELECIONADA;
+        VariaveisControle.valorTotal.setText("R$ " + FuncoesMatematicas.calculaValorTotalVenda(venda));
+    }
+
+    public static boolean intToBoolean(int i){
+        if(i == 1){
+            return true;
+        }
+        return false;
+    }
+
+    public static int booleanToint(boolean b){
+        if(b == true){
+            return 1;
+        }
+        return 0;
+    }
+
+
 }
