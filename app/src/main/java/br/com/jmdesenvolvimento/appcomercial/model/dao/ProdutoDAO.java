@@ -14,7 +14,7 @@ public class ProdutoDAO  extends SQLiteDatabaseDao{
     }
 
     public void subtraiEstoque(TabelaProdutosVenda tpv){
-        if(!VariaveisControle.CONFIGURACOES_SIMPLES.isVendaSemEstoque()) {
+        if(!VariaveisControle.configuracoesSimples.isVendaSemEstoque()) {
             SQLiteDatabase db = getWritableDatabase();
             String sql = "UPDATE PRODUTO set qtd = qtd - " + tpv.getQtd()
                     + " where " + tpv.getProduto().getIdNome() + " = " + tpv.getProduto().getId();
@@ -24,7 +24,7 @@ public class ProdutoDAO  extends SQLiteDatabaseDao{
     }
 
     public void addEstoque( int id, int qtd){
-        if(!VariaveisControle.CONFIGURACOES_SIMPLES.isVendaSemEstoque()) {
+        if(!VariaveisControle.configuracoesSimples.isVendaSemEstoque()) {
             SQLiteDatabase db = getWritableDatabase();
             String sql = "UPDATE PRODUTO set qtd = qtd + " + qtd
                     + " where " + new Produto().getIdNome() + " = " + id;

@@ -1,0 +1,116 @@
+package br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.pessoas;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.SearchView;
+
+import java.util.List;
+
+import br.com.jmdesenvolvimento.appcomercial.R;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Funcoes;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.VariaveisControle;
+import br.com.jmdesenvolvimento.appcomercial.model.Tabela;
+import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
+import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Cliente;
+import br.com.jmdesenvolvimento.appcomercial.view.adapters.AdapterFragmentActivityPessoas;
+import br.com.jmdesenvolvimento.appcomercial.view.adapters.ArrayAdapterTabelas;
+import br.com.jmdesenvolvimento.appcomercial.view.fragments.FragmentPessoas;
+
+public class PessoasActivity extends AppCompatActivity {
+
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private AdapterFragmentActivityPessoas adapterPessoas;
+    private int fragmentSelecionado;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_pessoas);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle("Pessoas");
+
+        // inicia os fragments de pessoas
+        viewPager = findViewById(R.id.viewPagerPessoas);
+        tabLayout = findViewById(R.id.tabLayoutPessoas);
+        adapterPessoas = new AdapterFragmentActivityPessoas(getSupportFragmentManager());
+        viewPager.setAdapter(adapterPessoas);
+        tabLayout.setupWithViewPager(viewPager);
+
+        addIconesFragments();
+        tabLayout.getTabAt(0).setIcon(R.drawable.icone_usuario_azul); // deve ficar depois do addIconesFragments()
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                addIconesFragments();
+                fragmentSelecionado = tab.getPosition();
+                switch (fragmentSelecionado){
+                    case 0:
+                        tabLayout.getTabAt(0).setIcon(R.drawable.icone_usuario_azul);
+                        break;
+                    case 1:
+                        tabLayout.getTabAt(1).setIcon(R.drawable.icone_fornecedores_azul);
+                        break;
+                    case 2:
+                        tabLayout.getTabAt(2).setIcon(R.drawable.icone_vendendor_azul);
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        final FloatingActionButton buttonAddPessoa = (FloatingActionButton) findViewById(R.id.buttonAddPessoas);
+        VariaveisControle.buttonAddPessoaForSnackbar = buttonAddPessoa;
+        buttonAddPessoa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(PessoasActivity.this, CadastroPessoasActivity.class);
+               switch (fragmentSelecionado){
+                   case 0:
+                       intent.putExtra("tipoPessoa","cliente");
+                       intent.putExtra("tipoAbertura","cadastrar");
+                       startActivity(intent);
+                       break;
+                   case 1:
+                       intent.putExtra("tipoPessoa","fornecedor");
+                       intent.putExtra("tipoAbertura","cadastrar");
+                       startActivity(intent);
+                       break;
+                   case 2:
+                       intent.putExtra("tipoPessoa","vendedor");
+                       intent.putExtra("tipoAbertura","cadastrar");
+                       startActivity(intent);
+                       break;
+               }
+            }
+        });
+    }
+
+    private void addIconesFragments(){
+
+        tabLayout.getTabAt(0).setIcon(R.drawable.icone_usuario_cinza);
+        tabLayout.getTabAt(1).setIcon(R.drawable.icone_fornecedores_cinza);
+        tabLayout.getTabAt(2).setIcon(R.drawable.icone_vendendor_cinza);
+    }
+
+
+
+}

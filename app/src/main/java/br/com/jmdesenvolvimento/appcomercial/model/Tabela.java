@@ -21,6 +21,10 @@ public abstract class Tabela implements Serializable {
 
     protected String dataExclusao;
 
+    public  boolean getPrecisaRegistroInicial(){
+        return false;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -101,7 +105,8 @@ public abstract class Tabela implements Serializable {
                     }
                 } else {
                     if (nomeTipoDoField.toLowerCase().contains("boolean")) {
-                        map.put(field.getName(), Funcoes.booleanToint(false));
+
+                        map.put(field.getName(), Funcoes.booleanToint(field.getBoolean(this)));
                     } else if (field.get(this) == null) {
                         if (nomeTipoDoField.toLowerCase().contains("string")) {
                             map.put(field.getName(), "");

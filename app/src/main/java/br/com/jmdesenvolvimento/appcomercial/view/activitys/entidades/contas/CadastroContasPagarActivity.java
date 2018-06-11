@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
 
-public class ContasPagarActivity extends AppCompatActivity {
+public class CadastroContasPagarActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

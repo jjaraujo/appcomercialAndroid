@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.List;
 
@@ -26,7 +27,6 @@ import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Funcoes;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.VariaveisControle;
 import br.com.jmdesenvolvimento.appcomercial.model.Tabela;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.Entidade;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Fornecedor;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Pessoa;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Cfop;
@@ -36,6 +36,7 @@ import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Ncm;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Produto;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.TipoItem;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Unidade;
+import br.com.jmdesenvolvimento.appcomercial.view.activitys.LeitorCodigoBarrasActivity;
 
 public class CadastroProdutoActivity extends AppCompatActivity {
 
@@ -82,8 +83,8 @@ public class CadastroProdutoActivity extends AppCompatActivity {
         ouveCliquesItensEntidades();
 
         Intent intent = getIntent();
-        produtoAntigo = (Produto) intent.getSerializableExtra("VISUALIZAR");
-        if (produto != null && VariaveisControle.produtoEdicao == true) {
+        produtoAntigo = (Produto) intent.getSerializableExtra("produtoVisualizar");
+        if (intent.getSerializableExtra("tipoAbertura").equals("visualizar")) {
             visualizacao = true;
             camposNotAcessible();
             setValoresCampos(produtoAntigo);
@@ -95,7 +96,7 @@ public class CadastroProdutoActivity extends AppCompatActivity {
         this.menu = menu;
         if (visualizacao == false) {
             MenuInflater menuInflater = getMenuInflater();
-            menuInflater.inflate(R.menu.menu_formularios, menu);
+            menuInflater.inflate(R.menu.menu_salvar, menu);
         } else {
             MenuInflater menuInflater = getMenuInflater();
             menuInflater.inflate(R.menu.menu_editar, menu);
@@ -139,6 +140,7 @@ public class CadastroProdutoActivity extends AppCompatActivity {
         editTextPreco = findViewById(R.id.editTextPreco);
         editTextGrupo = findViewById(R.id.autoCompleteTextViewGrupo);
         editTextCodigoBarras = findViewById(R.id.editTextCodigoBarras);
+        VariaveisControle.editTextCodigoBarrasCadastroProduto = editTextCodigoBarras;
         editTextCustoCompra = findViewById(R.id.editTextCustoCompra);
         editTextQtd = findViewById(R.id.editTextQtd);
         editTextQtdMinima = findViewById(R.id.editTextQtdMinima);
@@ -157,6 +159,13 @@ public class CadastroProdutoActivity extends AppCompatActivity {
         editTextCsonsNfce = findViewById(R.id.autoCompleteTextViewCSOSNparaNFC);
         buttonAddGrupo = findViewById(R.id.buttonAddGrupo);
         buttonCameraCodigo = findViewById(R.id.buttonCameraCodigoBarras);
+        buttonCameraCodigo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CadastroProdutoActivity.this, LeitorCodigoBarrasActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private Produto getValoresProduto() {
@@ -301,13 +310,14 @@ public class CadastroProdutoActivity extends AppCompatActivity {
         });
     }
 
-    private ArrayAdapter<Entidade> getAdapterEntidade(Entidade entidade) {
+    /**Monta o adapter genérico para as tabelas que serão listadas no formulário de cadastro através de autocomplete*/
+    private ArrayAdapter<Tabela> getAdapterEntidade(Tabela entidade) {
         ProgressDialog dialog = new ProgressDialog(CadastroProdutoActivity.this);
         dialog.setMessage("Carregando dados");
         dialog.show();
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(CadastroProdutoActivity.this);
 
-        List<Tabela> list = (List<Tabela>) dao.selectAll(entidade, null, false);
+        List<Tabela> list = (List<Tabela>) dao.selectAll(entidade, null, false, null,null,null,null);
         ArrayAdapter adapter = new ArrayAdapter(CadastroProdutoActivity.this, android.R.layout.simple_dropdown_item_1line, list);
         dialog.setMessage("Concluído");
         dialog.dismiss();
@@ -332,19 +342,15 @@ public class CadastroProdutoActivity extends AppCompatActivity {
         editTextPreco.setText(Funcoes.removeNullZeroFormularios(produto.getPreco() + ""));
         editTextQtd.setText(Funcoes.removeNullZeroFormularios(produto.getQtd() + ""));
         editTextQtdMinima.setText(Funcoes.removeNullZeroFormularios(produto.getQtdMinima() + ""));
-        editTextCfopNfce.setText(Funcoes.removeNullZeroFormularios(Funcoes.isNull(produto.getCfop(), "nome_cfop", new Cfop()) + ""));
-        editTextGrupo.setText(Funcoes.removeNullZeroFormularios(Funcoes.isNull(produto.getGrupo(), "nome_grupo", new Grupo()) + ""));
+        editTextCfopNfce.setText(Funcoes.removeNullZeroFormularios(produto.getCfop().getNome_cfop()));
+        editTextGrupo.setText(Funcoes.removeNullZeroFormularios(produto.getGrupo().getNome_grupo()));
 
-        editTextFornecedor.setText(
-                Funcoes.removeNullZeroFormularios(
-                        Funcoes.isNull(
-                                ((Pessoa) Funcoes.isNull(
-                                        produto.getFornecedor(), "pessoa", new Pessoa())), "nome_pessoa", null) + ""));
-        editTextCsons.setText(Funcoes.removeNullZeroFormularios(Funcoes.isNull(produto.getCsons(), "nome_csons", new Csons()) + ""));
-        editTextTipoItem.setText(Funcoes.removeNullZeroFormularios(Funcoes.isNull(produto.getTipoItem(), "nome_tipo_item", new TipoItem()) + ""));
-        editTextCsonsNfce.setText(Funcoes.removeNullZeroFormularios(Funcoes.isNull(produto.getCsonsNfce(), "nome_csons", new Csons()) + ""));
-        editTextNcmTip.setText(Funcoes.removeNullZeroFormularios(Funcoes.isNull(produto.getNcm(), "codigo", new Ncm()) + ""));
-        editTextUnidade.setText(Funcoes.removeNullZeroFormularios(Funcoes.isNull(produto.getUnidade(), "nome_unidade", new Unidade()) + ""));
+        editTextFornecedor.setText(Funcoes.removeNullZeroFormularios(produto.getFornecedor().getPessoa().getNome()));
+        editTextCsons.setText(Funcoes.removeNullZeroFormularios(produto.getCsons().getNome_csons()));
+        editTextTipoItem.setText(Funcoes.removeNullZeroFormularios(produto.getTipoItem().getNome_tipo_item()));
+        editTextCsonsNfce.setText(Funcoes.removeNullZeroFormularios(produto.getCsonsNfce().getNome_csons()));
+        editTextNcmTip.setText(Funcoes.removeNullZeroFormularios(produto.getNcm()+""));
+        editTextUnidade.setText(Funcoes.removeNullZeroFormularios(produto.getUnidade().getNome_unidade()));
         Log.i("setValoresCampos", "saiu");
     }
 

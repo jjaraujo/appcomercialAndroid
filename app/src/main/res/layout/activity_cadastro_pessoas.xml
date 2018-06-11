@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@android:color/darker_gray">
+            android:background="#ecf0f1">
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/inputLayoutCadastroNomeRSocial"
@@ -30,7 +30,7 @@
                 android:layout_alignParentStart="true"
                 android:hint="Nome">
 
-                <EditText
+                <android.support.design.widget.TextInputEditText
                     android:id="@+id/cadastroNomeRSocial"
                     android:layout_width="match_parent"
                     android:layout_height="50dp" />
@@ -45,7 +45,7 @@
                 android:layout_below="@+id/inputLayoutCadastroNomeRSocial"
                 android:hint="CPF">
 
-                <EditText
+                <android.support.design.widget.TextInputEditText
                     android:id="@+id/cadastroCpfCnpj"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -61,7 +61,7 @@
                 android:layout_below="@+id/inputLayoutCadastroCpfCnpj"
                 android:hint="RG">
 
-                <EditText
+                <android.support.design.widget.TextInputEditText
                     android:id="@+id/cadastroRgIe"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -87,7 +87,7 @@
                 android:layout_marginRight="1dp"
                 android:hint="Nacimento">
 
-                <EditText
+                <android.support.design.widget.TextInputEditText
                     android:id="@+id/cadastroNascimento"
                     android:layout_width="227dp"
                     android:layout_height="50dp"
@@ -99,7 +99,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@android:color/darker_gray">
+            android:background="#ecf0f1">
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/inputLayoutCadastroLogradouro"
@@ -109,7 +109,7 @@
                 android:layout_alignParentStart="true"
                 android:hint="Logradouro">
 
-                <EditText
+                <android.support.design.widget.TextInputEditText
                     android:id="@+id/cadastroLogradouro"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -125,7 +125,7 @@
                 android:layout_below="@+id/inputLayoutCadastroLogradouro"
                 android:hint="Bairro">
 
-                <EditText
+                <android.support.design.widget.TextInputEditText
                     android:id="@+id/cadastroBairro"
                     android:layout_width="279dp"
                     android:layout_height="50dp"
@@ -140,7 +140,7 @@
                 android:layout_below="@+id/inputLayoutCadastroLogradouro"
                 android:hint="Número">
 
-                <EditText
+                <android.support.design.widget.TextInputEditText
                     android:id="@+id/cadastroNumeroEndereco"
                     android:layout_width="108dp"
                     android:layout_height="50dp"
@@ -156,7 +156,7 @@
                 android:layout_below="@+id/textLayoutCadastroBairro"
                 android:hint="Cep">
 
-                <EditText
+                <android.support.design.widget.TextInputEditText
                     android:id="@+id/cadastroCep"
                     android:layout_width="219dp"
                     android:layout_height="50dp"
@@ -178,8 +178,8 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="7dp"
                 android:layout_below="@+id/cadastroEstado"
+                android:layout_marginTop="7dp"
                 android:hint="Municipio">
 
                 <AutoCompleteTextView
@@ -188,13 +188,14 @@
                     android:layout_height="50dp"
                     android:inputType="textAutoComplete" />
             </android.support.design.widget.TextInputLayout>
+
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@android:color/darker_gray">
+            android:background="#ecf0f1">
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/textLayoutCadastroTelefone1"
@@ -202,7 +203,7 @@
                 android:layout_height="match_parent"
                 android:hint="Telefone 1">
 
-                <EditText
+                <android.support.design.widget.TextInputEditText
                     android:id="@+id/cadastroTelefone1"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -218,7 +219,7 @@
                 android:layout_below="@+id/textLayoutCadastroTelefone1"
                 android:hint="Telefone 2">
 
-                <EditText
+                <android.support.design.widget.TextInputEditText
                     android:id="@+id/cadastroTelefone2"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -234,21 +235,26 @@
                 android:layout_below="@+id/textLayoutCadastroTelefone2"
                 android:hint="Email">
 
-                <EditText
+                <android.support.design.widget.TextInputEditText
                     android:id="@+id/cadastroEmail"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:inputType="textEmailAddress" />
             </android.support.design.widget.TextInputLayout>
-
-            <Button
-                android:id="@+id/buttonSalvar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textLayoutCadastroLimiteCliente"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/textLayoutCadastroEmail"
-                android:text="Salvar" />
+                android:hint="Limite do Cliente">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/cadastroLimiteCliente"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"/>
+            </android.support.design.widget.TextInputLayout>
         </RelativeLayout>
     </LinearLayout>
 

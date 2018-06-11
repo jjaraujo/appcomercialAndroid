@@ -86,13 +86,13 @@
 
         <Button
             android:id="@+id/buttonCameraCodigoBarras"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_alignBottom="@+id/textInputCodigoBarras"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="16dp"
             android:ems="10"
-            android:hint="ADD" />
+            android:background="@drawable/ic_menu_camera"/>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="fill_parent"

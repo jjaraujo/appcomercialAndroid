@@ -6,7 +6,7 @@ import java.util.HashMap;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Funcoes;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.Entidade;
 
-public class Fornecedor extends Entidade implements Serializable {
+public class Fornecedor extends Pessoa implements IPessoa {
 
     public Pessoa getPessoa() {
         return pessoa;

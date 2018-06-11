@@ -46,6 +46,7 @@ public class EstoqueActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(EstoqueActivity.this, CadastroProdutoActivity.class);
+                intent.putExtra("tipoAbertura","cadastrar");
                 startActivity(intent);
             }
         });
@@ -67,10 +68,9 @@ public class EstoqueActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(EstoqueActivity.this, CadastroProdutoActivity.class);
-                intent.putExtra("TipoAbertura","VISUALIZAR");
+                intent.putExtra("tipoAbertura","visualizar");
                 Produto produto = (Produto) listProdutos.getItemAtPosition(position);
-                intent.putExtra("VISUALIZAR", produto);
-                VariaveisControle.produtoEdicao = true;
+                intent.putExtra("produtoVisualizar", produto);
                 startActivity(intent);
             }
         });
@@ -80,7 +80,6 @@ public class EstoqueActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         carregaList(null);
-        VariaveisControle.produtoEdicao = false;
     }
 
     @Override
@@ -108,9 +107,9 @@ public class EstoqueActivity extends AppCompatActivity {
                 where = p.getIdNome() + " = " + query;
             }
         }
-        List<Tabela> produtos = (List<Tabela>) dao.selectAll(p, where, false);
+        List<Tabela> produtos = (List<Tabela>) dao.selectAll(p, where, false,null,null,p.getIdNome(),"100");
         dao.close();
-        ArrayAdapterTabelas adapter = new ArrayAdapterTabelas(this,produtos);
+        ArrayAdapterTabelas adapter = new ArrayAdapterTabelas(this,produtos,ArrayAdapterTabelas.TIPO_PRODUTOS);
         listProdutos.setAdapter(adapter);
     }
 }

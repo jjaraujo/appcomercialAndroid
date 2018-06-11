@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.Entidade;
 
-public class Vendedor extends Entidade {
+public class Vendedor extends Pessoa implements IPessoa {
 
     private Pessoa pessoa;
     private double comissao;

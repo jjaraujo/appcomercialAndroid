@@ -6,37 +6,25 @@
     <item android:title="Pessoas">
         <item
             android:id="@+id/menuVendasEncerradas"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/icone_venda"
             android:title="Vendas Fechadas" />
         <item
-            android:id="@+id/menuClientes"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Clientes" />
-        <item
-            android:id="@+id/menuVendedores"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Vendedores" />
-        <item
-            android:id="@+id/menuFornecedores"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Fornecedores" />
+            android:id="@+id/menuPessoas"
+            android:icon="@drawable/icone_pessoas"
+            android:title="Pessoas" />
         <item
             android:id="@+id/menuEstoque"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/icone_produto"
             android:title="Estoque" />
+        <item
+            android:id="@+id/menuContas"
+            android:icon="@drawable/icone_contas"
+            android:title="Contas" />
+        <item
+            android:id="@+id/menuConfiguracoes"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Configurações" />
     </item>
 
-    <item android:title="Contas">
-        <menu>
-            <item
-                android:id="@+id/menuContaAPagar"
-                android:icon="@drawable/ic_menu_share"
-                android:title="a Pagar" />
-            <item
-                android:id="@+id/menuContaAReceber"
-                android:icon="@drawable/ic_menu_send"
-                android:title="a Receber" />
-        </menu>
-    </item>
 
 </menu>

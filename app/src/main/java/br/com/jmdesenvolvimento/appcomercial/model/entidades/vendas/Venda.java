@@ -11,6 +11,7 @@ import br.com.jmdesenvolvimento.appcomercial.model.tabelas.TabelaProdutosVenda;
 public class Venda extends Entidade {
 
     private Cliente cliente;
+    private int numeroMesaComanda;
     private List<TabelaProdutosVenda> tabelaProdutosVenda;
     private String dataRegistro;
     private TipoPagamentos tipoPagamentos;
@@ -28,6 +29,7 @@ public class Venda extends Entidade {
         dataFechamento = (String) map.get("dataFechamento");
         dataCancelamento = (String) map.get("dataCancelamento");
         motivoCancelamento = (String) map.get("motivoCancelamento");
+        numeroMesaComanda = (int) map.get("numeroMesaComanda");
     }
 
     public Cliente getCliente() {
@@ -44,6 +46,14 @@ public class Venda extends Entidade {
 
     public void setTabelaProdutosVenda(List<TabelaProdutosVenda> tabelaProdutosVenda) {
         this.tabelaProdutosVenda = tabelaProdutosVenda;
+    }
+
+    public int getNumeroMesaComanda() {
+        return numeroMesaComanda;
+    }
+
+    public void setNumeroMesaComanda(int numeroMesaComanda) {
+        this.numeroMesaComanda = numeroMesaComanda;
     }
 
     public String getDataRegistro() {
@@ -84,5 +94,10 @@ public class Venda extends Entidade {
 
     public void setMotivoCancelamento(String motivoCancelamento) {
         this.motivoCancelamento = motivoCancelamento;
+    }
+
+    @Override
+    public String toString() {
+        return getId() + " - Cliente: " + cliente.getId();
     }
 }

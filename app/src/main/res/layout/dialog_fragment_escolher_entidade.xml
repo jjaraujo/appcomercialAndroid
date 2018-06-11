@@ -1,23 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:orientation="vertical"
-    tools:context=".view.dialogFragment.DialogEscolherEntidade"
-    android:background="@android:color/white">
+    tools:context=".view.dialogFragment.DialogEscolherEntidade">
 
-    <SearchView
-        android:id="@+id/searchViewBuscaEntidade"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:queryHint="Buscar cliente"
-        android:background="@android:color/darker_gray"/>
+        android:layout_height="60dp"
+        android:orientation="horizontal">
+
+        <SearchView
+            android:id="@+id/searchViewBuscaEntidade"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@android:color/darker_gray"
+            android:queryHint="Buscar cliente">
+
+        </SearchView>
+        <ImageView
+            android:id="@+id/imageViewContador"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/icone_contador1" />
+
+        <ImageView
+            android:id="@+id/imageViewCamera"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/icone_camera_branca"/>
+
+
+    </RelativeLayout>
+
 
     <ListView
-        android:id="@+id/list_escolha_clientes"
-        android:layout_alignStart="@+id/buscaCliente"
+        android:id="@+id/list_escolha_entidades"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="match_parent"
+        android:layout_alignStart="@+id/buscaCliente"></ListView>
 
 </LinearLayout>

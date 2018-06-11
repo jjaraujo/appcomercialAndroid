@@ -1,6 +1,7 @@
 package br.com.jmdesenvolvimento.appcomercial.view.dialogFragment;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -26,6 +28,7 @@ import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.C
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Produto;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
 import br.com.jmdesenvolvimento.appcomercial.model.tabelas.TabelaProdutosVenda;
+import br.com.jmdesenvolvimento.appcomercial.view.activitys.LeitorCodigoBarrasActivity;
 import br.com.jmdesenvolvimento.appcomercial.view.adapters.ArrayAdapterTabelas;
 
 @SuppressLint("ValidFragment")
@@ -33,12 +36,13 @@ public class DialogEscolherEntidade extends DialogFragment {
 
     private int numStyle;
     private int theme;
-    private SearchView searchViewBusca;
     private int fragmentSelecionado;
     private ListView lista;
     private Entidade entidade;
     private SearchView searchView;
     private View view;
+    private ImageView imageViewCamera;
+    private ImageView imageViewContador;
 
     public DialogEscolherEntidade(int nulStyle, int theme, int fragmentSelecionado) {
         this.numStyle = nulStyle;
@@ -82,12 +86,45 @@ public class DialogEscolherEntidade extends DialogFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.dialog_fragment_escolher_entidade, container, false);
-        carregaList(view, null);
+        carregaList(null);
 
         searchView = view.findViewById(R.id.searchViewBuscaEntidade);
+        imageViewContador = view.findViewById(R.id.imageViewContador);
+        imageViewCamera = view.findViewById(R.id.imageViewCamera);
+        imageViewCamera.setVisibility(View.INVISIBLE);
+        imageViewContador.setVisibility(View.INVISIBLE);
+
+        imageViewCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), LeitorCodigoBarrasActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        imageViewContador.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialogFragmentComanda();
+                onDestroy();
+            }
+        });
+
+        switch (fragmentSelecionado) {
+            case 0:
+                if(VariaveisControle.configuracoesSimples.isVendaSemCliente()){
+                    imageViewContador.setVisibility(View.VISIBLE);
+                }
+               searchView.setQueryHint("Buscar clientes...");
+                break;
+            case 1:
+                imageViewCamera.setVisibility(View.VISIBLE);
+                searchView.setQueryHint("Buscar produtos...");
+                break;
+        }
 
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -95,12 +132,11 @@ public class DialogEscolherEntidade extends DialogFragment {
 
                 switch (fragmentSelecionado) {
                     case 0:
-                        addCliente(parent, position);
+                            addCliente(parent, position);
                         break;
                     case 1:
                         VariaveisControle.dialogEscolherEntidade = DialogEscolherEntidade.this;
                         openDialogFragment(parent, position);
-                        // addProduto(parent, position);
                         break;
                     default:
 
@@ -117,12 +153,24 @@ public class DialogEscolherEntidade extends DialogFragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                carregaList(view, newText);
+                carregaList(newText);
                 return false;
             }
         });
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        String codigoLido = VariaveisControle.codigoDeBarrasLido;
+        if(codigoLido!= null){
+            if(!codigoLido.equals("")){
+                carregaList(codigoLido);
+                VariaveisControle.codigoDeBarrasLido = "";
+            }
+        }
     }
 
     private void addCliente(AdapterView<?> parent, int position) {
@@ -137,10 +185,12 @@ public class DialogEscolherEntidade extends DialogFragment {
         VariaveisControle.fragmentVendasAbertas.carregaLista();
         VariaveisControle.fragmentProdutos.carregaLista();
         Funcoes.alteraViewVendaSelecionada();
+
         dismiss();
     }
 
-    public void addProduto(AdapterView<?> parent, int position) {
+
+    public void addProdutoNaVenda(AdapterView<?> parent, int position) {
         Produto produto = (Produto) parent.getItemAtPosition(position);
         Venda venda = VariaveisControle.VENDA_SELECIONADA;
 
@@ -168,63 +218,64 @@ public class DialogEscolherEntidade extends DialogFragment {
         VariaveisControle.fragmentProdutos.carregaLista();
         Funcoes.alteraViewVendaSelecionada();
       //  openDialogFragment();
-
     }
 
-    private void carregaList(View view, String query) {
+    private void carregaList(String query) {
 
         String where = null;
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(getContext());
-        List<Tabela> listTabela;
+        List<Tabela> listTabela = null;
+        int tipoArray = 0;
 
         switch (fragmentSelecionado) {
             case 0:
+                tipoArray = ArrayAdapterTabelas.TIPO_CLIENTES;
                 Cliente cliente = new Cliente();
                 entidade = cliente;
                 if (query != null && Funcoes.somenteNumero(query)) {
-                    listTabela = dao.buscaClientesPorNomeCpf("cpfCNPJ", query);
+                    listTabela = dao.buscaClientesPorNomeCpf(cliente,"cpfCNPJ", query);
                 } else if(query != null) {
-                    listTabela = dao.buscaClientesPorNomeCpf("nome_pessoa", query);
+                    listTabela = dao.buscaClientesPorNomeCpf(cliente,"nome_pessoa", query);
                 } else{ // caso query == null, irá buscar todos os resultados
-                    listTabela = (List<Tabela>) dao.selectAll(cliente, query,false );
+                    listTabela = (List<Tabela>) dao.selectAll(cliente, query,false,null,null,cliente.getIdNome(),"100" );
                 }
                 break;
 
             case 1:
+                tipoArray = ArrayAdapterTabelas.TIPO_PRODUTOS;
                 Produto produto = new Produto();
                 entidade = produto;
                 if (query != null) {
                     where = " nome_produto like " + "'%" + Funcoes.removeCaracteresEspeciais(query).replace(" ", "%") + "%'";
 
                     if (Funcoes.somenteNumero(query)) {
-                        where = produto.getIdNome() + " = " + query;
+                        where = produto.getIdNome() + " = " + query
+                        + " OR CodigoBarras = " + query;
                     }
                     // verifica a configuração de venda sem estoque do usuário
-                    if(!VariaveisControle.CONFIGURACOES_SIMPLES.isVendaSemEstoque()){
+                    if(!VariaveisControle.configuracoesSimples.isVendaSemEstoque()){
                         where += " AND qtd > 0";
                     }
                 }
                 else { // caso query == null, irá buscar somente os produtos com qtd > 0
                     // verifica a configuração de venda sem estoque do usuário
-                    if(!VariaveisControle.CONFIGURACOES_SIMPLES.isVendaSemEstoque()){
+                    if(!VariaveisControle.configuracoesSimples.isVendaSemEstoque()){
                         where = " qtd > 0";
                     }
                 }
-
-                listTabela = (List<Tabela>) dao.selectAll(produto, where,false);
-                break;
-
-            default:
-                listTabela = (List<Tabela>) dao.selectAll(entidade, where,false);
+                listTabela = (List<Tabela>) dao.selectAll(produto, where,false,null,null,produto.getIdNome(),"100");
                 break;
         }
 
         dao.close();
-        ArrayAdapterTabelas adapter = new ArrayAdapterTabelas(getContext(), listTabela);
-        lista = (ListView) view.findViewById(R.id.list_escolha_clientes);
-        lista.setAdapter(adapter);
-        lista.setAdapter(adapter);
+        if(listTabela != null) {
+            ArrayAdapterTabelas adapter = new ArrayAdapterTabelas(getContext(), listTabela, tipoArray);
+            lista = (ListView) view.findViewById(R.id.list_escolha_entidades);
+            lista.setAdapter(adapter);
+            lista.setAdapter(adapter);
+        }
     }
+
 
     public void openDialogFragment(AdapterView<?> parent, int position) {
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
@@ -233,33 +284,15 @@ public class DialogEscolherEntidade extends DialogFragment {
                     setMessage("Nenhuma venda selecionada!").show();
             //  alert.setMessage("Não");
         } else {
-            DialogQuantidadeProduto dialog = new DialogQuantidadeProduto(1, 2, parent, position);
+            DialogQuantidadeProduto dialog = new DialogQuantidadeProduto(parent, position);
             dialog.show(ft, "dialogQuantidadeProduto");
         }
     }
 
-    /* @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState){
-       super.onCreateDialog(savedInstanceState);
-        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity())
-                .setTitle("Teste")
-          //      .setIcon()
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(getActivity(),"Ok",Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dismiss();
-                        Toast.makeText(getActivity(),"Cancelar",Toast.LENGTH_SHORT).show();
-                    }
-                })
-                ;
-        return  null;
-    } */
+    public void openDialogFragmentComanda() {
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
 
-
+            DialogVendaPorComanda dialog = new DialogVendaPorComanda();
+            dialog.show(ft, "dialogComanda");
+    }
 }

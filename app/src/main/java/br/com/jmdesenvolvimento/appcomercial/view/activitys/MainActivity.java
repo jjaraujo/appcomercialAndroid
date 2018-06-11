@@ -1,5 +1,6 @@
 package br.com.jmdesenvolvimento.appcomercial.view.activitys;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -21,12 +22,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Funcoes;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.FuncoesConfiguracao;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.VariaveisControle;
-import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.contas.ContasPagarActivity;
-import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.pessoas.ActivityClientes;
+import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.pessoas.PessoasActivity;
+import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.contas.CadastroContasPagarActivity;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.estoque.EstoqueActivity;
-import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.pessoas.ActivityFornecedores;
 import br.com.jmdesenvolvimento.appcomercial.view.adapters.AdapterFragmentActivityPrincipal;
 import br.com.jmdesenvolvimento.appcomercial.view.dialogFragment.DialogEscolherEntidade;
 
@@ -54,8 +55,8 @@ public class MainActivity extends AppCompatActivity
 
         vendaSelectionada = findViewById(R.id.textViewVendaEscolhina);
         valorTotal = findViewById(R.id.buttonFinalizarVenda);
-        VariaveisControle.vendaSelectionada = vendaSelectionada;
-        VariaveisControle.valorTotal = valorTotal;
+        VariaveisControle.textViewVendaSelectionada = vendaSelectionada;
+        VariaveisControle.buttonValorTotal = valorTotal;
 
         // inicia os fragments de venda e produto
         tabLayout = findViewById(R.id.tabLayoutActivityPrincipal);
@@ -79,6 +80,33 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+        tabLayout.getTabAt(0).setIcon(R.drawable.icone_loja_azul);
+        tabLayout.getTabAt(1).setIcon(R.drawable.icone_carrinho_cinza);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                tabLayout.getTabAt(1).setIcon(R.drawable.icone_carrinho_cinza);
+                tabLayout.getTabAt(0).setIcon(R.drawable.icone_loja_cinza);
+                switch (tab.getPosition()){
+                    case 0:
+                        tabLayout.getTabAt(0).setIcon(R.drawable.icone_loja_azul);
+                        break;
+                    case 1:
+                        tabLayout.getTabAt(1).setIcon(R.drawable.icone_carrinho_azul);
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
         iniciaComponentesMenuLateral(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -86,6 +114,26 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 openDialogFragment(view);
+            }
+        });
+
+        Button buttonFinalizarVenda = findViewById(R.id.buttonFinalizarVenda);
+        buttonFinalizarVenda.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(MainActivity.this)
+                        .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
             }
         });
     }
@@ -114,19 +162,15 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflate o menu; adiciona itens para o action bar caso existam
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        Toast.makeText(this, "onOptionsItemSelected -" + id, Toast.LENGTH_SHORT).show();
-        //noinspection SimplifiableIfStatement
+
         if (id == R.id.menu_configuracoes) {
             Intent intent = new Intent(MainActivity.this, ConfiguracoesActivity.class);
             startActivity(intent);
@@ -150,23 +194,19 @@ public class MainActivity extends AppCompatActivity
         Toast.makeText(this, "onNavigationItemSelected -" + id, Toast.LENGTH_SHORT).show();
         if (id == R.id.menuVendasEncerradas) {
 
-        } else if (id == R.id.menuClientes) {
-            Intent intent = new Intent(MainActivity.this, ActivityClientes.class);
-
+        } else if (id == R.id.menuPessoas) {
+            Intent intent = new Intent(MainActivity.this, PessoasActivity.class);
             startActivity(intent);
-        } else if (id == R.id.menuVendedores) {
-
-        } else if (id == R.id.menuFornecedores) {
-            Intent intent = new Intent(MainActivity.this, ActivityFornecedores.class);
+        } else if (id == R.id.menuContas) {
+            Intent intent = new Intent(MainActivity.this, CadastroContasPagarActivity.class);
             startActivity(intent);
-        } else if (id == R.id.menuContaAPagar) {
-            Intent intent = new Intent(MainActivity.this, ContasPagarActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.menuContaAReceber) {
-
         } else if (id == R.id.menuEstoque) {
             Intent intent = new Intent(MainActivity.this, EstoqueActivity.class);
             startActivity(intent);
+        } else  if (id == R.id.menuConfiguracoes) {
+            Intent intent = new Intent(MainActivity.this, ConfiguracoesActivity.class);
+            startActivity(intent);
+            return true;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -190,8 +230,7 @@ public class MainActivity extends AppCompatActivity
     public void openDialogFragment(View view) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         if (fragmentSelecionado == 1 && VariaveisControle.VENDA_SELECIONADA == null) {
-            new AlertDialog.Builder(this).
-                    setMessage("Nenhuma venda selecionada!").show();
+            Funcoes.addAlertDialogAlerta(this,"Nenhuma venda selecionada!");
             //  alert.setMessage("Não");
         } else {
             DialogEscolherEntidade ecf = new DialogEscolherEntidade(1, 2, fragmentSelecionado);

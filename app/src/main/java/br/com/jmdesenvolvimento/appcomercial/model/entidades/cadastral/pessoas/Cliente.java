@@ -9,7 +9,7 @@ import br.com.jmdesenvolvimento.appcomercial.model.entidades.Entidade;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Pessoa;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Cliente extends Entidade {
+public class Cliente extends Pessoa implements IPessoa{
 
     private Pessoa pessoa;
     private double limite;

@@ -11,6 +11,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.zip.Inflater;
+
 import br.com.jmdesenvolvimento.appcomercial.R;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Funcoes;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.VariaveisControle;
@@ -19,8 +21,6 @@ import br.com.jmdesenvolvimento.appcomercial.model.dao.ProdutoDAO;
 @SuppressLint("ValidFragment")
 public class DialogQuantidadeProduto extends DialogFragment {
 
-    private int numStyle;
-    private int theme;
     private View view;
     private Button buttonAdicionarQtdProduto;
     private Button somar;
@@ -29,62 +29,33 @@ public class DialogQuantidadeProduto extends DialogFragment {
     private AdapterView<?> parent;
     private int position;
     private boolean modificarProduto = false;
+    public static int DIALOG_QTDPRODUTO = 1;
+    public static int DIALOG_COMANDA = 2;
 
+    public DialogQuantidadeProduto( AdapterView<?> parent, int position) {
 
-    public DialogQuantidadeProduto(int nulStyle, int theme, AdapterView<?> parent, int position) {
-        this.numStyle = nulStyle;
-        this.theme = theme;
         this.parent = parent;
         this.position = position;
         modificarProduto = false;
     }
+    /**Construtor deve ser usado somente em caso de alteração da quantidade do produto*/
+    public DialogQuantidadeProduto() {
 
-    public DialogQuantidadeProduto(int nulStyle, int theme) {
-        this.numStyle = nulStyle;
-        this.theme = theme;
-        this.parent = parent;
-        this.position = position;
         modificarProduto = true;
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate( Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int style;
-        int theme;
 
-        switch (numStyle) {
-            case 1:
-                style = DialogFragment.STYLE_NO_TITLE;
-                break;
-            case 2:
-                style = DialogFragment.STYLE_NO_FRAME;
-                break;
-            case 3:
-                style = DialogFragment.STYLE_NO_INPUT;
-                break;
-            default:
-                style = DialogFragment.STYLE_NORMAL;
-                break;
-        }
-
-        switch (this.theme) {
-            case 1:
-                theme = android.R.style.Theme_Holo_Light;
-                break;
-            case 2:
-                theme = android.R.style.Theme_Holo_Dialog;
-                break;
-            default:
-                theme = android.R.style.Theme_Holo_Light_DarkActionBar;
-                break;
-        }
-        setStyle(style, theme);
+        int theme = android.R.style.Theme_DeviceDefault_Dialog;
+        setStyle(DialogFragment.STYLE_NO_TITLE, theme);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         view = inflater.inflate(R.layout.dialog_fragment_qtd_produto_venda, container, false);
         buttonAdicionarQtdProduto = view.findViewById(R.id.buttonAdicionarQtdProduto);
         somar = view.findViewById(R.id.buttonQtdProdutoSomar);
@@ -93,25 +64,16 @@ public class DialogQuantidadeProduto extends DialogFragment {
         buttonAdicionarQtdProduto = view.findViewById(R.id.buttonAdicionarQtdProduto);
         VariaveisControle.dialogQuantidadeProduto = this;
 
-        if(modificarProduto) {
-            textQtd.setText(VariaveisControle.qtdSelecionadaProdutoVenda + "");
-            buttonAdicionarQtdProduto.setText("Modificar");
-        }
-        else {
-            buttonAdicionarQtdProduto.setText("Adicionar");
-            textQtd.setText("");
-        }
-
         textQtd.setText(VariaveisControle.qtdSelecionadaProdutoVenda +"");
 
         buttonAdicionarQtdProduto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int qtdAnterior = VariaveisControle.qtdSelecionadaProdutoVenda; // para ser adicionado no estoque em caso de mudança na quantidade do produto
+                int qtdAnterior = VariaveisControle.qtdSelecionadaProdutoVenda; // para ser adicionado ao estoque em caso de mudança na quantidade do produto
                 VariaveisControle.qtdSelecionadaProdutoVenda = Funcoes.corrigeValoresCamposInt(textQtd.getText().toString());
 
                 if(modificarProduto == false) {
-                    VariaveisControle.dialogEscolherEntidade.addProduto(parent, position);
+                    VariaveisControle.dialogEscolherEntidade.addProdutoNaVenda(parent, position);
                 } else{
                     VariaveisControle.fragmentProdutos.alteraQtdProdutoVenda(qtdAnterior);
                 }
@@ -132,8 +94,25 @@ public class DialogQuantidadeProduto extends DialogFragment {
             public void onClick(View v) {
                 int qtdAtual = Funcoes.corrigeValoresCamposInt(textQtd.getText().toString());
                 textQtd.setText((qtdAtual - 1)+"");
+
+                if(textQtd.getText().toString().equals("0")){
+                    textQtd.setText("1");
+                }
             }
         });
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(modificarProduto) {
+            textQtd.setText(VariaveisControle.qtdSelecionadaProdutoVenda + "");
+            buttonAdicionarQtdProduto.setText("Modificar");
+        }
+        else {
+            buttonAdicionarQtdProduto.setText("Adicionar");
+            textQtd.setText("1");
+        }
     }
 }

@@ -8,85 +8,82 @@
 
 
     <!--  -->
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="56dp"
-        android:orientation="vertical">
+        >
+
 
         <RelativeLayout
+            android:id="@+id/linearLayoutMain"
             android:layout_width="match_parent"
-            android:layout_height="100dp">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="74dp"
+            android:layout_marginBottom="100dp"
+            android:orientation="vertical">
 
-            <Button
-                android:id="@+id/buttonFinalizarVenda"
-                android:layout_width="115dp"
-                android:layout_height="86dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="10dp"
-                android:text="Finalizar\n\nR$3562,99"
-                android:textSize="18dp"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
-                android:fontFamily="sans-serif"
-                android:background="#FF694867"/>
-
-            <TextView
-                android:id="@+id/textViewMensagemVendaEscolhina"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/buttonFinalizarVenda"
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabLayoutActivityPrincipal"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="46dp"
-                android:text="Venda selecionada"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:shadowColor="@android:color/black"/>
+                android:layout_alignParentTop="true">
+
+            </android.support.design.widget.TabLayout>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viwePagerActivityPrincipal"
+                android:layout_width="match_parent"
+                android:layout_height="304dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/tabLayoutActivityPrincipal">
+
+            </android.support.v4.view.ViewPager>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeLayoutMain"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true">
 
             <TextView
                 android:id="@+id/textViewVendaEscolhina"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignStart="@+id/textViewMensagemVendaEscolhina"
-                android:layout_marginBottom="20dp"
+                android:layout_alignTop="@+id/buttonFinalizarVenda"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@+id/buttonFinalizarVenda"
                 android:shadowColor="@android:color/black"
                 android:text="Venda selecionada"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
+            <Button
+                android:id="@+id/buttonFinalizarVenda"
+                android:layout_width="115dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="15dp"
+                android:background="#FF694867"
+                android:elevation="6dp"
+                android:fontFamily="sans-serif"
+                android:stateListAnimator="@null"
+                android:text="Finalizar\n\nR$3562,99"
+                android:textColor="@android:color/white"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
         </RelativeLayout>
 
-        <!--<View-->
-        <!--android:id="@+id/divider4"-->
-        <!--android:layout_width="3dp"-->
-        <!--android:layout_height="100dp"-->
-        <!--android:layout_alignBottom="@+id/buttonFinalizarPedido"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:background="?android:attr/listDivider" />-->
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabLayoutActivityPrincipal"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_above="@+id/viwePagerActivityPrincipal"
-            android:layout_alignParentStart="true">
-
-        </android.support.design.widget.TabLayout>
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viwePagerActivityPrincipal"
-            android:layout_width="wrap_content"
-            android:layout_height="479dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true">
-
-        </android.support.v4.view.ViewPager>
-
-    </LinearLayout>
+    </RelativeLayout>
 
     <include
+        android:id="@+id/includeButton"
         layout="@layout/app_bar_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -99,5 +96,6 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer" />
+
 
 </android.support.v4.widget.DrawerLayout>

@@ -4,16 +4,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.util.Log;
 
-import br.com.jmdesenvolvimento.appcomercial.view.fragments.FragmentProdutos;
+import br.com.jmdesenvolvimento.appcomercial.view.fragments.FragmentProdutosVendas;
 import br.com.jmdesenvolvimento.appcomercial.view.fragments.FragmentVendasAbertas;
 
 public class AdapterFragmentActivityPrincipal extends FragmentStatePagerAdapter {
 
     String[] titulosTelas = {"Vendas Abertas","Produtos"};
     private FragmentVendasAbertas fragmentVendasAbertas = new FragmentVendasAbertas();
-    private FragmentProdutos fragmentProdutos = new FragmentProdutos();
+    private FragmentProdutosVendas fragmentProdutos = new FragmentProdutosVendas();
 
 
     public AdapterFragmentActivityPrincipal(FragmentManager fm) {

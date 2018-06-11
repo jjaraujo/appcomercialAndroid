@@ -8,18 +8,20 @@ import br.com.jmdesenvolvimento.appcomercial.model.entidades.Entidade;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.Estado;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.Municipio;
 
-public class Pessoa extends Entidade implements Serializable {
+public class Pessoa extends Entidade implements Serializable,IPessoa {
+
+  //  public abstract void setNome_pessoa();
 
     private String nome_pessoa;
-    private String sexo;
-    private String rua;
+    private int sexo;
+    private String logradouro;
     private String bairro;
     private int cep;
     private int numero;
     private Municipio municipio;
     private Estado estado;
     private int rgIE;
-    private long cpfCNPJ;
+    private String cpfCNPJ;
     private String nascimento;
     private String telefone1;
     private String telefone2;
@@ -33,20 +35,20 @@ public class Pessoa extends Entidade implements Serializable {
         this.nome_pessoa = nome;
     }
 
-    public String getSexo() {
+    public int getSexo() {
         return sexo;
     }
 
-    public void setSexo(String sexo) {
+    public void setSexo(int sexo) {
         this.sexo = sexo;
     }
 
-    public String getRua() {
-        return rua;
+    public String getLogradouro() {
+        return logradouro;
     }
 
-    public void setRua(String rua) {
-        this.rua = rua;
+    public void setLogradouro(String logradouro) {
+        this.logradouro = logradouro;
     }
 
     public String getBairro() {
@@ -97,11 +99,11 @@ public class Pessoa extends Entidade implements Serializable {
         this.rgIE = rgIE;
     }
 
-    public Long getCpfCNPJ() {
+    public String getCpfCNPJ() {
         return cpfCNPJ;
     }
 
-    public void setCpfCNPJ(long cpfCNPJ) {
+    public void setCpfCNPJ(String cpfCNPJ) {
         this.cpfCNPJ = cpfCNPJ;
     }
 
@@ -149,19 +151,29 @@ public class Pessoa extends Entidade implements Serializable {
 
         id = (int) map.get(getIdNome());
         nome_pessoa = (String) map.get("nome_pessoa");
-        sexo = (String) map.get("sexo");
-        rua = (String) map.get("rua");
+        sexo = (int) map.get("sexo");
+        logradouro = (String) map.get("logradouro");
         bairro = (String) map.get("bairro");
         cep = (int) map.get("cep");
         numero = (int) map.get("numero");
         municipio = (Municipio) map.get("municipio"+Funcoes.prefixoChaveEstrangeira());
         estado = (Estado) map.get("estado"+ Funcoes.prefixoChaveEstrangeira());
         rgIE = (int) map.get("rgIE");
-        cpfCNPJ = (long) map.get("cpfCNPJ");
+        cpfCNPJ = (String) map.get("cpfCNPJ");
         nascimento = (String) map.get("nascimento");
         telefone1 = (String) map.get("telefone1");
         telefone2 = (String) map.get("telefone2");
         email = (String) map.get("email");
+    }
+
+    @Override
+    public Pessoa getPessoa() {
+        return this;
+    }
+
+    @Override
+    public void setPessoa(Pessoa pessoa) {
+
     }
 }
 

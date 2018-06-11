@@ -22,7 +22,7 @@ import br.com.jmdesenvolvimento.appcomercial.model.tabelas.TabelaProdutosVenda;
 import br.com.jmdesenvolvimento.appcomercial.view.adapters.ArrayAdapterTabelas;
 import br.com.jmdesenvolvimento.appcomercial.view.dialogFragment.DialogQuantidadeProduto;
 
-public class FragmentProdutos extends Fragment {
+public class FragmentProdutosVendas extends Fragment {
     private ListView lista;
     private TabelaProdutosVenda tabelaProdutosVendaClicado;
 
@@ -39,8 +39,10 @@ public class FragmentProdutos extends Fragment {
                 tabelaProdutosVendaClicado = (TabelaProdutosVenda) lista.getItemAtPosition(position);
                 VariaveisControle.qtdSelecionadaProdutoVenda = tabelaProdutosVendaClicado.getQtd();
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                DialogQuantidadeProduto dqp = new DialogQuantidadeProduto(1,2);
-                dqp.show(ft,"alterarQtdProduto");
+                DialogQuantidadeProduto dialog = new DialogQuantidadeProduto();
+                dialog.setCancelable(true);
+                dialog.show(ft,"alterarQtdProduto");
+
             }
         });
 
@@ -67,8 +69,8 @@ public class FragmentProdutos extends Fragment {
         String where = null;
         if (venda != null) {
             where = " venda_id = " + venda.getId();
-            List<TabelaProdutosVenda> tpv = (List<TabelaProdutosVenda>) dao.selectAll(new TabelaProdutosVenda(), where, false);
-            ArrayAdapterTabelas adapter = new ArrayAdapterTabelas(getContext(), tpv);
+            List<TabelaProdutosVenda> tpv = (List<TabelaProdutosVenda>) dao.selectAll(new TabelaProdutosVenda(), where, false,null,null,null,null);
+            ArrayAdapterTabelas adapter = new ArrayAdapterTabelas(getContext(), tpv,ArrayAdapterTabelas.TIPO_TABELA_PRODUTOS_VENDA);
             venda.setTabelaProdutosVenda(tpv);
             lista.setAdapter(adapter);
         }

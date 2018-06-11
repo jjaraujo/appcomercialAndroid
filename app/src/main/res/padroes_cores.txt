@@ -1,0 +1,1 @@
+icone_fragments: #2B3FE8 selecionado, #666666 nao selecionado
