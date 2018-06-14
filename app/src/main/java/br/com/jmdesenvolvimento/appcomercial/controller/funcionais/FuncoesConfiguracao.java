@@ -3,7 +3,7 @@ package br.com.jmdesenvolvimento.appcomercial.controller.funcionais;
 import android.content.Context;
 
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
-import br.com.jmdesenvolvimento.appcomercial.model.tabelas.configuracoes.Configuracoes;
+import br.com.jmdesenvolvimento.appcomercial.model.tabelas.Configuracoes;
 
 public class FuncoesConfiguracao {
 

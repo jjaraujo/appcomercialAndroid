@@ -12,6 +12,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp">
 
+
+
         <android.support.design.widget.TextInputLayout
             android:id="@+id/inputTextNomeProduto"
             android:layout_width="fill_parent"
@@ -204,6 +206,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputLayoutDataCompraCadastroProduto"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -367,5 +370,6 @@
             android:layout_height="50dp"
             android:inputType="numberDecimal" />
         </android.support.design.widget.TextInputLayout>
+
     </RelativeLayout>
 </ScrollView>

@@ -13,6 +13,7 @@ import br.com.jmdesenvolvimento.appcomercial.R;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Funcoes;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.VariaveisControle;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
+import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Cliente;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
 
 @SuppressLint("ValidFragment")
@@ -88,8 +89,9 @@ public class DialogVendaPorComanda extends DialogFragment {
     private void addVenda() {
 
         Venda venda = new Venda();
+        venda.setCliente(new Cliente());
         venda.setNumeroMesaComanda(Integer.parseInt(textComanda.getText().toString()));
-        VariaveisControle.VENDA_SELECIONADA = venda;
+        VariaveisControle.vendaSelecionada = venda;
         venda.setDataRegistro(Funcoes.getDataHojeDDMMAAAA());
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(getContext());
         dao.insert(venda);

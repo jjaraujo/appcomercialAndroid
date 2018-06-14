@@ -1,5 +1,6 @@
 package br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.estoque;
 
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
@@ -18,9 +19,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.io.Serializable;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Locale;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Funcoes;
@@ -77,6 +80,8 @@ public class CadastroProdutoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_produto);
         setTitle("Cadastro de Produtos");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         setIdsComponentes();
         ouveCliquesCarregaAutoCompleteEntidade();
@@ -107,6 +112,9 @@ public class CadastroProdutoActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home: // botao voltar
+                finish();
+                break;
             case R.id.menu_formularios_salvar:
                 SQLiteDatabaseDao dao = new SQLiteDatabaseDao(this);
                 if (edicao == false) {
@@ -147,6 +155,7 @@ public class CadastroProdutoActivity extends AppCompatActivity {
         editTextComissao = findViewById(R.id.editTextComissao);
         editTextLucroBruto = findViewById(R.id.editTextLucroBruto);
         editTextDataCompra = findViewById(R.id.editTextDataCompra);
+        Funcoes.addCliqueToOpenCalendar(this,editTextDataCompra);
         editTextFornecedor = findViewById(R.id.autoCompleteTextViewFornecedor);
         editTextImpostoIbpt = findViewById(R.id.editTextImposto);
         editTextCsons = findViewById(R.id.autoCompleteTextViewCSOSN);
@@ -317,7 +326,7 @@ public class CadastroProdutoActivity extends AppCompatActivity {
         dialog.show();
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(CadastroProdutoActivity.this);
 
-        List<Tabela> list = (List<Tabela>) dao.selectAll(entidade, null, false, null,null,null,null);
+        List<Tabela> list = (List<Tabela>) dao.selectAll(entidade, null, false);
         ArrayAdapter adapter = new ArrayAdapter(CadastroProdutoActivity.this, android.R.layout.simple_dropdown_item_1line, list);
         dialog.setMessage("Concluído");
         dialog.dismiss();

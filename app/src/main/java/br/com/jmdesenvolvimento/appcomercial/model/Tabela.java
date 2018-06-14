@@ -4,9 +4,13 @@ import android.util.Log;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Funcoes;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.Entidade;
@@ -77,7 +81,11 @@ public abstract class Tabela implements Serializable {
             if (field.getName().trim().contains("$change") || field.getName().trim().contains("serialVersionUID")) {
                 continue;
             }
-
+            //verifica se a variável é estática
+            int modifiers = field.getModifiers();
+                if(Modifier.isStatic(modifiers)){
+                    continue;
+                }
             Type type = field.getType();
             String nomeTipoDoField = type.toString().replace("class ", "");
             try {
@@ -139,45 +147,26 @@ public abstract class Tabela implements Serializable {
         return this.getClass().getSuperclass().getSimpleName().toLowerCase().contains("entidade");
     }
 
-    public ArrayList<String> nomesAtibutosList() {
-        Field[] fields = this.getClass().getDeclaredFields();
-        ArrayList<String> list = new ArrayList<String>();
-        list.add(getIdNome());
-        list.add(getDataExclusaoNome());
-
-        for (int i = 0; i < fields.length; i++) {
-
-            String nomeField = fields[i].getName();
-            Type type = fields[i].getType();
-            String nomeTipo = type.toString().replace("class ", "").toLowerCase();
-
-            if (nomeField.trim().equals("$change") || nomeField.trim().equals("serialVersionUID") || nomeTipo.contains("list")) {
-                continue;
-            }
-            Field f = fields[i];
-            if (Funcoes.fieldExtendsEntidade(f)) {
-                nomeField += Funcoes.prefixoChaveEstrangeira();
-            }
-            list.add(nomeField);
-        }
-        return list;
-    }
-
-    public String[] nomesAtibutos() {
-        ArrayList<String> list = nomesAtibutosList();
-        String array[] = new String[list.size()];
-        for (int i = 0; i < list.size(); i++) {
-            array[i] = list.get(i);
-        }
-        return array;
-    }
-
     public String nomesAtibutosInLinha() {
-        ArrayList<String> list = nomesAtibutosList();
-        String array = list.get(0);
-        for (int i = 1; i < list.size(); i++) {
-            array += "," + list.get(i);
+        Set<String> set = getMapAtributos().keySet();
+        String array = "";
+        for (String s : set) {
+            array += ", " + s;
         }
         return array;
+    }
+
+    public String[] getNomesAtributos(){
+      Object[] o = getMapAtributos().keySet().toArray();
+      String[] strings = new String[o.length];
+      for(int i = 0; i < o.length; i ++){
+          strings[i] = o[i] +"";
+      }
+      return strings;
+    }
+
+    public List<Tabela> getListValoresIniciais() {
+
+        return null;
     }
 }

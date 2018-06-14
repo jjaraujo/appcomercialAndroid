@@ -8,9 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.GridLayout;
 import android.widget.GridView;
-import android.widget.ListView;
 
 import java.util.List;
 
@@ -35,7 +33,7 @@ public class FragmentVendasAbertas extends Fragment{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Venda venda = (Venda) parent.getItemAtPosition(position);
-                VariaveisControle.VENDA_SELECIONADA = venda;
+                VariaveisControle.vendaSelecionada = venda;
                 Funcoes.alteraViewVendaSelecionada();
                 VariaveisControle.fragmentProdutos.carregaLista();
                 Funcoes.alteraValorVendaSelecionada();
@@ -60,7 +58,9 @@ public class FragmentVendasAbertas extends Fragment{
 
     public void carregaLista(){
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(getContext());
-        List<Tabela> vendas = (List<Tabela>) dao.selectAll(new Venda(),null, false,null,null,null,null);
+        Venda venda = new Venda();
+        String orderby = "numeroMesaComanda," + venda.getIdNome();
+        List<Tabela> vendas = (List<Tabela>) dao.selectAll(venda,null, false,null,null,orderby,null);
         dao.close();
         if(!vendas.isEmpty()){
             ArrayAdapterTabelas adapterTabelas = new ArrayAdapterTabelas(getContext(),vendas,ArrayAdapterTabelas.TIPO_VENDAS_ABERTAS);

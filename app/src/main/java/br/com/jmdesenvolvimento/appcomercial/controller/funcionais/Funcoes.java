@@ -1,20 +1,32 @@
 package br.com.jmdesenvolvimento.appcomercial.controller.funcionais;
 
+import android.app.DatePickerDialog;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
 
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Set;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
 import br.com.jmdesenvolvimento.appcomercial.model.Tabela;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
+import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.estoque.CadastroProdutoActivity;
 
 public class Funcoes {
 
@@ -181,24 +193,26 @@ public class Funcoes {
     }
 
     public static void alteraViewVendaSelecionada() {
-        Venda venda = VariaveisControle.VENDA_SELECIONADA;
+        Venda venda = VariaveisControle.vendaSelecionada;
         if (venda.getCliente() != null) {
             if (venda.getCliente().getId() > 0) {
+                String[] palavrasNome = venda.getCliente().getPessoa().getNome().split(" ");
+                String nome = palavrasNome[0] + " " + palavrasNome[palavrasNome.length -1];
                 VariaveisControle.textViewVendaSelectionada.setText(
-                        "Venda selecionada: " + venda.getCliente().getPessoa().toString());
+                        "Venda: "+venda.getId()+"\nCliente: " + nome);
             } else {
                 VariaveisControle.textViewVendaSelectionada.setText(
                         "Comanda selecionada: " + venda.getNumeroMesaComanda());
             }
-        } else {
+        } else { // a primeira vez que a venda é adiciona, o cliente é nulo. Após ser buscada no banco, haverá um cliente com id 0
             VariaveisControle.textViewVendaSelectionada.setText(
-                    "Comanda selecionada:\n " + venda.getNumeroMesaComanda());
+                    "Comanda selecionada: " + venda.getNumeroMesaComanda());
         }
         alteraValorVendaSelecionada();
     }
 
     public static void alteraValorVendaSelecionada() {
-        Venda venda = VariaveisControle.VENDA_SELECIONADA;
+        Venda venda = VariaveisControle.vendaSelecionada;
         VariaveisControle.buttonValorTotal.setText("FINALIZAR \n\nR$ " + FuncoesMatematicas.calculaValorTotalVenda(venda));
     }
 
@@ -224,4 +238,40 @@ public class Funcoes {
         }
         return 0;
     }
+
+    public static void addCalendarTeste(AppCompatActivity appCompatActivity, final TextView textView){
+       Calendar calendar = Calendar.getInstance();
+        DatePickerDialog datePickerDialog = new DatePickerDialog(appCompatActivity, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month = month + 1;
+                String mes = month + "";
+                String dia = dayOfMonth + "";
+                if(month < 10){
+                    mes = "0" + mes;
+                }
+                if(dayOfMonth < 10){
+                    dia = "0" + dia;
+                }
+                textView.setText(dia+"/"+mes+"/"+year);
+            }
+        },calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.show();
+    }
+
+    public static void addCliqueToOpenCalendar(final AppCompatActivity appCompatActivity, final EditText editText){
+        editText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Funcoes.addCalendarTeste(appCompatActivity,editText);
+            }
+        });
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                Funcoes.addCalendarTeste(appCompatActivity,editText);
+            }
+        });
+    }
+
 }

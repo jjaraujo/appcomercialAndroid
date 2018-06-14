@@ -6,6 +6,7 @@ import java.util.List;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Funcoes;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.Entidade;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Cliente;
+import br.com.jmdesenvolvimento.appcomercial.model.tabelas.TabelaPagamento;
 import br.com.jmdesenvolvimento.appcomercial.model.tabelas.TabelaProdutosVenda;
 
 public class Venda extends Entidade {
@@ -14,22 +15,24 @@ public class Venda extends Entidade {
     private int numeroMesaComanda;
     private List<TabelaProdutosVenda> tabelaProdutosVenda;
     private String dataRegistro;
-    private TipoPagamentos tipoPagamentos;
+    private List<TabelaPagamento> tipoPagamentos;
     private String dataFechamento;
     private String dataCancelamento;
     private String motivoCancelamento;
+    private double desconto;
 
     @Override
     public void setMapAtributos(HashMap<String, Object> map) {
         id = (int) map.get(getIdNome());
         cliente = (Cliente) map.get("cliente" + Funcoes.prefixoChaveEstrangeira());
         dataRegistro = (String) map.get("dataRegistro");
-        tipoPagamentos =(TipoPagamentos) map.get("tipoPagamento_id");
+        tipoPagamentos =(List<TabelaPagamento>) map.get("tabelaPagamentos");
         tabelaProdutosVenda = ( List<TabelaProdutosVenda>) map.get("tabelaProdutosVenda");
         dataFechamento = (String) map.get("dataFechamento");
         dataCancelamento = (String) map.get("dataCancelamento");
         motivoCancelamento = (String) map.get("motivoCancelamento");
         numeroMesaComanda = (int) map.get("numeroMesaComanda");
+        desconto = (double) map.get("desconto");
     }
 
     public Cliente getCliente() {
@@ -64,11 +67,11 @@ public class Venda extends Entidade {
         this.dataRegistro = dataRegistro;
     }
 
-    public TipoPagamentos getTipoPagamentos() {
+    public List<TabelaPagamento> getTipoPagamentos() {
         return tipoPagamentos;
     }
 
-    public void setTipoPagamentos(TipoPagamentos tipoPagamentos) {
+    public void setTipoPagamentos(List<TabelaPagamento> tipoPagamentos) {
         this.tipoPagamentos = tipoPagamentos;
     }
 
@@ -94,6 +97,14 @@ public class Venda extends Entidade {
 
     public void setMotivoCancelamento(String motivoCancelamento) {
         this.motivoCancelamento = motivoCancelamento;
+    }
+
+    public double getDesconto() {
+        return desconto;
+    }
+
+    public void setDesconto(double desconto) {
+        this.desconto = desconto;
     }
 
     @Override

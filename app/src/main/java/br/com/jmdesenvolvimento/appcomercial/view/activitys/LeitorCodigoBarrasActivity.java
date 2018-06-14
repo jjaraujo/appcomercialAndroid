@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.zxing.Result;
@@ -31,8 +32,21 @@ public class LeitorCodigoBarrasActivity extends AppCompatActivity implements ZXi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leitor_codigo_barras);
         zXingScannerView = findViewById(R.id.z_xing_scanner);
+        setTitle("Ler código de barras");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
         askCameraPermission();
-        Log.i("onCreate", "LeitorCodigoBarrasActivity");
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) { //Botão adicional na ToolBar
+        switch (item.getItemId()) {
+            case android.R.id.home:  //ID do seu botão (gerado automaticamente pelo android, usando como está, deve funcionar
+                finish();  //Método para matar a activity e não deixa-lá indexada na pilhagem
+                break;
+            default:break;
+        }
+        return true;
     }
 
     @Override

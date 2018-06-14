@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutValor"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/textInputLayoutPrimeiroPagamento"
+        android:hint="Valor Recebido">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/editTextLayoutValor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="numberDecimal"
+            android:textAlignment="center" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutParcelas"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="14dp"
+        android:hint="Parcelas"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="118dp">
+
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="number"
+            android:textAlignment="center" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutPrimeiroPagamento"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="70dp"
+        android:hint="Primeiro Pagamento"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="118dp">
+
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="number"
+            android:textAlignment="center" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutIntervaloFixo"
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:layout_alignStart="@+id/textInputLayoutParcelas"
+        android:layout_alignTop="@+id/textInputLayoutPrimeiroPagamento"
+        android:hint="Intervalo em Dias"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="118dp">
+
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="number"
+            android:textAlignment="center" />
+    </android.support.design.widget.TextInputLayout>
+
+    <ListView
+        android:layout_width="263dp"
+        android:layout_height="194dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="154dp" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/_dynamic"
+        android:layout_alignTop="@+id/textView7"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="198dp"
+        android:layout_toEndOf="@+id/_dynamic"
+        android:text="TextView" />
+
+
+</RelativeLayout>

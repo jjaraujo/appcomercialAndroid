@@ -37,6 +37,8 @@ public class EstoqueActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle("Controle de Estoque");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         listProdutos = findViewById(R.id.list_produtos_estoque);
         searchView = findViewById(R.id.searchViewProdutos);
@@ -91,9 +93,14 @@ public class EstoqueActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.menu_formularios_salvar){
-
+        switch (item.getItemId()){
+            case R.id.home: // botao voltar
+                finish();
+                break;
+            case R.id.menu_formularios_salvar:
+                break;
         }
+
         return super.onOptionsItemSelected(item);
     }
 

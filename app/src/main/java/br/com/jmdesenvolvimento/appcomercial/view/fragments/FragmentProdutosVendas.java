@@ -42,7 +42,6 @@ public class FragmentProdutosVendas extends Fragment {
                 DialogQuantidadeProduto dialog = new DialogQuantidadeProduto();
                 dialog.setCancelable(true);
                 dialog.show(ft,"alterarQtdProduto");
-
             }
         });
 
@@ -65,11 +64,11 @@ public class FragmentProdutosVendas extends Fragment {
 
     public void carregaLista() {
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(getContext());
-        Venda venda = VariaveisControle.VENDA_SELECIONADA;
+        Venda venda = VariaveisControle.vendaSelecionada;
         String where = null;
         if (venda != null) {
             where = " venda_id = " + venda.getId();
-            List<TabelaProdutosVenda> tpv = (List<TabelaProdutosVenda>) dao.selectAll(new TabelaProdutosVenda(), where, false,null,null,null,null);
+            List<TabelaProdutosVenda> tpv = (List<TabelaProdutosVenda>) dao.selectAll(new TabelaProdutosVenda(), where, false);
             ArrayAdapterTabelas adapter = new ArrayAdapterTabelas(getContext(), tpv,ArrayAdapterTabelas.TIPO_TABELA_PRODUTOS_VENDA);
             venda.setTabelaProdutosVenda(tpv);
             lista.setAdapter(adapter);

@@ -1,34 +1,29 @@
-package br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.contas;
+package br.com.jmdesenvolvimento.appcomercial.view.activitys.configuracoes;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.ListView;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
+import br.com.jmdesenvolvimento.appcomercial.view.activitys.MainActivity;
+import br.com.jmdesenvolvimento.appcomercial.view.adapters.ArrayAdapterListaConfiguracoes;
 
-public class ContasActivity extends AppCompatActivity {
+public class ConfiguracoesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contas);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_configuracoes);
+        setTitle("Configurações");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        ListView listView = findViewById(R.id.list_configuracoes);
+        ArrayAdapterListaConfiguracoes adapter = new ArrayAdapterListaConfiguracoes(this,listView,null,ArrayAdapterListaConfiguracoes.TIPO_CONFIGURACAO);
+        listView.setAdapter(adapter);
+        listView.setClickable(true);
     }
 
     @Override
@@ -41,5 +36,4 @@ public class ContasActivity extends AppCompatActivity {
         }
         return true;
     }
-
 }

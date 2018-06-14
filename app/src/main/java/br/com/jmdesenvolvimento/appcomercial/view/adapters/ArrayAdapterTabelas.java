@@ -19,6 +19,7 @@ import br.com.jmdesenvolvimento.appcomercial.model.Tabela;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Cliente;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Fornecedor;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Produto;
+import br.com.jmdesenvolvimento.appcomercial.model.entidades.vendas.TipoPagamentos;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
 import br.com.jmdesenvolvimento.appcomercial.model.tabelas.TabelaProdutosVenda;
 
@@ -30,6 +31,7 @@ public class ArrayAdapterTabelas extends BaseAdapter {
     public final static int TIPO_TABELA_PRODUTOS_VENDA = 3;
     public final static int TIPO_CLIENTES = 4;
     public final static int TIPO_FORNECEDORES = 5;
+    public final static int TIPO_PAGAMENTO = 6;
     private int tipoTabelaArray;
 
     public ArrayAdapterTabelas(Context context, List<?> listTabela,int tipoTabelaArray) {
@@ -66,10 +68,14 @@ public class ArrayAdapterTabelas extends BaseAdapter {
                 return getAdapterFornecedores(position);
             case TIPO_VENDAS_ABERTAS:
                 return getAdapterVendasAbertas(position);
+            case TIPO_PAGAMENTO:
+                return getAdapterTiposPagamentos(position);
             default:
             return null;
         }
     }
+
+
 
     public View getAdapterCliente(int position) {
 
@@ -114,12 +120,13 @@ public class ArrayAdapterTabelas extends BaseAdapter {
         Venda v = (Venda) list.get(position);
         TextView textViewNumeroVenda = view.findViewById(R.id.textViewNumeroVenda);
         TextView textViewClienteTipoVenda = view.findViewById(R.id.textViewClienteTipoVenda);
-        if(v.getCliente() == null){
+        if(v.getCliente().getId() == 0){
             textViewNumeroVenda.setText(v.getNumeroMesaComanda()+"");
             textViewClienteTipoVenda.setText(VariaveisControle.configuracoesSimples.getNomeTipoVenda());
-        } else{
-            textViewNumeroVenda.setText(v.getId()+"");
-            textViewClienteTipoVenda.setText(v.getCliente().getPessoa().getNome());
+        } else{ textViewNumeroVenda.setText(v.getId()+"");
+           String[] palavrasNome = v.getCliente().getPessoa().getNome().split(" ");
+           String nome = palavrasNome[0] + " " + palavrasNome[palavrasNome.length -1];
+            textViewClienteTipoVenda.setText(nome);
         }
 
         return view;
@@ -173,6 +180,17 @@ public class ArrayAdapterTabelas extends BaseAdapter {
         TextView total = view.findViewById(R.id.listProdutosVendaTextViewTotal);
         total.setText("R$ " + (FuncoesMatematicas.calculaValorTotalProdutoVenda(tabelaProdutosVenda)));
 
+        return view;
+    }
+
+    private View getAdapterTiposPagamentos(int position) {
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = inflater.inflate(R.layout.list_model_pagamento,null);
+        TextView textView = view.findViewById(R.id.textViewTipoPagamento);
+        ImageView imageView = view.findViewById(R.id.imageViewIconeTipoPagamento);
+        TipoPagamentos tipo = (TipoPagamentos) list.get(position);
+        textView.setText(tipo.getNome());
+        imageView.setImageAlpha(tipo.getIdIcone());
         return view;
     }
 }

@@ -1,4 +1,4 @@
-package br.com.jmdesenvolvimento.appcomercial.model.tabelas.configuracoes;
+package br.com.jmdesenvolvimento.appcomercial.model.tabelas;
 
 import java.util.HashMap;
 

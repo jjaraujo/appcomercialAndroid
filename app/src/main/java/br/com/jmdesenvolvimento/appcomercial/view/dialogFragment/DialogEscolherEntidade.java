@@ -177,7 +177,7 @@ public class DialogEscolherEntidade extends DialogFragment {
         Cliente cliente = (Cliente) parent.getItemAtPosition(position);
         Venda venda = new Venda();
         venda.setCliente(cliente);
-        VariaveisControle.VENDA_SELECIONADA = venda;
+        VariaveisControle.vendaSelecionada = venda;
         venda.setDataRegistro(Funcoes.getDataHojeDDMMAAAA());
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(getContext());
         dao.insert(venda);
@@ -192,7 +192,7 @@ public class DialogEscolherEntidade extends DialogFragment {
 
     public void addProdutoNaVenda(AdapterView<?> parent, int position) {
         Produto produto = (Produto) parent.getItemAtPosition(position);
-        Venda venda = VariaveisControle.VENDA_SELECIONADA;
+        Venda venda = VariaveisControle.vendaSelecionada;
 
         if (venda == null) {
             venda = new Venda();
@@ -279,7 +279,7 @@ public class DialogEscolherEntidade extends DialogFragment {
 
     public void openDialogFragment(AdapterView<?> parent, int position) {
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        if (fragmentSelecionado == 1 && VariaveisControle.VENDA_SELECIONADA == null) {
+        if (fragmentSelecionado == 1 && VariaveisControle.vendaSelecionada == null) {
             new AlertDialog.Builder(getContext()).
                     setMessage("Nenhuma venda selecionada!").show();
             //  alert.setMessage("Não");

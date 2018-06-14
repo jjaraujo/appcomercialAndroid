@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -25,6 +26,10 @@ import br.com.jmdesenvolvimento.appcomercial.R;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Funcoes;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.FuncoesConfiguracao;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.VariaveisControle;
+import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
+import br.com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
+import br.com.jmdesenvolvimento.appcomercial.view.activitys.configuracoes.ConfiguracoesActivity;
+import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.PagamentoActivity;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.pessoas.PessoasActivity;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.contas.CadastroContasPagarActivity;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.estoque.EstoqueActivity;
@@ -48,7 +53,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         FuncoesConfiguracao.iniciaConfiguracoes(this);
 
         setTitle("Vendas abertas");
@@ -118,22 +122,40 @@ public class MainActivity extends AppCompatActivity
         });
 
         Button buttonFinalizarVenda = findViewById(R.id.buttonFinalizarVenda);
+
+
         buttonFinalizarVenda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AlertDialog.Builder(MainActivity.this)
-                        .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        })
-                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
+                final Venda venda = VariaveisControle.vendaSelecionada;
+                String textMensagem = "";
+                if (venda == null) {
+                    Snackbar.make(v, "Selecione uma venda!", Snackbar.LENGTH_LONG).show();
+                } else {
+                    if (venda.getCliente().getId() == 0) {
+                        textMensagem = "Deseja fechar a " + VariaveisControle.configuracoesSimples.getNomeTipoVenda()
+                                + " " + venda.getNumeroMesaComanda() + "?";
+                    } else {
+                        textMensagem = "Deseja fechar a venda " + v.getId() + "?";
+                    }
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent(MainActivity.this, PagamentoActivity.class);
+                                    startActivity(intent);
+                                }
+                            })
+                            .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setTitle(textMensagem)
+                            .setIcon(R.drawable.icone_pergunta)
+                            .show();
+                }
             }
         });
     }
@@ -229,7 +251,7 @@ public class MainActivity extends AppCompatActivity
 
     public void openDialogFragment(View view) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        if (fragmentSelecionado == 1 && VariaveisControle.VENDA_SELECIONADA == null) {
+        if (fragmentSelecionado == 1 && VariaveisControle.vendaSelecionada == null) {
             Funcoes.addAlertDialogAlerta(this,"Nenhuma venda selecionada!");
             //  alert.setMessage("Não");
         } else {

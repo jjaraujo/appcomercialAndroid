@@ -87,7 +87,7 @@
         android:id="@+id/textViewListProdutoCodigo"
         style="bold"
         android:layout_width="64dp"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_alignStart="@+id/imageButton"
         android:layout_centerVertical="true"
         android:fontFamily="sans-serif-condensed"

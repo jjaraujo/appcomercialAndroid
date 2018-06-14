@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/textViewNomeConfiguracaoPagamento"
-        android:layout_width="323dp"
+        android:layout_width="228dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginTop="10dp"
+        android:layout_alignTop="@+id/imageViewIconeConfiguracaoPagamento"
+        android:layout_marginStart="49dp"
         android:text="Nome Configuração"
         android:textSize="20dp" />
 
@@ -21,4 +20,15 @@
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@+id/textViewNomeConfiguracaoPagamento"
         android:layout_marginEnd="19dp" />
+
+    <ImageView
+        android:id="@+id/imageViewIconeConfiguracaoPagamento"
+        android:layout_width="30dp"
+        android:layout_height="29dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        app:srcCompat="@drawable/icone_cartao" />
 </RelativeLayout>

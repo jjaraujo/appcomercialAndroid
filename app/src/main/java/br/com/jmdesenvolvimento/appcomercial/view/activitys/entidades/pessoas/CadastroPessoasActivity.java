@@ -68,7 +68,8 @@ public class CadastroPessoasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_pessoas);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         addIdsEAdapters();
 
@@ -207,6 +208,10 @@ public class CadastroPessoasActivity extends AppCompatActivity {
                 camposAcessible();
                 item.setVisible(false);
                 edicao = true;
+                break;
+
+            case android.R.id.home: // botao voltar
+                finish();
                 break;
         }
         Snackbar.make(VariaveisControle.buttonAddPessoaForSnackbar, "Salvo com sucesso!", Snackbar.LENGTH_SHORT).show();

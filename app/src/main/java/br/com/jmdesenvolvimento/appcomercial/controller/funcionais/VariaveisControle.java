@@ -6,14 +6,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
-import br.com.jmdesenvolvimento.appcomercial.model.tabelas.configuracoes.Configuracoes;
+import br.com.jmdesenvolvimento.appcomercial.model.tabelas.Configuracoes;
 import br.com.jmdesenvolvimento.appcomercial.view.dialogFragment.DialogEscolherEntidade;
 import br.com.jmdesenvolvimento.appcomercial.view.dialogFragment.DialogQuantidadeProduto;
 import br.com.jmdesenvolvimento.appcomercial.view.fragments.FragmentProdutosVendas;
 import br.com.jmdesenvolvimento.appcomercial.view.fragments.FragmentVendasAbertas;
 
 public abstract class VariaveisControle {
-    public static Venda VENDA_SELECIONADA;
+    public static Venda vendaSelecionada;
     public static TextView textViewVendaSelectionada;
     public static Button buttonValorTotal;
     public static FragmentVendasAbertas fragmentVendasAbertas;
