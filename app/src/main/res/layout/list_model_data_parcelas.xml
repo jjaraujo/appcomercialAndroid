@@ -1,15 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/textViewNumeroParcela"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Data"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp" />
-</android.support.constraint.ConstraintLayout>
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="10dp"
+        android:fontFamily="monospace"
+        android:text="1 - " />
+
+    <TextView
+        android:id="@+id/textViewDataParcela"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textViewNumeroParcela"
+        android:layout_toEndOf="@+id/textViewNumeroParcela"
+        android:textStyle="bold"
+        android:fontFamily="monospace"
+        android:text="25/10/1995" />
+
+    <TextView
+        android:id="@+id/textViewValorParcela"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textViewDataParcela"
+        android:layout_toEndOf="@+id/textViewDataParcela"
+        android:layout_marginStart="20dp"
+        android:fontFamily="monospace"
+        android:text="R$1000,00" />
+</RelativeLayout>

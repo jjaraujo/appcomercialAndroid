@@ -8,5 +8,12 @@
         android:icon="@drawable/icone_filtro"
         app:showAsAction="always"
         />
+    <item
+        android:id="@+id/menu_ordenacao"
+        android:orderInCategory="100"
+        android:title="Filtrar resultados"
+        android:icon="@drawable/icone_ordenacao"
+        app:showAsAction="always"
+        />
 
 </menu>

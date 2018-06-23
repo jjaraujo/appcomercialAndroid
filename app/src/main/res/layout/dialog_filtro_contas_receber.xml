@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp">
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutContaReceberNomeCliente"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:hint="Nome do cliente">
+
+        <AutoCompleteTextView
+            android:id="@+id/editTextContaReceberNomeCliente"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutContaReceberInicio"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/textInputLayoutContaReceberNomeCliente"
+        android:layout_marginTop="95dp"
+        android:hint="Inicio">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/editTextContaReceberInicio"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutContaReceberFim"
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:layout_alignEnd="@+id/textInputLayoutContaReceberNomeCliente"
+        android:layout_alignTop="@+id/textInputLayoutContaReceberInicio"
+        android:hint="Fim">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/editTextContaReceberFim"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/textViewCancelar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="151dp"
+        android:layout_marginTop="200dp"
+        android:text="Cancelar"
+        android:textColor="@android:color/holo_blue_light"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textViewOk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/textInputLayoutContaReceberNomeCliente"
+        android:layout_alignTop="@+id/textViewCancelar"
+        android:text="OK"
+        android:textColor="@android:color/holo_blue_light"
+        android:textStyle="bold" />
+
+    </RelativeLayout>
+</RelativeLayout>

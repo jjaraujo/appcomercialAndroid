@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.HashMap;
 
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Funcoes;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.Entidade;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Pessoa;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Cliente extends Pessoa implements IPessoa{
@@ -51,7 +49,7 @@ public class Cliente extends Pessoa implements IPessoa{
     @Override
     public void setMapAtributos(HashMap<String, Object> map) {
         id = (int) map.get(getIdNome());
-        pessoa = (Pessoa) map.get("pessoa"+Funcoes.prefixoChaveEstrangeira());
+        pessoa = (Pessoa) map.get("pessoa");//+ FuncoesGerais.prefixoChaveEstrangeira());
         limite = (double) map.get("limite");
         ultimaVenda = (String) map.get("ultimaCompra");
     }

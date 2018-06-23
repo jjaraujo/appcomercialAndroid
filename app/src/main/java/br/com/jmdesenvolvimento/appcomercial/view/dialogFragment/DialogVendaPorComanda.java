@@ -8,10 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Funcoes;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.VariaveisControle;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesVendas;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.VariaveisControleG;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Cliente;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
@@ -45,6 +49,12 @@ public class DialogVendaPorComanda extends DialogFragment {
         subtrair = view.findViewById(R.id.buttonComandaSubtrair);
         textComanda = view.findViewById(R.id.editTexComanda);
         textComanda.setText("");
+        final String nomeTipoVenda = VariaveisControleG.configuracoesSimples.getNomeTipoVenda();
+        TextView textViewTextoComandaMesa = view.findViewById(R.id.textViewTextoComandaMesa);
+        textViewTextoComandaMesa.setText(textViewTextoComandaMesa.getText().toString() + nomeTipoVenda);
+        if(nomeTipoVenda.toLowerCase().equals("comanda")) {
+            textViewTextoComandaMesa.setText("Nº da Comanda");
+        }
         buttonAdicionarComanda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,8 +63,8 @@ public class DialogVendaPorComanda extends DialogFragment {
                     addVenda();
                     dismiss();
                 } else{
-                    Funcoes.addAlertDialogAlerta(getContext(),"Já existe uma venda aberta para " +
-                            "a comanda/mesa "+numeroComanda+". Verifique!");
+                    FuncoesViewAndroid.addAlertDialogAlerta(getContext(),"Já existe uma venda aberta para a "+
+                            nomeTipoVenda +" " +numeroComanda+". Verifique!");
                 }
             }
         });
@@ -62,7 +72,7 @@ public class DialogVendaPorComanda extends DialogFragment {
         somar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int qtdAtual = Funcoes.corrigeValoresCamposInt(textComanda.getText().toString());
+                int qtdAtual = FuncoesGerais.corrigeValoresCamposInt(textComanda.getText().toString());
                 textComanda.setText((qtdAtual + 1) + "");
             }
         });
@@ -70,7 +80,7 @@ public class DialogVendaPorComanda extends DialogFragment {
         subtrair.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int qtdAtual = Funcoes.corrigeValoresCamposInt(textComanda.getText().toString());
+                int qtdAtual = FuncoesGerais.corrigeValoresCamposInt(textComanda.getText().toString());
                 textComanda.setText((qtdAtual - 1) + "");
                 if(textComanda.getText().toString().equals("0")){
                     textComanda.setText("1");
@@ -91,21 +101,15 @@ public class DialogVendaPorComanda extends DialogFragment {
         Venda venda = new Venda();
         venda.setCliente(new Cliente());
         venda.setNumeroMesaComanda(Integer.parseInt(textComanda.getText().toString()));
-        VariaveisControle.vendaSelecionada = venda;
-        venda.setDataRegistro(Funcoes.getDataHojeDDMMAAAA());
-        SQLiteDatabaseDao dao = new SQLiteDatabaseDao(getContext());
-        dao.insert(venda);
-        dao.close();
-        VariaveisControle.fragmentVendasAbertas.carregaLista();
-        VariaveisControle.fragmentProdutos.carregaLista();
-        Funcoes.alteraViewVendaSelecionada();
-
+        FuncoesVendas.criaVenda(venda,getContext());
         dismiss();
     }
 
     private boolean hasComandaAberta(String numero) {
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(getContext());
-        Venda venda = (Venda) dao.select(new Venda(),null, "numeroMesaComanda = " + numero,null,null,null );
+        Venda venda = (Venda) dao.select(new Venda(),null, "numeroMesaComanda = " + numero + " AND dataFechamento IS NULL",
+                null,null,null );
+        dao.close();
         return venda.getId() > 0;
     }
 }

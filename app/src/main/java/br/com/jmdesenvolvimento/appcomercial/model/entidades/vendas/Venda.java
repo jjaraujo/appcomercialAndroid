@@ -1,35 +1,38 @@
 package br.com.jmdesenvolvimento.appcomercial.model.entidades.vendas;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Funcoes;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.VariaveisControleG;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.Entidade;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Cliente;
-import br.com.jmdesenvolvimento.appcomercial.model.tabelas.TabelaPagamento;
-import br.com.jmdesenvolvimento.appcomercial.model.tabelas.TabelaProdutosVenda;
+import br.com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaPagamento;
+import br.com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaProdutosVenda;
 
 public class Venda extends Entidade {
 
     private Cliente cliente;
     private int numeroMesaComanda;
     private List<TabelaProdutosVenda> tabelaProdutosVenda;
-    private String dataRegistro;
-    private List<TabelaPagamento> tipoPagamentos;
-    private String dataFechamento;
-    private String dataCancelamento;
+    private Calendar dataRegistro;
+    private List<TabelaPagamento> tabelaPagamentos;
+    private Calendar dataFechamento;
+    private Calendar dataCancelamento;
     private String motivoCancelamento;
     private double desconto;
 
     @Override
     public void setMapAtributos(HashMap<String, Object> map) {
         id = (int) map.get(getIdNome());
-        cliente = (Cliente) map.get("cliente" + Funcoes.prefixoChaveEstrangeira());
-        dataRegistro = (String) map.get("dataRegistro");
-        tipoPagamentos =(List<TabelaPagamento>) map.get("tabelaPagamentos");
+        cliente = (Cliente) map.get("cliente");//+ FuncoesGerais.prefixoChaveEstrangeira());
+        dataRegistro = (Calendar) map.get("dataRegistro");
+        tabelaPagamentos =(List<TabelaPagamento>) map.get("tabelaPagamentos");
         tabelaProdutosVenda = ( List<TabelaProdutosVenda>) map.get("tabelaProdutosVenda");
-        dataFechamento = (String) map.get("dataFechamento");
-        dataCancelamento = (String) map.get("dataCancelamento");
+        dataFechamento = (Calendar) map.get("dataFechamento");
+        dataCancelamento = (Calendar) map.get("dataCancelamento");
         motivoCancelamento = (String) map.get("motivoCancelamento");
         numeroMesaComanda = (int) map.get("numeroMesaComanda");
         desconto = (double) map.get("desconto");
@@ -51,7 +54,7 @@ public class Venda extends Entidade {
         this.tabelaProdutosVenda = tabelaProdutosVenda;
     }
 
-    public int getNumeroMesaComanda() {
+    public Integer getNumeroMesaComanda() {
         return numeroMesaComanda;
     }
 
@@ -59,35 +62,35 @@ public class Venda extends Entidade {
         this.numeroMesaComanda = numeroMesaComanda;
     }
 
-    public String getDataRegistro() {
+    public Calendar getDataRegistro() {
         return dataRegistro;
     }
 
-    public void setDataRegistro(String dataRegistro) {
+    public void setDataRegistro(Calendar dataRegistro) {
         this.dataRegistro = dataRegistro;
     }
 
-    public List<TabelaPagamento> getTipoPagamentos() {
-        return tipoPagamentos;
+    public List<TabelaPagamento> getTabelaPagamentos() {
+        return tabelaPagamentos;
     }
 
-    public void setTipoPagamentos(List<TabelaPagamento> tipoPagamentos) {
-        this.tipoPagamentos = tipoPagamentos;
+    public void setTabelaPagamentos(List<TabelaPagamento> tabelaPagamentos) {
+        this.tabelaPagamentos = tabelaPagamentos;
     }
 
-    public String getDataFechamento() {
+    public Calendar getDataFechamento() {
         return dataFechamento;
     }
 
-    public void setDataFechamento(String dataFechamento) {
+    public void setDataFechamento(Calendar dataFechamento) {
         this.dataFechamento = dataFechamento;
     }
 
-    public String getDataCancelamento() {
+    public Calendar getDataCancelamento() {
         return dataCancelamento;
     }
 
-    public void setDataCancelamento(String dataCancelamento) {
+    public void setDataCancelamento(Calendar dataCancelamento) {
         this.dataCancelamento = dataCancelamento;
     }
 
@@ -97,6 +100,11 @@ public class Venda extends Entidade {
 
     public void setMotivoCancelamento(String motivoCancelamento) {
         this.motivoCancelamento = motivoCancelamento;
+    }
+
+    public void removePagamento(TabelaPagamento tabelaPagamento){
+        getTabelaPagamentos().remove(tabelaPagamento);
+        VariaveisControleG.valorRestante = VariaveisControleG.valorRestante + tabelaPagamento.getValor();
     }
 
     public double getDesconto() {

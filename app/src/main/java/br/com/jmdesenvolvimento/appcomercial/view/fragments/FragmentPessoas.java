@@ -17,17 +17,14 @@ import android.widget.SearchView;
 import java.util.List;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Funcoes;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.VariaveisControle;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
 import br.com.jmdesenvolvimento.appcomercial.model.Tabela;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Cliente;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Fornecedor;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Produto;
-import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.estoque.CadastroProdutoActivity;
-import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.estoque.EstoqueActivity;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.pessoas.CadastroPessoasActivity;
-import br.com.jmdesenvolvimento.appcomercial.view.adapters.ArrayAdapterTabelas;
+import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas.ArrayAdapterClientes;
+import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas.ArrayAdapterFornecedores;
 
 @SuppressLint("ValidFragment")
 public class FragmentPessoas extends Fragment {
@@ -143,16 +140,16 @@ public class FragmentPessoas extends Fragment {
         Cliente cliente = new Cliente();
         List<Tabela> clientes;
         if(query != null){
-            if (Funcoes.somenteNumero(query)) {
-                clientes = dao.buscaClientesPorNomeCpf(cliente,"cpfCNPJ",query);
+            if (FuncoesGerais.stringIsSomenteNumero(query)) {
+                clientes = dao.buscaPessoaPorNomeCpf(cliente,"cpfCNPJ",query);
             } else {
-                clientes = dao.buscaClientesPorNomeCpf(cliente,"nome_pessoa",query);
+                clientes = dao.buscaPessoaPorNomeCpf(cliente,"nome_pessoa",query);
             }
         } else{
             clientes = (List<Tabela>) dao.selectAll(cliente,null,false,null,null,cliente.getIdNome(),"100");
         }
         dao.close();
-        ArrayAdapterTabelas adapter = new ArrayAdapterTabelas(getContext(),clientes,ArrayAdapterTabelas.TIPO_CLIENTES);
+        ArrayAdapterClientes adapter = new ArrayAdapterClientes(getContext(),clientes);
         listView.setAdapter(adapter);
     }
 
@@ -161,16 +158,16 @@ public class FragmentPessoas extends Fragment {
         Fornecedor fornecedor = new Fornecedor();
         List<Tabela> fornecedores;
         if(query != null){
-            if (Funcoes.somenteNumero(query)) {
-                fornecedores = dao.buscaClientesPorNomeCpf(fornecedor,"cpfCNPJ",query);
+            if (FuncoesGerais.stringIsSomenteNumero(query)) {
+                fornecedores = dao.buscaPessoaPorNomeCpf(fornecedor,"cpfCNPJ",query);
             } else {
-                fornecedores = dao.buscaClientesPorNomeCpf(fornecedor,"nome_pessoa",query);
+                fornecedores = dao.buscaPessoaPorNomeCpf(fornecedor,"nome_pessoa",query);
             }
         } else{
         fornecedores = (List<Tabela>) dao.selectAll(fornecedor,null,false,null,null,fornecedor.getIdNome(),"100");
           }
         dao.close();
-        ArrayAdapterTabelas adapter = new ArrayAdapterTabelas(getContext(),fornecedores,ArrayAdapterTabelas.TIPO_FORNECEDORES);
+        ArrayAdapterFornecedores adapter = new ArrayAdapterFornecedores(getContext(),fornecedores);
         listView.setAdapter(adapter);
     }
 

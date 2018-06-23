@@ -10,16 +10,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Funcoes;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.VariaveisControle;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesVendas;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.VariaveisControleG;
 import br.com.jmdesenvolvimento.appcomercial.model.Tabela;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.ProdutoDAO;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
@@ -27,9 +32,10 @@ import br.com.jmdesenvolvimento.appcomercial.model.entidades.Entidade;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Cliente;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Produto;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
-import br.com.jmdesenvolvimento.appcomercial.model.tabelas.TabelaProdutosVenda;
+import br.com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaProdutosVenda;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.LeitorCodigoBarrasActivity;
-import br.com.jmdesenvolvimento.appcomercial.view.adapters.ArrayAdapterTabelas;
+import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas.ArrayAdapterClientes;
+import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas.ArrayAdapterProdutos;
 
 @SuppressLint("ValidFragment")
 public class DialogEscolherEntidade extends DialogFragment {
@@ -43,6 +49,7 @@ public class DialogEscolherEntidade extends DialogFragment {
     private View view;
     private ImageView imageViewCamera;
     private ImageView imageViewContador;
+    List<Tabela> listTabela;
 
     public DialogEscolherEntidade(int nulStyle, int theme, int fragmentSelecionado) {
         this.numStyle = nulStyle;
@@ -115,7 +122,7 @@ public class DialogEscolherEntidade extends DialogFragment {
 
         switch (fragmentSelecionado) {
             case 0:
-                if(VariaveisControle.configuracoesSimples.isVendaSemCliente()){
+                if(VariaveisControleG.configuracoesSimples.isVendaSemCliente()){
                     imageViewContador.setVisibility(View.VISIBLE);
                 }
                searchView.setQueryHint("Buscar clientes...");
@@ -135,7 +142,7 @@ public class DialogEscolherEntidade extends DialogFragment {
                             addCliente(parent, position);
                         break;
                     case 1:
-                        VariaveisControle.dialogEscolherEntidade = DialogEscolherEntidade.this;
+                        VariaveisControleAndroid.dialogEscolherEntidade = DialogEscolherEntidade.this;
                         openDialogFragment(parent, position);
                         break;
                     default:
@@ -164,11 +171,11 @@ public class DialogEscolherEntidade extends DialogFragment {
     @Override
     public void onResume() {
         super.onResume();
-        String codigoLido = VariaveisControle.codigoDeBarrasLido;
+        String codigoLido = VariaveisControleAndroid.codigoDeBarrasLido;
         if(codigoLido!= null){
             if(!codigoLido.equals("")){
                 carregaList(codigoLido);
-                VariaveisControle.codigoDeBarrasLido = "";
+                VariaveisControleAndroid.codigoDeBarrasLido = "";
             }
         }
     }
@@ -177,46 +184,38 @@ public class DialogEscolherEntidade extends DialogFragment {
         Cliente cliente = (Cliente) parent.getItemAtPosition(position);
         Venda venda = new Venda();
         venda.setCliente(cliente);
-        VariaveisControle.vendaSelecionada = venda;
-        venda.setDataRegistro(Funcoes.getDataHojeDDMMAAAA());
-        SQLiteDatabaseDao dao = new SQLiteDatabaseDao(getContext());
-        dao.insert(venda);
-        dao.close();
-        VariaveisControle.fragmentVendasAbertas.carregaLista();
-        VariaveisControle.fragmentProdutos.carregaLista();
-        Funcoes.alteraViewVendaSelecionada();
-
+        FuncoesVendas.criaVenda(venda,getContext());
         dismiss();
     }
 
 
     public void addProdutoNaVenda(AdapterView<?> parent, int position) {
         Produto produto = (Produto) parent.getItemAtPosition(position);
-        Venda venda = VariaveisControle.vendaSelecionada;
+        Venda venda = VariaveisControleG.vendaSelecionada;
 
         if (venda == null) {
             venda = new Venda();
         }
 
         TabelaProdutosVenda tpv = new TabelaProdutosVenda();
-        tpv.setDataCadastro(Funcoes.getDataHojeDDMMAAAA());
-        tpv.setVenda_id(venda.getId());
+        tpv.setDataCadastro(Calendar.getInstance());
+        tpv.setVenda(venda.getId());
         tpv.setProduto(produto);
-        tpv.setQtd(VariaveisControle.qtdSelecionadaProdutoVenda);
+        tpv.setQtd(VariaveisControleAndroid.qtdSelecionadaProdutoVenda);
 
         if (venda.getTabelaProdutosVenda() == null) {
             List<TabelaProdutosVenda> listTPV = new ArrayList<>();
             venda.setTabelaProdutosVenda(listTPV);
         }
         venda.getTabelaProdutosVenda().add(tpv);
-        venda.setDataRegistro(Funcoes.getDataHojeDDMMAAAA());
+        venda.setDataRegistro(Calendar.getInstance());
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(getContext());
         dao.insert(tpv);
         ProdutoDAO produtoDao = new ProdutoDAO(getContext());
         produtoDao.subtraiEstoque(tpv);
         dao.close();
-        VariaveisControle.fragmentProdutos.carregaLista();
-        Funcoes.alteraViewVendaSelecionada();
+        VariaveisControleAndroid.fragmentProdutos.carregaLista();
+        FuncoesViewAndroid.alteraViewVendaSelecionada();
       //  openDialogFragment();
     }
 
@@ -224,67 +223,65 @@ public class DialogEscolherEntidade extends DialogFragment {
 
         String where = null;
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(getContext());
-        List<Tabela> listTabela = null;
-        int tipoArray = 0;
+        BaseAdapter arrayAdapter = null;
 
         switch (fragmentSelecionado) {
             case 0:
-                tipoArray = ArrayAdapterTabelas.TIPO_CLIENTES;
                 Cliente cliente = new Cliente();
                 entidade = cliente;
-                if (query != null && Funcoes.somenteNumero(query)) {
-                    listTabela = dao.buscaClientesPorNomeCpf(cliente,"cpfCNPJ", query);
+                if (query != null && FuncoesGerais.stringIsSomenteNumero(query)) {
+                    listTabela = dao.buscaPessoaPorNomeCpf(cliente,"cpfCNPJ", query);
                 } else if(query != null) {
-                    listTabela = dao.buscaClientesPorNomeCpf(cliente,"nome_pessoa", query);
+                    listTabela = dao.buscaPessoaPorNomeCpf(cliente,"nome_pessoa", query);
                 } else{ // caso query == null, irá buscar todos os resultados
                     listTabela = (List<Tabela>) dao.selectAll(cliente, query,false,null,null,cliente.getIdNome(),"100" );
                 }
+                arrayAdapter = new ArrayAdapterClientes(getContext(),listTabela);
                 break;
 
             case 1:
-                tipoArray = ArrayAdapterTabelas.TIPO_PRODUTOS;
                 Produto produto = new Produto();
                 entidade = produto;
                 if (query != null) {
-                    where = " nome_produto like " + "'%" + Funcoes.removeCaracteresEspeciais(query).replace(" ", "%") + "%'";
+                    where = " nome_produto like " + "'%" + FuncoesGerais.removeCaracteresEspeciais(query).replace(" ", "%") + "%'";
 
-                    if (Funcoes.somenteNumero(query)) {
+                    if (FuncoesGerais.stringIsSomenteNumero(query)) {
                         where = produto.getIdNome() + " = " + query
                         + " OR CodigoBarras = " + query;
                     }
                     // verifica a configuração de venda sem estoque do usuário
-                    if(!VariaveisControle.configuracoesSimples.isVendaSemEstoque()){
+                    if(!VariaveisControleG.configuracoesSimples.isVendaSemEstoque()){
                         where += " AND qtd > 0";
                     }
                 }
                 else { // caso query == null, irá buscar somente os produtos com qtd > 0
                     // verifica a configuração de venda sem estoque do usuário
-                    if(!VariaveisControle.configuracoesSimples.isVendaSemEstoque()){
+                    if(!VariaveisControleG.configuracoesSimples.isVendaSemEstoque()){
                         where = " qtd > 0";
                     }
                 }
                 listTabela = (List<Tabela>) dao.selectAll(produto, where,false,null,null,produto.getIdNome(),"100");
+                arrayAdapter = new ArrayAdapterProdutos(getContext(),listTabela);
                 break;
         }
 
         dao.close();
         if(listTabela != null) {
-            ArrayAdapterTabelas adapter = new ArrayAdapterTabelas(getContext(), listTabela, tipoArray);
             lista = (ListView) view.findViewById(R.id.list_escolha_entidades);
-            lista.setAdapter(adapter);
-            lista.setAdapter(adapter);
+            lista.setAdapter(arrayAdapter);
+            lista.setAdapter(arrayAdapter);
         }
     }
 
 
     public void openDialogFragment(AdapterView<?> parent, int position) {
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        if (fragmentSelecionado == 1 && VariaveisControle.vendaSelecionada == null) {
+        if (fragmentSelecionado == 1 && VariaveisControleG.vendaSelecionada == null) {
             new AlertDialog.Builder(getContext()).
                     setMessage("Nenhuma venda selecionada!").show();
             //  alert.setMessage("Não");
         } else {
-            DialogQuantidadeProduto dialog = new DialogQuantidadeProduto(parent, position);
+            DialogQuantidadeProduto dialog = new DialogQuantidadeProduto(parent, position,(Produto) listTabela.get(position));
             dialog.show(ft, "dialogQuantidadeProduto");
         }
     }

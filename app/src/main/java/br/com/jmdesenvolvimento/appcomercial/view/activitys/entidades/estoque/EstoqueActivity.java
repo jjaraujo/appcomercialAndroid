@@ -13,17 +13,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import java.util.List;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Funcoes;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.VariaveisControle;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
 import br.com.jmdesenvolvimento.appcomercial.model.Tabela;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Produto;
-import br.com.jmdesenvolvimento.appcomercial.view.adapters.ArrayAdapterTabelas;
+import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas.ArrayAdapterProdutos;
 
 public class EstoqueActivity extends AppCompatActivity {
 
@@ -94,10 +92,10 @@ public class EstoqueActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.home: // botao voltar
+            case android.R.id.home: // botao voltar
                 finish();
                 break;
-            case R.id.menu_formularios_salvar:
+            case R.id.menu_filtro:
                 break;
         }
 
@@ -109,14 +107,14 @@ public class EstoqueActivity extends AppCompatActivity {
         String where = null;
         Produto p = new Produto();
         if(query != null){
-            where = " nome_produto like " + "'%" +Funcoes.removeCaracteresEspeciais(query).replace(" ","%") + "%'" ;
-            if(Funcoes.somenteNumero(query)){
+            where = " nome_produto like " + "'%" + FuncoesGerais.removeCaracteresEspeciais(query).replace(" ","%") + "%'" ;
+            if(FuncoesGerais.stringIsSomenteNumero(query)){
                 where = p.getIdNome() + " = " + query;
             }
         }
         List<Tabela> produtos = (List<Tabela>) dao.selectAll(p, where, false,null,null,p.getIdNome(),"100");
         dao.close();
-        ArrayAdapterTabelas adapter = new ArrayAdapterTabelas(this,produtos,ArrayAdapterTabelas.TIPO_PRODUTOS);
+        ArrayAdapterProdutos adapter = new ArrayAdapterProdutos(this,produtos);
         listProdutos.setAdapter(adapter);
     }
 }

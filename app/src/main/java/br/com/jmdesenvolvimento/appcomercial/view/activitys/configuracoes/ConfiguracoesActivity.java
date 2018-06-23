@@ -1,15 +1,12 @@
 package br.com.jmdesenvolvimento.appcomercial.view.activitys.configuracoes;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.ListView;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
-import br.com.jmdesenvolvimento.appcomercial.view.activitys.MainActivity;
-import br.com.jmdesenvolvimento.appcomercial.view.adapters.ArrayAdapterListaConfiguracoes;
+import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas.ArrayAdapterListaConfiguracoes;
 
 public class ConfiguracoesActivity extends AppCompatActivity {
 

@@ -37,7 +37,7 @@
             android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:src="@drawable/icone_camera_branca"/>
+            android:src="@drawable/icone_codigo_barras"/>
 
 
     </RelativeLayout>

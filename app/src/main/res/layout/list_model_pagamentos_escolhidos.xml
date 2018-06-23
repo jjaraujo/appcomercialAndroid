@@ -22,16 +22,16 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="68dp"
         android:layout_marginTop="21dp"
-        android:text="Nome tipo" />
+        android:text="Boleto" />
 
     <TextView
-        android:id="@+id/textViewPagamentoEscolhidoParcelas"
+        android:id="@+id/textViewPagamentoEscolhidoParcelasValor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/divider4"
         android:layout_alignTop="@+id/textViewPagamentoEscolhidoTipo"
-        android:layout_toEndOf="@+id/textViewPagamentoEscolhidoTipo"
-        android:layout_marginStart="50dp"
-        android:text="Parcela x" />
+        android:layout_marginStart="15dp"
+        android:text="3x   R$2235.99" />
 
     <ImageView
         android:id="@+id/imageViewIconePagamentoEscolhido"
@@ -42,4 +42,32 @@
         android:layout_marginStart="14dp"
         android:layout_marginTop="10dp"
         app:srcCompat="@mipmap/ic_launcher" />
+
+    <View
+        android:id="@+id/divider4"
+        android:layout_width="1dp"
+        android:layout_height="30dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/imageViewPagamentoEscolhidoDeletar"
+        android:layout_marginStart="121dp"
+        android:background="@android:color/darker_gray" />
+
+    <View
+        android:id="@+id/divider5"
+        android:layout_width="1dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/imageViewPagamentoEscolhidoDeletar"
+        android:layout_marginEnd="165dp"
+        android:background="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/textViewValorTotalPagamentoEscolhido"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/divider5"
+        android:layout_alignTop="@+id/textViewPagamentoEscolhidoTipo"
+        android:layout_marginStart="15dp"
+        android:textAlignment="center"
+        android:text="R$78900,00" />
 </RelativeLayout>

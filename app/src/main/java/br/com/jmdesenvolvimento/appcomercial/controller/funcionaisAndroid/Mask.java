@@ -1,9 +1,11 @@
-package br.com.jmdesenvolvimento.appcomercial.controller.funcionais;
+package br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid;
 
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
 
 public class Mask {
     public static String CPF = "###.###.###-###";
@@ -67,7 +69,7 @@ public class Mask {
                     }
                     String texto = ediTxt.getText().toString();
                     if (mask.equals(CPF) &&
-                            Funcoes.removePontosTracos(texto).length() > 11) {
+                            FuncoesGerais.removePontosTracos(texto).length() > 11) {
                         mask = CNPJ;
                     }
 

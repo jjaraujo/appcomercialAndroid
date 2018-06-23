@@ -1,4 +1,4 @@
-package br.com.jmdesenvolvimento.appcomercial.view.adapters;
+package br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -25,11 +24,12 @@ import java.util.HashMap;
 import java.util.List;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.VariaveisControle;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.VariaveisControleG;
 import br.com.jmdesenvolvimento.appcomercial.model.Tabela;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.vendas.TipoPagamentos;
-import br.com.jmdesenvolvimento.appcomercial.model.tabelas.Configuracoes;
+import br.com.jmdesenvolvimento.appcomercial.model.entidades.vendas.TipoPagamento;
+import br.com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.Configuracoes;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.configuracoes.ConfigurarPagamentosActivity;
 
 public class ArrayAdapterListaConfiguracoes extends BaseAdapter {
@@ -95,13 +95,13 @@ public class ArrayAdapterListaConfiguracoes extends BaseAdapter {
             case 5:
                 switchButton.setVisibility(View.VISIBLE);
                 nomeCampo = "vendaSemCliente";
-                switchButton.setChecked(VariaveisControle.configuracoesSimples.isVendaSemCliente());
+                switchButton.setChecked(VariaveisControleG.configuracoesSimples.isVendaSemCliente());
                 setAcoesCliquesButton(switchButton, nomeCampo, " vendas sem cliente");
                 break;
             case 6:
                 switchButton.setVisibility(View.VISIBLE);
                 nomeCampo = "vendaSemEstoque";
-                switchButton.setChecked(VariaveisControle.configuracoesSimples.isVendaSemEstoque());
+                switchButton.setChecked(VariaveisControleG.configuracoesSimples.isVendaSemEstoque());
                 setAcoesCliquesButton(switchButton, nomeCampo, " vendas de produtos sem estoque");
                 break;
         }
@@ -129,7 +129,7 @@ public class ArrayAdapterListaConfiguracoes extends BaseAdapter {
     }
 
     private View addLinhasConfiguracoesPagamento(int position, LayoutInflater layoutInflater) {
-        final TipoPagamentos tipoPagamentos = (TipoPagamentos) list.get(position);
+        final TipoPagamento tipoPagamentos = (TipoPagamento) list.get(position);
 
         View view = layoutInflater.inflate(R.layout.list_model_configuracoes_pagamentos, null);
         TextView textoConfiguracao = view.findViewById(R.id.textViewNomeConfiguracaoPagamento);
@@ -157,19 +157,11 @@ public class ArrayAdapterListaConfiguracoes extends BaseAdapter {
         return view;
     }
 
-
-    public Drawable getImageDrawableResId(String imageId) {
-        Resources resources = context.getResources();
-        int drawableId = resources.getIdentifier(imageId, "drawable", context.getPackageName());
-        Drawable dr = context.getResources().getDrawable(drawableId);
-        return dr;
-    }
-
     private void setAcoesCliquesButton(final Switch switchButton, final String nomeCampo, final String nomeCampotextoMensagem) {
 
-        final Configuracoes configuracoes = VariaveisControle.configuracoesSimples;
-        final HashMap<String, Object> map = configuracoes.getMapAtributos();
-        final SQLiteDatabaseDao dao = new SQLiteDatabaseDao(context);
+        final Configuracoes configuracoes = VariaveisControleG.configuracoesSimples;
+        final HashMap<String, Object> map = configuracoes.getMapAtributos(false);
+
         switchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -189,6 +181,7 @@ public class ArrayAdapterListaConfiguracoes extends BaseAdapter {
                                             map.put("vendaSemCliente",1);
                                             map.put("nomeTipoVenda",spinner.getSelectedItem().toString());
                                             configuracoes.setMapAtributos(map);
+                                            final SQLiteDatabaseDao dao = new SQLiteDatabaseDao(context);
                                             dao.update(configuracoes, false);
                                             dao.close();
                                         } else {
@@ -208,20 +201,22 @@ public class ArrayAdapterListaConfiguracoes extends BaseAdapter {
                                 .setCancelable(false)
                                 .show();
                     } else {
-                        map.put("vendaSemEstoque",1);
+                        map.put("vendaSemEstoque",true);
                         configuracoes.setMapAtributos(map);
+                        final SQLiteDatabaseDao dao = new SQLiteDatabaseDao(context);
                         dao.update(configuracoes, false);
                         Snackbar.make(switchButton, "Agora você aceita" + nomeCampotextoMensagem, Snackbar.LENGTH_LONG).show();
                         dao.close();
                     }
                 } else {
                     if(nomeCampo.equals("vendaSemEstoque")) {
-                        map.put("vendaSemEstoque",0);
+                        map.put("vendaSemEstoque",false);
                     } else{
-                        map.put("vendaSemCliente",0);
+                        map.put("vendaSemCliente",false);
                     }
                     Snackbar.make(switchButton,"Você optou por não aceitar mais" + nomeCampotextoMensagem,Snackbar.LENGTH_LONG).show();
                     configuracoes.setMapAtributos(map);
+                    final SQLiteDatabaseDao dao = new SQLiteDatabaseDao(context);
                     dao.update(configuracoes, false);
                     dao.close();
                 }
@@ -230,8 +225,15 @@ public class ArrayAdapterListaConfiguracoes extends BaseAdapter {
     }
 
     private void setAcoesCliquesList(Class novaActivity){
-
         Intent intent = new Intent(context, novaActivity);
         context.startActivity(intent);
+    }
+
+
+    public Drawable getImageDrawableResId(String imageId) {
+        Resources resources = context.getResources();
+        int drawableId = resources.getIdentifier(imageId, "drawable", context.getPackageName());
+        Drawable dr = context.getResources().getDrawable(drawableId);
+        return dr;
     }
 }

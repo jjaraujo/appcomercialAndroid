@@ -7,14 +7,12 @@ import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.zxing.Result;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.VariaveisControle;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
 import me.dm7.barcodescanner.core.CameraUtils;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -75,10 +73,10 @@ public class LeitorCodigoBarrasActivity extends AppCompatActivity implements ZXi
     public void handleResult(Result result) {
 
         codigoLido = result.getText();
-        if (VariaveisControle.editTextCodigoBarrasCadastroProduto != null) {
-            VariaveisControle.editTextCodigoBarrasCadastroProduto.setText(codigoLido);
+        if (VariaveisControleAndroid.editTextCodigoBarrasCadastroProduto != null) {
+            VariaveisControleAndroid.editTextCodigoBarrasCadastroProduto.setText(codigoLido);
         }
-        VariaveisControle.codigoDeBarrasLido = codigoLido;
+        VariaveisControleAndroid.codigoDeBarrasLido = codigoLido;
         zXingScannerView.resumeCameraPreview(this);
 
         MediaPlayer mp = MediaPlayer.create(LeitorCodigoBarrasActivity.this, R.raw.bip);

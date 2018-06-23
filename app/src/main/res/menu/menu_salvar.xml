@@ -5,6 +5,6 @@
         android:id="@+id/menu_formularios_salvar"
         android:orderInCategory="100"
         android:title="Salvar"
-        android:icon="@android:drawable/ic_menu_save"
+        android:icon="@drawable/icone_salvar"
         app:showAsAction="always" />
 </menu>

@@ -1,8 +1,11 @@
-package br.com.jmdesenvolvimento.appcomercial.model.tabelas;
+package br.com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Funcoes;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
 import br.com.jmdesenvolvimento.appcomercial.model.Tabela;
 
 public class Configuracoes extends Tabela{
@@ -16,10 +19,20 @@ public class Configuracoes extends Tabela{
     @Override
     public void setMapAtributos(HashMap<String, Object> map) {
         id = (int) map.get(getIdNome());
-        vendaSemCliente = Funcoes.intToBoolean((Integer) map.get("vendaSemCliente"));
-        vendaSemEstoque = Funcoes.intToBoolean((Integer) map.get("vendaSemEstoque"));
-        dataExclusao = (String) map.get("dataExclusao");
+        vendaSemCliente = (boolean) map.get("vendaSemCliente");
+        vendaSemEstoque = (boolean) map.get("vendaSemEstoque");
+        dataExclusao = (Calendar) map.get("dataExclusao");
         nomeTipoVenda = (String) map.get("nomeTipoVenda");
+    }
+
+    @Override
+    public List<Tabela> getListValoresIniciais() {
+        this.vendaSemCliente = true;
+        this.vendaSemEstoque = false;
+        this.nomeTipoVenda = "Comanda";
+        List list = new ArrayList();
+        list.add(this);
+        return list;
     }
 
     public void setVendaSemCliente(boolean vendaSemCliente) {

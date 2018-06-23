@@ -3,26 +3,16 @@ package br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.pessoas;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.SearchView;
-
-import java.util.List;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Funcoes;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.VariaveisControle;
-import br.com.jmdesenvolvimento.appcomercial.model.Tabela;
-import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Cliente;
-import br.com.jmdesenvolvimento.appcomercial.view.adapters.AdapterFragmentActivityPessoas;
-import br.com.jmdesenvolvimento.appcomercial.view.adapters.ArrayAdapterTabelas;
-import br.com.jmdesenvolvimento.appcomercial.view.fragments.FragmentPessoas;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
+import br.com.jmdesenvolvimento.appcomercial.view.adapters.adaptersFragments.AdapterFragmentActivityPessoas;
 
 public class PessoasActivity extends AppCompatActivity {
 
@@ -81,7 +71,7 @@ public class PessoasActivity extends AppCompatActivity {
         });
 
         final FloatingActionButton buttonAddPessoa = (FloatingActionButton) findViewById(R.id.buttonAddPessoas);
-        VariaveisControle.buttonAddPessoaForSnackbar = buttonAddPessoa;
+        VariaveisControleAndroid.buttonAddPessoaForSnackbar = buttonAddPessoa;
         buttonAddPessoa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

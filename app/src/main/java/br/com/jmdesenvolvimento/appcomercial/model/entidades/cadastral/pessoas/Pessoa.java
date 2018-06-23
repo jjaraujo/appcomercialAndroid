@@ -3,7 +3,7 @@ package br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas;
 import java.io.Serializable;
 import java.util.HashMap;
 
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Funcoes;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.Entidade;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.Estado;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.Municipio;
@@ -35,7 +35,7 @@ public class Pessoa extends Entidade implements Serializable,IPessoa {
         this.nome_pessoa = nome;
     }
 
-    public int getSexo() {
+    public Integer getSexo() {
         return sexo;
     }
 
@@ -156,8 +156,8 @@ public class Pessoa extends Entidade implements Serializable,IPessoa {
         bairro = (String) map.get("bairro");
         cep = (int) map.get("cep");
         numero = (int) map.get("numero");
-        municipio = (Municipio) map.get("municipio"+Funcoes.prefixoChaveEstrangeira());
-        estado = (Estado) map.get("estado"+ Funcoes.prefixoChaveEstrangeira());
+        municipio = (Municipio) map.get("municipio");//+ FuncoesGerais.prefixoChaveEstrangeira());
+        estado = (Estado) map.get("estado");//+ FuncoesGerais.prefixoChaveEstrangeira());
         rgIE = (int) map.get("rgIE");
         cpfCNPJ = (String) map.get("cpfCNPJ");
         nascimento = (String) map.get("nascimento");

@@ -21,9 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Funcoes;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Mask;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.VariaveisControle;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.Mask;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
 import br.com.jmdesenvolvimento.appcomercial.model.Tabela;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.Estado;
@@ -102,47 +103,6 @@ public class CadastroPessoasActivity extends AppCompatActivity {
 
     }
 
-    private void addIdsEAdapters() {
-
-        editTextNome = findViewById(R.id.cadastroNomeRSocial);
-        editTextCpf = findViewById(R.id.cadastroCpfCnpj);
-        editTextCpf.addTextChangedListener(new Mask().insert(Mask.CPF, editTextCpf));
-
-        editTextRg = findViewById(R.id.cadastroRgIe);
-        spinnerSexo = findViewById(R.id.cadastroSexo);
-
-        editTextNascimento = findViewById(R.id.cadastroNascimento);
-        editTextNascimento.addTextChangedListener(new Mask().insert(Mask.DATA, editTextNascimento));
-
-        editTextLogradouro = findViewById(R.id.cadastroLogradouro);
-        editTextBairro = findViewById(R.id.cadastroBairro);
-        spinnerEstado = findViewById(R.id.cadastroEstado);
-
-        editTextCep = findViewById(R.id.cadastroCep);
-        editTextCep.addTextChangedListener(new Mask().insert(Mask.CEP, editTextCep));
-
-        editTextNumero = findViewById(R.id.cadastroNumeroEndereco);
-        editTextMunicipio = findViewById(R.id.cadastroMunicipio);
-
-        editTextTelefone1 = findViewById(R.id.cadastroTelefone1);
-        editTextTelefone1.addTextChangedListener(new Mask().insert(Mask.TELEFONE, editTextTelefone1));
-        editTextTelefone2 = findViewById(R.id.cadastroTelefone2);
-        editTextTelefone2.addTextChangedListener(new Mask().insert(Mask.TELEFONE, editTextTelefone2));
-
-        editTextEmail = findViewById(R.id.cadastroEmail);
-
-        inputTextCpf = findViewById(R.id.inputLayoutCadastroCpfCnpj);
-        // inputTextLimite = findViewById(R.id.);
-        editTextLimite = findViewById(R.id.cadastroLimiteCliente);
-        inputTextNascimento = findViewById(R.id.inputLayoutCadastroNascimento);
-        inputTextNome = findViewById(R.id.inputLayoutCadastroNomeRSocial);
-        inputTextRg = findViewById(R.id.inputLayoutCadastroRgIe);
-
-        spinnerEstado.setAdapter(getAdapterEstado());
-        spinnerSexo.setAdapter(getAdapterSexo());
-
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
@@ -158,9 +118,9 @@ public class CadastroPessoasActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        SQLiteDatabaseDao dao = new SQLiteDatabaseDao(this);
         switch (item.getItemId()) {
             case R.id.menu_formularios_salvar:
-                SQLiteDatabaseDao dao = new SQLiteDatabaseDao(this);
                 IPessoa pessoaAdicionada = null;
                 if (edicao == false) {
                     switch (tipoPessoa) {
@@ -192,14 +152,13 @@ public class CadastroPessoasActivity extends AppCompatActivity {
                             break;
                     }
 
-                    pessoaNovaAposEdicao = (Pessoa) Funcoes.getTabelaModificada(this.pessoaVisualizar, this.pessoaEditada, this.pessoaNovaAposEdicao);
+                    pessoaNovaAposEdicao = (Pessoa) FuncoesGerais.getTabelaModificada(this.pessoaVisualizar, this.pessoaEditada, this.pessoaNovaAposEdicao);
                     pessoaNovaAposEdicao.getPessoa().setId(pessoaVisualizar.getPessoa().getId());
                     dao.update(pessoaNovaAposEdicao.getPessoa(), true);
                     dao.update(pessoaNovaAposEdicao, true);
                     finish();
                     Toast.makeText(this, pessoaNovaAposEdicao.getNomeTabela(false) + " " + pessoaNovaAposEdicao.getId() + " alterado!", Toast.LENGTH_SHORT).show();
                 }
-                dao.close();
                 edicao = false;
                 break;
 
@@ -214,9 +173,51 @@ public class CadastroPessoasActivity extends AppCompatActivity {
                 finish();
                 break;
         }
-        Snackbar.make(VariaveisControle.buttonAddPessoaForSnackbar, "Salvo com sucesso!", Snackbar.LENGTH_SHORT).show();
+        dao.close();
+        Snackbar.make(VariaveisControleAndroid.buttonAddPessoaForSnackbar, "Salvo com sucesso!", Snackbar.LENGTH_SHORT).show();
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void addIdsEAdapters() {
+
+        editTextNome = findViewById(R.id.cadastroNomeRSocial);
+        editTextCpf = findViewById(R.id.cadastroCpfCnpj);
+        editTextCpf.addTextChangedListener(new Mask().insert(Mask.CPF, editTextCpf));
+
+        editTextRg = findViewById(R.id.cadastroRgIe);
+        spinnerSexo = findViewById(R.id.cadastroSexo);
+
+        editTextNascimento = findViewById(R.id.cadastroNascimento);
+        FuncoesViewAndroid.addCalendar(this,editTextNascimento);
+
+        editTextLogradouro = findViewById(R.id.cadastroLogradouro);
+        editTextBairro = findViewById(R.id.cadastroBairro);
+        spinnerEstado = findViewById(R.id.cadastroEstado);
+
+        editTextCep = findViewById(R.id.cadastroCep);
+        editTextCep.addTextChangedListener(new Mask().insert(Mask.CEP, editTextCep));
+
+        editTextNumero = findViewById(R.id.cadastroNumeroEndereco);
+        editTextMunicipio = findViewById(R.id.cadastroMunicipio);
+
+        editTextTelefone1 = findViewById(R.id.cadastroTelefone1);
+        editTextTelefone1.addTextChangedListener(new Mask().insert(Mask.TELEFONE, editTextTelefone1));
+        editTextTelefone2 = findViewById(R.id.cadastroTelefone2);
+        editTextTelefone2.addTextChangedListener(new Mask().insert(Mask.TELEFONE, editTextTelefone2));
+
+        editTextEmail = findViewById(R.id.cadastroEmail);
+
+        inputTextCpf = findViewById(R.id.inputLayoutCadastroCpfCnpj);
+        // inputTextLimite = findViewById(R.id.);
+        editTextLimite = findViewById(R.id.cadastroLimiteCliente);
+        inputTextNascimento = findViewById(R.id.inputLayoutCadastroNascimento);
+        inputTextNome = findViewById(R.id.inputLayoutCadastroNomeRSocial);
+        inputTextRg = findViewById(R.id.inputLayoutCadastroRgIe);
+
+        spinnerEstado.setAdapter(getAdapterEstado());
+        spinnerSexo.setAdapter(getAdapterSexo());
+
     }
 
     private ArrayAdapter getAdapterEstado() {
@@ -261,18 +262,18 @@ public class CadastroPessoasActivity extends AppCompatActivity {
     private Pessoa getValoresFormularioPessoa() {
         Pessoa pessoa = new Pessoa();
         pessoa.setNome(editTextNome.getText().toString());
-        pessoa.setCpfCNPJ(Funcoes.removePontosTracos(editTextCpf.getText().toString()));
-        pessoa.setRgIE(Funcoes.corrigeValoresCamposInt(editTextRg.getText().toString()));
+        pessoa.setCpfCNPJ(FuncoesGerais.removePontosTracos(editTextCpf.getText().toString()));
+        pessoa.setRgIE(FuncoesGerais.corrigeValoresCamposInt(editTextRg.getText().toString()));
         pessoa.setSexo(spinnerSexo.getSelectedItemPosition());
-        pessoa.setNascimento(Funcoes.removePontosTracos(editTextNascimento.getText().toString()));
+        pessoa.setNascimento(FuncoesGerais.removePontosTracos(editTextNascimento.getText().toString()));
         pessoa.setLogradouro(editTextLogradouro.getText().toString());
         pessoa.setBairro(editTextBairro.getText().toString());
-        pessoa.setNumero(Funcoes.corrigeValoresCamposInt(editTextNumero.getText().toString()));
-        pessoa.setCep(Funcoes.corrigeValoresCamposInt(editTextCep.getText().toString()));
+        pessoa.setNumero(FuncoesGerais.corrigeValoresCamposInt(editTextNumero.getText().toString()));
+        pessoa.setCep(FuncoesGerais.corrigeValoresCamposInt(editTextCep.getText().toString()));
         pessoa.setEstado((Estado) spinnerEstado.getSelectedItem());
         //    pessoa.setMunicipio(editTextMunicipio.getIte);
-        pessoa.setTelefone1(Funcoes.removePontosTracos(editTextTelefone1.getText().toString()));
-        pessoa.setTelefone2(Funcoes.removePontosTracos(editTextTelefone2.getText().toString()));
+        pessoa.setTelefone1(FuncoesGerais.removePontosTracos(editTextTelefone1.getText().toString()));
+        pessoa.setTelefone2(FuncoesGerais.removePontosTracos(editTextTelefone2.getText().toString()));
         pessoa.setEmail(editTextEmail.getText().toString());
         return pessoa;
     }
@@ -303,25 +304,25 @@ public class CadastroPessoasActivity extends AppCompatActivity {
     }
 
     private void setValoresFormularioPessoa(Pessoa pessoa) {
-        editTextNome.setText(Funcoes.removeNullZeroFormularios(pessoa.getNome()));
+        editTextNome.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getNome()));
         editTextCpf.setText(pessoa.getCpfCNPJ());
-        editTextRg.setText(Funcoes.removeNullZeroFormularios(pessoa.getRgIE() + ""));
-        editTextNascimento.setText(Funcoes.removeNullZeroFormularios(pessoa.getNascimento() + " "));
+        editTextRg.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getRgIE() + ""));
+        editTextNascimento.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getNascimento() + " "));
         spinnerSexo.setSelection(pessoa.getSexo());
-        editTextLogradouro.setText(Funcoes.removeNullZeroFormularios(pessoa.getLogradouro()));
-        editTextBairro.setText(Funcoes.removeNullZeroFormularios(pessoa.getBairro()));
-        editTextNumero.setText(Funcoes.removeNullZeroFormularios(pessoa.getNumero() + ""));
-        editTextCep.setText(Funcoes.removeNullZeroFormularios(pessoa.getCep() + ""));
+        editTextLogradouro.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getLogradouro()));
+        editTextBairro.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getBairro()));
+        editTextNumero.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getNumero() + ""));
+        editTextCep.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getCep() + ""));
         spinnerEstado.setSelection(pessoa.getEstado().getId());
-        editTextMunicipio.setText(Funcoes.removeNullZeroFormularios(pessoa.getMunicipio().getNome()));
-        editTextTelefone1.setText(Funcoes.removeNullZeroFormularios(pessoa.getTelefone1() + ""));
-        editTextTelefone2.setText(Funcoes.removeNullZeroFormularios(pessoa.getTelefone2() + ""));
-        editTextEmail.setText(Funcoes.removeNullZeroFormularios(pessoa.getEmail()));
+        editTextMunicipio.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getMunicipio().getNome()));
+        editTextTelefone1.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getTelefone1() + ""));
+        editTextTelefone2.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getTelefone2() + ""));
+        editTextEmail.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getEmail()));
     }
 
     private void setValoresFormularioCliente(Cliente cliente) {
         setValoresFormularioPessoa(cliente.getPessoa());
-        editTextLimite.setText(Funcoes.removeNullZeroFormularios(cliente.getLimite() + ""));
+        editTextLimite.setText(FuncoesGerais.removeNullZeroFormularios(cliente.getLimite() + ""));
 
     }
 

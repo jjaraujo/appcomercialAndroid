@@ -2,9 +2,10 @@ package br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque;
 
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.HashMap;
 
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Funcoes;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.Entidade;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Fornecedor;
 
@@ -24,7 +25,7 @@ public class Produto extends Entidade implements Serializable{
     private double aliquota;
     private double comissao;
     private double lucroBruto;
-    private String dataCompra;
+    private Calendar dataCompra;
     private Fornecedor fornecedor;
     private double impostoIbpt;
     private Csons csons;
@@ -41,25 +42,25 @@ public class Produto extends Entidade implements Serializable{
         nome_produto = (String) map.get("nome_produto");
         codigoBarras = (long) map.get("codigoBarras");
         descricao = (String) map.get("descricao");
-        unidade = (Unidade) map.get("unidade" + Funcoes.prefixoChaveEstrangeira());
+        unidade = (Unidade) map.get("unidade");//+ FuncoesGerais.prefixoChaveEstrangeira());
         preco = (double) map.get("preco");
         custoCompra = (double) map.get("custoCompra");
         ultimaCompra = (String) map.get("ultimaCompra");
         qtd = (int) map.get("qtd");
         qtdMinima = (int) map.get("qtdMinima");
-        grupo = (Grupo) map.get("grupo" + Funcoes.prefixoChaveEstrangeira());
-        ncm = (Ncm) map.get("ncm" + Funcoes.prefixoChaveEstrangeira());
+        grupo = (Grupo) map.get("grupo");//+ FuncoesGerais.prefixoChaveEstrangeira());
+        ncm = (Ncm) map.get("ncm");//+ FuncoesGerais.prefixoChaveEstrangeira());
         aliquota = (double) map.get("aliquota");
         comissao = (double) map.get("comissao");
         lucroBruto = (double) map.get("lucroBruto");
-        dataCompra = (String) map.get("dataCompra");
-        fornecedor = (Fornecedor) map.get("fornecedor" + Funcoes.prefixoChaveEstrangeira());
+        dataCompra = (Calendar) map.get("dataCompra");
+        fornecedor = (Fornecedor) map.get("fornecedor");//+ FuncoesGerais.prefixoChaveEstrangeira());
         impostoIbpt = (double) map.get("impostoIbpt");
-        csons = (Csons) map.get("csons" + Funcoes.prefixoChaveEstrangeira());
+        csons = (Csons) map.get("csons");//+ FuncoesGerais.prefixoChaveEstrangeira());
         cit = (String) map.get("cit");
-        tipoItem = (TipoItem) map.get("tipoItem" + Funcoes.prefixoChaveEstrangeira());
-        csonsNfce = (Csons) map.get("csonsNfce" + Funcoes.prefixoChaveEstrangeira());
-        cfop = (Cfop) map.get("cfop" + Funcoes.prefixoChaveEstrangeira());;
+        tipoItem = (TipoItem) map.get("tipoItem");//+ FuncoesGerais.prefixoChaveEstrangeira());
+        csonsNfce = (Csons) map.get("csonsNfce");//+ FuncoesGerais.prefixoChaveEstrangeira());
+        cfop = (Cfop) map.get("cfop");//+ FuncoesGerais.prefixoChaveEstrangeira());
     }
 
     @Override
@@ -123,7 +124,7 @@ public class Produto extends Entidade implements Serializable{
         this.ultimaCompra = ultimaCompra;
     }
 
-    public int getQtd() {
+    public Integer getQtd() {
         return qtd;
     }
 
@@ -131,7 +132,7 @@ public class Produto extends Entidade implements Serializable{
         this.qtd = qtd;
     }
 
-    public int getQtdMinima() {
+    public Integer getQtdMinima() {
         return qtdMinima;
     }
 
@@ -187,11 +188,11 @@ public class Produto extends Entidade implements Serializable{
         this.cest = cest;
     }
 
-    public String getDataCompra() {
+    public Calendar getDataCompra() {
         return dataCompra;
     }
 
-    public void setDataCompra(String dataCompra) {
+    public void setDataCompra(Calendar dataCompra) {
         this.dataCompra = dataCompra;
     }
 

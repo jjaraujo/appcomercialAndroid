@@ -1,40 +1,40 @@
-package br.com.jmdesenvolvimento.appcomercial.model.tabelas;
+package br.com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias;
 
+import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Funcoes;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Produto;
 
 public class TabelaProdutosVenda extends TabelaIntermediaria {
 
-    private int venda_id;
+    private int venda;
     private Produto produto;
     private int qtd;
-    private String dataCadastro;
-    private String dataCancelamento;
+    private Calendar dataCadastro;
+    private Calendar dataCancelamento;
     private String motivoCancelamento;
 
     @Override
     public void setMapAtributos(HashMap<String, Object> map) {
         id = (int) map.get(getIdNome());
-        venda_id = (int) map.get("venda_id");
+        venda = (int) map.get("venda");
         qtd = (int) map.get("qtd");
-        produto = (Produto) map.get("produto"+ Funcoes.prefixoChaveEstrangeira());
-        dataCadastro = (String) map.get("dataCadastro");
-        dataCancelamento = (String) map.get("dataCancelamento");
-        motivoCancelamento = (String) map.get("dataCadastro");
+        produto = (Produto) map.get("produto");//+ FuncoesGerais.prefixoChaveEstrangeira());
+        dataCadastro = (Calendar) map.get("dataCadastro");
+        dataCancelamento = (Calendar) map.get("dataCancelamento");
+        motivoCancelamento = (String) map.get("motivoCancelamento");
     }
 
-    public int getVenda_id() {
-        return venda_id;
+    public Integer getVenda() {
+        return venda;
     }
 
-    public void setVenda_id(int venda_id) {
-        this.venda_id = venda_id;
+    public void setVenda(int venda) {
+        this.venda = venda;
     }
 
-    public int getQtd() {
+    public Integer getQtd() {
         return qtd;
     }
 
@@ -50,19 +50,19 @@ public class TabelaProdutosVenda extends TabelaIntermediaria {
         this.produto = produto;
     }
 
-    public String getDataCadastro() {
+    public Calendar getDataCadastro() {
         return dataCadastro;
     }
 
-    public void setDataCadastro(String dataCadastro) {
+    public void setDataCadastro(Calendar dataCadastro) {
         this.dataCadastro = dataCadastro;
     }
 
-    public String getDataCancelamento() {
+    public Calendar getDataCancelamento() {
         return dataCancelamento;
     }
 
-    public void setDataCancelamento(String dataCancelamento) {
+    public void setDataCancelamento(Calendar dataCancelamento) {
         this.dataCancelamento = dataCancelamento;
     }
 

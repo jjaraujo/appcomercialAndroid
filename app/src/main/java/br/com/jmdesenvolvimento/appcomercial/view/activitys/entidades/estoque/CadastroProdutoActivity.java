@@ -1,12 +1,13 @@
 package br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.estoque;
 
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,19 +20,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-
 import java.lang.reflect.Field;
 import java.util.List;
-import java.util.Locale;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Funcoes;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.VariaveisControle;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
 import br.com.jmdesenvolvimento.appcomercial.model.Tabela;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Fornecedor;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Pessoa;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Cfop;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Csons;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Grupo;
@@ -123,7 +121,7 @@ public class CadastroProdutoActivity extends AppCompatActivity {
                     Toast.makeText(this,"Produto " + produto.getId() +" adicionado!",Toast.LENGTH_SHORT).show();
                 } else {
                     this.produto = getValoresProduto();
-                    Produto produto = (Produto) Funcoes.getTabelaModificada(produtoAntigo, this.produto, new Produto());
+                    Produto produto = (Produto) FuncoesGerais.getTabelaModificada(produtoAntigo, this.produto, new Produto());
                     dao.update(produto,true);
                     finish();
                     Toast.makeText(this,"Produto " + produto.getId() +" alterado!",Toast.LENGTH_SHORT).show();
@@ -148,14 +146,14 @@ public class CadastroProdutoActivity extends AppCompatActivity {
         editTextPreco = findViewById(R.id.editTextPreco);
         editTextGrupo = findViewById(R.id.autoCompleteTextViewGrupo);
         editTextCodigoBarras = findViewById(R.id.editTextCodigoBarras);
-        VariaveisControle.editTextCodigoBarrasCadastroProduto = editTextCodigoBarras;
+        VariaveisControleAndroid.editTextCodigoBarrasCadastroProduto = editTextCodigoBarras;
         editTextCustoCompra = findViewById(R.id.editTextCustoCompra);
         editTextQtd = findViewById(R.id.editTextQtd);
         editTextQtdMinima = findViewById(R.id.editTextQtdMinima);
         editTextComissao = findViewById(R.id.editTextComissao);
         editTextLucroBruto = findViewById(R.id.editTextLucroBruto);
         editTextDataCompra = findViewById(R.id.editTextDataCompra);
-        Funcoes.addCliqueToOpenCalendar(this,editTextDataCompra);
+        FuncoesViewAndroid.addCalendar(this,editTextDataCompra);
         editTextFornecedor = findViewById(R.id.autoCompleteTextViewFornecedor);
         editTextImpostoIbpt = findViewById(R.id.editTextImposto);
         editTextCsons = findViewById(R.id.autoCompleteTextViewCSOSN);
@@ -178,21 +176,21 @@ public class CadastroProdutoActivity extends AppCompatActivity {
     }
 
     private Produto getValoresProduto() {
-        produto.setAliquota(Funcoes.corrigeValoresCamposDouble(editTextAliquota.getText().toString()));
-        produto.setCit(Funcoes.corrigeValoresCampos(editTextCit.getText().toString()));
-        produto.setCodigoBarras(Funcoes.corrigeValoresCamposLong(editTextCodigoBarras.getText().toString()));
-        produto.setComissao(Funcoes.corrigeValoresCamposDouble(editTextComissao.getText().toString()));
-        produto.setCustoCompra(Funcoes.corrigeValoresCamposDouble(editTextCustoCompra.getText().toString()));
-        produto.setDataCompra(Funcoes.corrigeValoresCampos(editTextDataCompra.getText().toString()));
-        produto.setDescricao(Funcoes.corrigeValoresCampos(editTextDescricao.getText().toString()));
-        produto.setCest(Funcoes.corrigeValoresCampos(editTextCest.getText().toString()));
-        produto.setImpostoIbpt(Funcoes.corrigeValoresCamposDouble(editTextImpostoIbpt.getText().toString()));
-        produto.setLucroBruto(Funcoes.corrigeValoresCamposDouble(editTextLucroBruto.getText().toString()));
-        //      produto.setUltimaCompra(Funcoes.corrigeValoresCampos(c));
-        produto.setNome_produto(Funcoes.corrigeValoresCampos(editTextNomeProduto.getText().toString()));
-        produto.setPreco(Funcoes.corrigeValoresCamposDouble(editTextPreco.getText().toString()));
-        produto.setQtd(Funcoes.corrigeValoresCamposInt(editTextQtd.getText().toString()));
-        produto.setQtdMinima(Funcoes.corrigeValoresCamposInt(editTextQtdMinima.getText().toString()));
+        produto.setAliquota(FuncoesGerais.corrigeValoresCamposDouble(editTextAliquota.getText().toString()));
+        produto.setCit(FuncoesGerais.corrigeValoresCampos(editTextCit.getText().toString()));
+        produto.setCodigoBarras(FuncoesGerais.corrigeValoresCamposLong(editTextCodigoBarras.getText().toString()));
+        produto.setComissao(FuncoesGerais.corrigeValoresCamposDouble(editTextComissao.getText().toString()));
+        produto.setCustoCompra(FuncoesGerais.corrigeValoresCamposDouble(editTextCustoCompra.getText().toString()));
+        produto.setDataCompra(FuncoesGerais.stringToCalendar(editTextDataCompra.getText().toString(), FuncoesGerais.ddMMyyyy));
+        produto.setDescricao(FuncoesGerais.corrigeValoresCampos(editTextDescricao.getText().toString()));
+        produto.setCest(FuncoesGerais.corrigeValoresCampos(editTextCest.getText().toString()));
+        produto.setImpostoIbpt(FuncoesGerais.corrigeValoresCamposDouble(editTextImpostoIbpt.getText().toString()));
+        produto.setLucroBruto(FuncoesGerais.corrigeValoresCamposDouble(editTextLucroBruto.getText().toString()));
+        //      produto.setUltimaCompra(FuncoesGerais.corrigeValoresCampos(c));
+        produto.setNome_produto(FuncoesGerais.corrigeValoresCampos(editTextNomeProduto.getText().toString()));
+        produto.setPreco(FuncoesGerais.corrigeValoresCamposDouble(editTextPreco.getText().toString()));
+        produto.setQtd(FuncoesGerais.corrigeValoresCamposInt(editTextQtd.getText().toString()));
+        produto.setQtdMinima(FuncoesGerais.corrigeValoresCamposInt(editTextQtdMinima.getText().toString()));
         return produto;
     }
 
@@ -271,95 +269,112 @@ public class CadastroProdutoActivity extends AppCompatActivity {
         editTextCfopNfce.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                editTextCfopNfce.setAdapter(getAdapterEntidade(new Cfop()));
+                editTextCfopNfce.setAdapter(getAdapterEntidade(new Cfop(),"id",""));
             }
         });
 
         editTextGrupo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                editTextGrupo.setAdapter(getAdapterEntidade(new Grupo()));
+                editTextGrupo.setAdapter(getAdapterEntidade(new Grupo(),"id",""));
             }
         });
-        editTextFornecedor.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+        editTextFornecedor.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                editTextFornecedor.setAdapter(getAdapterEntidade(new Fornecedor()));
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                editTextFornecedor.setAdapter(getAdapterFonecedor(s.toString()));
             }
         });
+
         editTextCsons.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                editTextCsons.setAdapter(getAdapterEntidade(new Csons()));
+                editTextCsons.setAdapter(getAdapterEntidade(new Csons(),"id",""));
             }
         });
         editTextTipoItem.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                editTextTipoItem.setAdapter(getAdapterEntidade(new TipoItem()));
+                editTextTipoItem.setAdapter(getAdapterEntidade(new TipoItem(),"id",""));
             }
         });
         editTextCsonsNfce.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                editTextCsonsNfce.setAdapter(getAdapterEntidade(new Csons()));
+                editTextCsonsNfce.setAdapter(getAdapterEntidade(new Csons(),"id",""));
             }
         });
         editTextNcmTip.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                editTextNcmTip.setAdapter(getAdapterEntidade(new Ncm()));
+                editTextNcmTip.setAdapter(getAdapterEntidade(new Ncm(),"id",""));
             }
         });
         editTextUnidade.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                editTextUnidade.setAdapter(getAdapterEntidade(new Unidade()));
+                editTextUnidade.setAdapter(getAdapterEntidade(new Unidade(),"id",""));
             }
         });
     }
 
     /**Monta o adapter genérico para as tabelas que serão listadas no formulário de cadastro através de autocomplete*/
-    private ArrayAdapter<Tabela> getAdapterEntidade(Tabela entidade) {
+    private ArrayAdapter<Tabela> getAdapterEntidade(Tabela entidade,String sequencia, String colunaFiltro) {
         ProgressDialog dialog = new ProgressDialog(CadastroProdutoActivity.this);
-        dialog.setMessage("Carregando dados");
         dialog.show();
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(CadastroProdutoActivity.this);
-
-        List<Tabela> list = (List<Tabela>) dao.selectAll(entidade, null, false);
+        List<Tabela> list = (List<Tabela>) dao.selectAll(entidade, colunaFiltro +" like %" +sequencia+"%" , false);
         ArrayAdapter adapter = new ArrayAdapter(CadastroProdutoActivity.this, android.R.layout.simple_dropdown_item_1line, list);
-        dialog.setMessage("Concluído");
         dialog.dismiss();
+        dao.close();
+        return adapter;
+    }
+
+    private  ArrayAdapter<Fornecedor> getAdapterFonecedor(String s){
+        SQLiteDatabaseDao dao = new SQLiteDatabaseDao(CadastroProdutoActivity.this);
+        List<Tabela> list = dao.buscaPessoaPorNomeCpf(new Fornecedor(), "nome_pessoa",s);
+        ArrayAdapter adapter = new ArrayAdapter(CadastroProdutoActivity.this, android.R.layout.simple_dropdown_item_1line, list);
         dao.close();
         return adapter;
     }
 
     private void setValoresCampos(Produto produto) {
         Log.i("setValoresCampos", "entrou");
-        editTextAliquota.setText(Funcoes.removeNullZeroFormularios(produto.getAliquota() + ""));
-        editTextCit.setText(Funcoes.removeNullZeroFormularios(produto.getCit() + ""));
-        editTextCodigoBarras.setText(Funcoes.removeNullZeroFormularios(produto.getCodigoBarras() + ""));
-        editTextComissao.setText(Funcoes.removeNullZeroFormularios(produto.getComissao() + ""));
-        editTextCustoCompra.setText(Funcoes.removeNullZeroFormularios(produto.getCustoCompra() + ""));
-        editTextDataCompra.setText(Funcoes.removeNullZeroFormularios(produto.getDataCompra() + ""));
-        editTextDescricao.setText(Funcoes.removeNullZeroFormularios(produto.getDescricao() + ""));
-        editTextCest.setText(Funcoes.removeNullZeroFormularios(produto.getCest() + ""));
-        editTextImpostoIbpt.setText(Funcoes.removeNullZeroFormularios(produto.getImpostoIbpt() + ""));
-        editTextLucroBruto.setText(Funcoes.removeNullZeroFormularios(produto.getLucroBruto() + ""));
-        //      produto.setUltimaCompra(Funcoes.corrigeValoresCampos(c));
-        editTextNomeProduto.setText(Funcoes.removeNullZeroFormularios(produto.getNome_produto() + ""));
-        editTextPreco.setText(Funcoes.removeNullZeroFormularios(produto.getPreco() + ""));
-        editTextQtd.setText(Funcoes.removeNullZeroFormularios(produto.getQtd() + ""));
-        editTextQtdMinima.setText(Funcoes.removeNullZeroFormularios(produto.getQtdMinima() + ""));
-        editTextCfopNfce.setText(Funcoes.removeNullZeroFormularios(produto.getCfop().getNome_cfop()));
-        editTextGrupo.setText(Funcoes.removeNullZeroFormularios(produto.getGrupo().getNome_grupo()));
+        editTextAliquota.setText(FuncoesGerais.removeNullZeroFormularios(produto.getAliquota() + ""));
+        editTextCit.setText(FuncoesGerais.removeNullZeroFormularios(produto.getCit() + ""));
+        editTextCodigoBarras.setText(FuncoesGerais.removeNullZeroFormularios(produto.getCodigoBarras() + ""));
+        editTextComissao.setText(FuncoesGerais.removeNullZeroFormularios(produto.getComissao() + ""));
+        editTextCustoCompra.setText(FuncoesGerais.removeNullZeroFormularios(produto.getCustoCompra() + ""));
+        editTextDataCompra.setText(FuncoesGerais.removeNullZeroFormularios(produto.getDataCompra() + ""));
+        editTextDescricao.setText(FuncoesGerais.removeNullZeroFormularios(produto.getDescricao() + ""));
+        editTextCest.setText(FuncoesGerais.removeNullZeroFormularios(produto.getCest() + ""));
+        editTextImpostoIbpt.setText(FuncoesGerais.removeNullZeroFormularios(produto.getImpostoIbpt() + ""));
+        editTextLucroBruto.setText(FuncoesGerais.removeNullZeroFormularios(produto.getLucroBruto() + ""));
+        //      produto.setUltimaCompra(FuncoesGerais.corrigeValoresCampos(c));
+        editTextNomeProduto.setText(FuncoesGerais.removeNullZeroFormularios(produto.getNome_produto() + ""));
+        editTextPreco.setText(FuncoesGerais.removeNullZeroFormularios(produto.getPreco() + ""));
+        editTextQtd.setText(FuncoesGerais.removeNullZeroFormularios(produto.getQtd() + ""));
+        editTextQtdMinima.setText(FuncoesGerais.removeNullZeroFormularios(produto.getQtdMinima() + ""));
+        editTextCfopNfce.setText(FuncoesGerais.removeNullZeroFormularios(produto.getCfop().getNome_cfop()));
+        editTextGrupo.setText(FuncoesGerais.removeNullZeroFormularios(produto.getGrupo().getNome_grupo()));
 
-        editTextFornecedor.setText(Funcoes.removeNullZeroFormularios(produto.getFornecedor().getPessoa().getNome()));
-        editTextCsons.setText(Funcoes.removeNullZeroFormularios(produto.getCsons().getNome_csons()));
-        editTextTipoItem.setText(Funcoes.removeNullZeroFormularios(produto.getTipoItem().getNome_tipo_item()));
-        editTextCsonsNfce.setText(Funcoes.removeNullZeroFormularios(produto.getCsonsNfce().getNome_csons()));
-        editTextNcmTip.setText(Funcoes.removeNullZeroFormularios(produto.getNcm()+""));
-        editTextUnidade.setText(Funcoes.removeNullZeroFormularios(produto.getUnidade().getNome_unidade()));
+        editTextFornecedor.setText(FuncoesGerais.removeNullZeroFormularios(produto.getFornecedor().getPessoa().getNome()));
+        editTextCsons.setText(FuncoesGerais.removeNullZeroFormularios(produto.getCsons().getNome_csons()));
+        editTextTipoItem.setText(FuncoesGerais.removeNullZeroFormularios(produto.getTipoItem().getNome_tipo_item()));
+        editTextCsonsNfce.setText(FuncoesGerais.removeNullZeroFormularios(produto.getCsonsNfce().getNome_csons()));
+        editTextNcmTip.setText(FuncoesGerais.removeNullZeroFormularios(produto.getNcm()+""));
+        editTextUnidade.setText(FuncoesGerais.removeNullZeroFormularios(produto.getUnidade().getNome_unidade()));
         Log.i("setValoresCampos", "saiu");
     }
 

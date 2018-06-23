@@ -4,7 +4,7 @@ package br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral;
 import java.io.Serializable;
 import java.util.HashMap;
 
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Funcoes;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.Entidade;
 
 public class Municipio extends Entidade implements Serializable {
@@ -29,6 +29,6 @@ public class Municipio extends Entidade implements Serializable {
 	public void setMapAtributos(HashMap<String, Object> map) {
 		id = (Integer) map.get(getIdNome());
 		nome_municipio = (String) map.get("nome_municipio");
-		estado = (Estado) map.get("estado"+ Funcoes.prefixoChaveEstrangeira());
+		estado = (Estado) map.get("estado");//+ FuncoesGerais.prefixoChaveEstrangeira());
 	}
 }

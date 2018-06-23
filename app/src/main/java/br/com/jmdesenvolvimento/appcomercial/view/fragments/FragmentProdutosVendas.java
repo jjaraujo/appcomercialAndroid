@@ -10,16 +10,19 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.Funcoes;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionais.VariaveisControle;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.VariaveisControleG;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.ProdutoDAO;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
 import br.com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
-import br.com.jmdesenvolvimento.appcomercial.model.tabelas.TabelaProdutosVenda;
-import br.com.jmdesenvolvimento.appcomercial.view.adapters.ArrayAdapterTabelas;
+import br.com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaProdutosVenda;
+import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas.ArrayAdapterTabelaProdutosVendas;
 import br.com.jmdesenvolvimento.appcomercial.view.dialogFragment.DialogQuantidadeProduto;
 
 public class FragmentProdutosVendas extends Fragment {
@@ -31,15 +34,15 @@ public class FragmentProdutosVendas extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_produtos, container, false);
         lista = (ListView) view.findViewById(R.id.produtosDaVenda);
-        VariaveisControle.fragmentProdutos = this;
+        VariaveisControleAndroid.fragmentProdutos = this;
 
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 tabelaProdutosVendaClicado = (TabelaProdutosVenda) lista.getItemAtPosition(position);
-                VariaveisControle.qtdSelecionadaProdutoVenda = tabelaProdutosVendaClicado.getQtd();
+                VariaveisControleAndroid.qtdSelecionadaProdutoVenda = tabelaProdutosVendaClicado.getQtd();
                 FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                DialogQuantidadeProduto dialog = new DialogQuantidadeProduto();
+                DialogQuantidadeProduto dialog = new DialogQuantidadeProduto(tabelaProdutosVendaClicado.getProduto());
                 dialog.setCancelable(true);
                 dialog.show(ft,"alterarQtdProduto");
             }
@@ -64,21 +67,24 @@ public class FragmentProdutosVendas extends Fragment {
 
     public void carregaLista() {
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(getContext());
-        Venda venda = VariaveisControle.vendaSelecionada;
+        Venda venda = VariaveisControleG.vendaSelecionada;
         String where = null;
         if (venda != null) {
-            where = " venda_id = " + venda.getId();
+            where = " venda = " + venda.getId();
             List<TabelaProdutosVenda> tpv = (List<TabelaProdutosVenda>) dao.selectAll(new TabelaProdutosVenda(), where, false);
-            ArrayAdapterTabelas adapter = new ArrayAdapterTabelas(getContext(), tpv,ArrayAdapterTabelas.TIPO_TABELA_PRODUTOS_VENDA);
+            ArrayAdapterTabelaProdutosVendas adapter = new ArrayAdapterTabelaProdutosVendas(getContext(), tpv);
             venda.setTabelaProdutosVenda(tpv);
             lista.setAdapter(adapter);
+        } else{
+            ArrayAdapterTabelaProdutosVendas adapter = new ArrayAdapterTabelaProdutosVendas(getContext(), new ArrayList<TabelaProdutosVenda>());
+            lista.setAdapter(adapter);
         }
-        Funcoes.alteraValorVendaSelecionada();
+        FuncoesViewAndroid.alteraValorButtonFinalizarVendaSelecionada();
     }
 
     public void alteraQtdProdutoVenda(int qtdAnterior){
 
-        tabelaProdutosVendaClicado.setQtd(VariaveisControle.qtdSelecionadaProdutoVenda);
+        tabelaProdutosVendaClicado.setQtd(VariaveisControleAndroid.qtdSelecionadaProdutoVenda);
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(getContext());
         dao.updateQtdProdutoVenda(tabelaProdutosVendaClicado);
         ProdutoDAO produtoDAO = new ProdutoDAO(getContext());

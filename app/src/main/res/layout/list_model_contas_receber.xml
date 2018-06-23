@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textViewContaRecebrNomeCliente"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="14dp"
+        android:text="João Maria Furtado Araújo Junior"
+        android:textStyle="bold"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/textViewContaReceberDataVencimento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/textViewContaRecebrNomeCliente"
+        android:layout_alignTop="@+id/textViewContaReceberTipoPagamento"
+        android:text="20/06/2018"
+        android:textSize="15dp" />
+
+    <TextView
+        android:id="@+id/textViewContaReceberTipoPagamento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/divider3"
+        android:layout_toEndOf="@+id/imageViewContaReceberImagemTipoPagamento"
+        android:text="Boleto"
+        android:textSize="15dp" />
+
+    <ImageView
+        android:id="@+id/imageViewContaReceberImagemTipoPagamento"
+        android:layout_width="31dp"
+        android:layout_height="38dp"
+        android:layout_below="@+id/textViewContaRecebrNomeCliente"
+        android:layout_toEndOf="@+id/textViewContaReceberNumeroParcela"
+        android:layout_marginStart="30dp"
+        app:srcCompat="@mipmap/ic_launcher" />
+
+    <TextView
+        android:id="@+id/textViewContaReceberNumeroParcela"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textViewContaReceberDataVencimento"
+        android:layout_toEndOf="@+id/textViewContaReceberDataVencimento"
+        android:layout_marginStart="30dp"
+        android:text=" 1 de 5"
+        android:textSize="15dp" />
+
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="1dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/textViewContaRecebrNomeCliente"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="83dp"
+        android:background="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/textViewValorContaReceber"
+        android:layout_width="75dp"
+        android:layout_height="45dp"
+        android:layout_alignBottom="@+id/textViewContaReceberDataVencimento"
+        android:layout_alignStart="@+id/divider3"
+        android:text="R$90"
+        android:textAlignment="center"
+        android:textSize="18dp" />
+
+</RelativeLayout>

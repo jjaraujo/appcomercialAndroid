@@ -3,23 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="170dp"
-    android:layout_height="150dp"
+    android:layout_height="130dp"
     android:layout_marginStart="10dp"
     android:layout_marginTop="12dp"
     android:background="#e6e6e6"
     android:elevation="4dp"
     android:stateListAnimator="@null">
 
-        <TextView
-            android:id="@+id/textViewTipoPagamento"
-            android:layout_width="match_parent"
-            android:layout_height="53dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:text="Cartão de Crédito"
-            android:textAlignment="center"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+
 
         <ImageView
             android:id="@+id/imageViewIconeTipoPagamento"
@@ -28,5 +19,16 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             app:srcCompat="@drawable/icone_cartao" />
+
+        <TextView
+            android:id="@+id/textViewTipoPagamento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/imageViewIconeTipoPagamento"
+            android:text="Cartão de Crédito"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
 </RelativeLayout>
