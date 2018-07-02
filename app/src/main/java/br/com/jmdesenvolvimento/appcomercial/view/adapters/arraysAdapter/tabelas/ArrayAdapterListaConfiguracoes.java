@@ -6,7 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,18 +18,18 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.List;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.VariaveisControleG;
-import br.com.jmdesenvolvimento.appcomercial.model.Tabela;
+import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.VariaveisControleG;
+import com.jmdesenvolvimento.appcomercial.model.Configuracoes;
+import com.jmdesenvolvimento.appcomercial.model.Tabela;
+
+import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.vendas.TipoPagamento;
-import br.com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.Configuracoes;
+import com.jmdesenvolvimento.appcomercial.model.entidades.vendas.TipoPagamento;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.configuracoes.ConfigurarPagamentosActivity;
 
 public class ArrayAdapterListaConfiguracoes extends BaseAdapter {
@@ -47,7 +47,7 @@ public class ArrayAdapterListaConfiguracoes extends BaseAdapter {
     private int tipo;
 
     /**Informar um dos tipos statics da classe*/
-    public ArrayAdapterListaConfiguracoes(Context context,ListView listView, List<Tabela> list, int tipo) {
+    public ArrayAdapterListaConfiguracoes(Context context, ListView listView, List<Tabela> list, int tipo) {
         this.context = context;
         this.listView = listView;
         this.list = list;
@@ -94,9 +94,9 @@ public class ArrayAdapterListaConfiguracoes extends BaseAdapter {
         switch (position) {
             case 5:
                 switchButton.setVisibility(View.VISIBLE);
-                nomeCampo = "vendaSemCliente";
-                switchButton.setChecked(VariaveisControleG.configuracoesSimples.isVendaSemCliente());
-                setAcoesCliquesButton(switchButton, nomeCampo, " vendas sem cliente");
+                nomeCampo = "vendaMesaComanda";
+                switchButton.setChecked(VariaveisControleG.configuracoesSimples.isVendaMesaComanda());
+                setAcoesCliquesButton(switchButton, nomeCampo, " vendas por ");
                 break;
             case 6:
                 switchButton.setVisibility(View.VISIBLE);
@@ -164,28 +164,36 @@ public class ArrayAdapterListaConfiguracoes extends BaseAdapter {
 
         switchButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                final Spinner spinner = new Spinner(context);
+            public void onClick(final View v) {
+                final View view = View.inflate(context,R.layout.dialog_pergunta_tipo_venda,null);
+                final Spinner spinner = view.findViewById(R.id.spinnerPerguntaTipoVenda);
+                final TextInputEditText editText = view.findViewById(R.id.editTextQtdAbrir);
                 final String[] tipos = {"Mesa","Comanda"};
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(context,android.R.layout.simple_spinner_dropdown_item,tipos);
                 spinner.setAdapter(adapter);
                 if (switchButton.isChecked()) {
-                    if(nomeCampo.equals("vendaSemCliente")) {
+                    if(nomeCampo.equals("vendaMesaComanda")) {
                         new AlertDialog.Builder(context)
-                                .setView(spinner)
+                                .setView(view)
                                 .setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        if (spinner.getSelectedItem() != null) {
-                                            Snackbar.make(switchButton, "Agora você aceita" + nomeCampotextoMensagem, Snackbar.LENGTH_LONG).show();
-                                            map.put("vendaSemCliente",1);
-                                            map.put("nomeTipoVenda",spinner.getSelectedItem().toString());
+                                        if (spinner.getSelectedItem() != null && !editText.getText().toString().equals("")) {
+                                            String tipoVenda =  spinner.getSelectedItem().toString();
+                                            map.put("vendaMesaComanda", true);
+                                            map.put("nomeTipoVenda",tipoVenda);
+                                            map.put("numeroDeMesasComandas", Integer.parseInt(editText.getText().toString()));
                                             configuracoes.setMapAtributos(map);
                                             final SQLiteDatabaseDao dao = new SQLiteDatabaseDao(context);
                                             dao.update(configuracoes, false);
                                             dao.close();
+                                            FuncoesViewAndroid.addSnackBarToast(v,context,
+                                                    "Agora você aceita venda por " + tipoVenda.toLowerCase());
                                         } else {
-                                            Toast.makeText(context, "Ecolha um tipo de venda", Toast.LENGTH_LONG).show();
+                                            dialog.cancel();
+                                            FuncoesViewAndroid.addSnackBarToast(v, context,
+                                                    "Ecolha um tipo de venda ou informe a quantidade para abrir");
+                                            switchButton.setChecked(false);
                                         }
                                     }
                                 })
@@ -205,16 +213,16 @@ public class ArrayAdapterListaConfiguracoes extends BaseAdapter {
                         configuracoes.setMapAtributos(map);
                         final SQLiteDatabaseDao dao = new SQLiteDatabaseDao(context);
                         dao.update(configuracoes, false);
-                        Snackbar.make(switchButton, "Agora você aceita" + nomeCampotextoMensagem, Snackbar.LENGTH_LONG).show();
+                        FuncoesViewAndroid.addSnackBarToast(switchButton, context,"Agora você aceita" + nomeCampotextoMensagem);
                         dao.close();
                     }
                 } else {
                     if(nomeCampo.equals("vendaSemEstoque")) {
                         map.put("vendaSemEstoque",false);
                     } else{
-                        map.put("vendaSemCliente",false);
+                        map.put("vendaMesaComanda",false);
                     }
-                    Snackbar.make(switchButton,"Você optou por não aceitar mais" + nomeCampotextoMensagem,Snackbar.LENGTH_LONG).show();
+                    FuncoesViewAndroid.addSnackBarToast(switchButton,context,"Você optou por não aceitar mais" + nomeCampotextoMensagem);
                     configuracoes.setMapAtributos(map);
                     final SQLiteDatabaseDao dao = new SQLiteDatabaseDao(context);
                     dao.update(configuracoes, false);

@@ -22,17 +22,16 @@ import java.util.List;
 import br.com.jmdesenvolvimento.appcomercial.R;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesVendas;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
+import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.VariaveisControleG;
-import br.com.jmdesenvolvimento.appcomercial.model.Tabela;
+import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.VariaveisControleG;
+import com.jmdesenvolvimento.appcomercial.model.Tabela;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.ProdutoDAO;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.Entidade;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Cliente;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Produto;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
-import br.com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaProdutosVenda;
+import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Cliente;
+import com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Produto;
+import com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
+import com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaProdutosVenda;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.LeitorCodigoBarrasActivity;
 import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas.ArrayAdapterClientes;
 import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas.ArrayAdapterProdutos;
@@ -42,19 +41,23 @@ public class DialogEscolherEntidade extends DialogFragment {
 
     private int numStyle;
     private int theme;
-    private int fragmentSelecionado;
+    //   private int fragmentSelecionado;
+    private int tipoEntidade;
+    public static final int TIPO_CLIENTE = 0;
+    public final static  int TIPO_PRODUTO = 1;
     private ListView lista;
-    private Entidade entidade;
+    private Tabela entidade;
     private SearchView searchView;
     private View view;
     private ImageView imageViewCamera;
     private ImageView imageViewContador;
+
     List<Tabela> listTabela;
 
-    public DialogEscolherEntidade(int nulStyle, int theme, int fragmentSelecionado) {
+    public DialogEscolherEntidade(int nulStyle, int theme, int tipoEntidade) {
         this.numStyle = nulStyle;
         this.theme = theme;
-        this.fragmentSelecionado = fragmentSelecionado;
+        this.tipoEntidade = tipoEntidade;
     }
 
     @Override
@@ -120,14 +123,14 @@ public class DialogEscolherEntidade extends DialogFragment {
             }
         });
 
-        switch (fragmentSelecionado) {
-            case 0:
-                if(VariaveisControleG.configuracoesSimples.isVendaSemCliente()){
+        switch (tipoEntidade) {
+            case TIPO_CLIENTE:
+                if(VariaveisControleG.configuracoesSimples.isVendaMesaComanda()){
                     imageViewContador.setVisibility(View.VISIBLE);
                 }
                searchView.setQueryHint("Buscar clientes...");
                 break;
-            case 1:
+            case TIPO_PRODUTO:
                 imageViewCamera.setVisibility(View.VISIBLE);
                 searchView.setQueryHint("Buscar produtos...");
                 break;
@@ -137,7 +140,7 @@ public class DialogEscolherEntidade extends DialogFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                switch (fragmentSelecionado) {
+                switch (tipoEntidade) {
                     case 0:
                             addCliente(parent, position);
                         break;
@@ -214,7 +217,7 @@ public class DialogEscolherEntidade extends DialogFragment {
         ProdutoDAO produtoDao = new ProdutoDAO(getContext());
         produtoDao.subtraiEstoque(tpv);
         dao.close();
-        VariaveisControleAndroid.fragmentProdutos.carregaLista();
+        VariaveisControleAndroid.produtosVendaActivity.carregaLista();
         FuncoesViewAndroid.alteraViewVendaSelecionada();
       //  openDialogFragment();
     }
@@ -225,8 +228,8 @@ public class DialogEscolherEntidade extends DialogFragment {
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(getContext());
         BaseAdapter arrayAdapter = null;
 
-        switch (fragmentSelecionado) {
-            case 0:
+        switch (tipoEntidade) {
+            case TIPO_CLIENTE:
                 Cliente cliente = new Cliente();
                 entidade = cliente;
                 if (query != null && FuncoesGerais.stringIsSomenteNumero(query)) {
@@ -239,7 +242,7 @@ public class DialogEscolherEntidade extends DialogFragment {
                 arrayAdapter = new ArrayAdapterClientes(getContext(),listTabela);
                 break;
 
-            case 1:
+            case TIPO_PRODUTO:
                 Produto produto = new Produto();
                 entidade = produto;
                 if (query != null) {
@@ -276,7 +279,7 @@ public class DialogEscolherEntidade extends DialogFragment {
 
     public void openDialogFragment(AdapterView<?> parent, int position) {
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        if (fragmentSelecionado == 1 && VariaveisControleG.vendaSelecionada == null) {
+        if (tipoEntidade == TIPO_CLIENTE && VariaveisControleG.vendaSelecionada == null) {
             new AlertDialog.Builder(getContext()).
                     setMessage("Nenhuma venda selecionada!").show();
             //  alert.setMessage("Não");

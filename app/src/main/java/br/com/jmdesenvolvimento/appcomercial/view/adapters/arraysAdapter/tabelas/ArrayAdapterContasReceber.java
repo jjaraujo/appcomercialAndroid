@@ -5,21 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesMatematicas;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.VariaveisControleG;
-import br.com.jmdesenvolvimento.appcomercial.model.Tabela;
-import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.contas.ContaReceber;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
-import br.com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaPagamento;
+import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
+import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesMatematicas;
+import com.jmdesenvolvimento.appcomercial.model.Tabela;
+import com.jmdesenvolvimento.appcomercial.model.entidades.contas.ContaReceber;
 
 public class ArrayAdapterContasReceber extends BaseAdapter {
     private List<Tabela> list;

@@ -3,10 +3,9 @@ package br.com.jmdesenvolvimento.appcomercial.model.dao;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.VariaveisControleG;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Produto;
-import br.com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaProdutosVenda;
+import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.VariaveisControleG;
+import com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Produto;
+import com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaProdutosVenda;
 
 public class ProdutoDAO  extends SQLiteDatabaseDao{
 

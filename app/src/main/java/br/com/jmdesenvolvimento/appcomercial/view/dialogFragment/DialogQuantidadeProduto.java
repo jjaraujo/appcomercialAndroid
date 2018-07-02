@@ -12,10 +12,10 @@ import android.widget.EditText;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
+import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.VariaveisControleG;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Produto;
+import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.VariaveisControleG;
+import com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Produto;
 
 @SuppressLint("ValidFragment")
 public class DialogQuantidadeProduto extends DialogFragment {
@@ -78,7 +78,7 @@ public class DialogQuantidadeProduto extends DialogFragment {
                     if (modificarProduto == false) {
                         VariaveisControleAndroid.dialogEscolherEntidade.addProdutoNaVenda(parent, position);
                     } else {
-                        VariaveisControleAndroid.fragmentProdutos.alteraQtdProdutoVenda(qtdAnterior);
+                        VariaveisControleAndroid.produtosVendaActivity.alteraQtdProdutoVenda(qtdAnterior);
                     }
                     dismiss();
                 } else {

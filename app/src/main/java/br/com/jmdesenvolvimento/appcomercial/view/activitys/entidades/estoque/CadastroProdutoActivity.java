@@ -25,18 +25,18 @@ import java.util.List;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
+import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
-import br.com.jmdesenvolvimento.appcomercial.model.Tabela;
+import com.jmdesenvolvimento.appcomercial.model.Tabela;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Fornecedor;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Cfop;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Csons;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Grupo;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Ncm;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Produto;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.TipoItem;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Unidade;
+import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Fornecedor;
+import com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Cfop;
+import com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Csons;
+import com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Grupo;
+import com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Ncm;
+import com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Produto;
+import com.jmdesenvolvimento.appcomercial.model.entidades.estoque.TipoItem;
+import com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Unidade;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.LeitorCodigoBarrasActivity;
 
 public class CadastroProdutoActivity extends AppCompatActivity {
@@ -330,7 +330,7 @@ public class CadastroProdutoActivity extends AppCompatActivity {
     }
 
     /**Monta o adapter genérico para as tabelas que serão listadas no formulário de cadastro através de autocomplete*/
-    private ArrayAdapter<Tabela> getAdapterEntidade(Tabela entidade,String sequencia, String colunaFiltro) {
+    private ArrayAdapter<Tabela> getAdapterEntidade(Tabela entidade, String sequencia, String colunaFiltro) {
         ProgressDialog dialog = new ProgressDialog(CadastroProdutoActivity.this);
         dialog.show();
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(CadastroProdutoActivity.this);

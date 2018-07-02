@@ -12,150 +12,47 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.VerificaTipos;
-import br.com.jmdesenvolvimento.appcomercial.model.Tabela;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.Entidade;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.Estado;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.Municipio;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Cliente;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Fornecedor;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Pessoa;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Vendedor;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.contas.ContaReceber;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Cfop;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Csons;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Cst;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Grupo;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Ncm;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Produto;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.TipoItem;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Unidade;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.vendas.TipoPagamento;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
-import br.com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaParcelasPagamento;
-import br.com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaPagamento;
-import br.com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaProdutosVenda;
-import br.com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.Configuracoes;
+import com.jmdesenvolvimento.appcomercial.controller.FuncoesSql;
+import com.jmdesenvolvimento.appcomercial.controller.TabelasMapeadas;
+import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
+import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.VerificaTipos;
+import com.jmdesenvolvimento.appcomercial.model.Tabela;
+import com.jmdesenvolvimento.appcomercial.model.dao.IConnection;
+import com.jmdesenvolvimento.appcomercial.model.entidades.Entidade;
+import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Pessoa;
+import com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaProdutosVenda;
 
 public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
     public static final String NOME_BANCO = "appcomercial";
     private static final int VERSAO = 6;
-    Context context;
-
-    private Tabela[] tabelas = {
-            new Configuracoes(),new TipoPagamento(),new Pessoa(), new Cliente(),
-            new Municipio(), new Produto(), new Ncm(), new Grupo(),new Estado(),
-            new Fornecedor(), new Cfop(), new Csons(), new TipoItem(),new Vendedor(),
-            new Unidade(), new Vendedor(), new TabelaProdutosVenda(), new Venda(),
-            new Cst(), new TabelaPagamento(), new TabelaParcelasPagamento(), new ContaReceber()
-    };
+    // private Context context;
+    private SQLiteDatabase db;
 
     public SQLiteDatabaseDao(Context context) {
         super(context, NOME_BANCO, null, VERSAO);
-        this.context = context;
+      //  this.context = context;
     }
 
 
     public void onCreate(SQLiteDatabase db) {
-        Calendar calendar = new GregorianCalendar();
-        calendar.setTimeInMillis(0);
-        Log.i("longs",calendar.getTimeInMillis()+"");
-        for (int i = 0; i < tabelas.length; i++) {
-            String sql = "CREATE TABLE IF NOT EXISTS " + tabelas[i].getNomeTabela(false) + "(";
-
-            String[] nomeAtributos = tabelas[i].getNomesAtributos();
-            // verificar a possibilidade de pegar esses nomes direto do map
-            for (int j = 0; j < nomeAtributos.length; j++) {
-                String nome = nomeAtributos[j];
-                Object atributo = FuncoesGerais.getFieldDeTabela(nome,tabelas[i]);
-                if (nome == null) {
-                    continue;
-                }
-                sql += "," + substituiTiposVariaveis(nomeAtributos[j], tabelas[i],atributo);
-            }
-            sql = sql.replace("(,", "(");
-            sql = sql + ");";
-
-            Log.i("Criando tabela", sql);
-            db.execSQL(sql);
-            insereRegistrosIniciais(db, tabelas[i]);
-        }
+        this.db = db;
+        FuncoesSql.createTables(this, FuncoesSql.SQLITE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if(newVersion == 6){
-            for(Tabela t : tabelas) {
+            for(Tabela t : TabelasMapeadas.tabelas) {
                 String sql = "DROP TABLE IF EXISTS " + t.getNomeTabela(false) +";";
                 Log.i("DROP TABLE",t.getNomeTabela(false));
                 db.execSQL(sql);
             }
             onCreate(db);
         }
-    }
-
-
-    private void insereRegistrosIniciais(SQLiteDatabase db, Tabela tabela){
-
-        if (tabela.getPrecisaRegistroInicial()) {
-            if(tabela.getListValoresIniciais() == null || tabela.getListValoresIniciais().isEmpty()){
-                Log.e("Erro Inserir Vlr Incial","getListValoresIniciais() da " +
-                        tabela.getNomeTabela(false) +" é nulo ou vazio!" );
-                return;
-            }
-
-            for (Tabela t : tabela.getListValoresIniciais()) {
-                insereRegistroInicial(t,db);
-            }
-        }
-    }
-
-    private void insereRegistroInicial(Tabela tabela,SQLiteDatabase db){
-        tabela.setId(countIdEntidadeCriacao(tabela,db) + 1);
-        HashMap<String, Object> map = tabela.getMapAtributos(true);
-
-        map.put(tabela.getDataExclusaoNome(),tabela.getDataExclusao());
-        String sql = montaSqlInsert(map, tabela.getNomeTabela(false));
-        db.execSQL(sql);
-        Log.i("Insert Registro incial",sql);
-    }
-
-    private int countIdEntidadeCriacao(Tabela tabela, SQLiteDatabase db) {
-        String nomeTabela = tabela.getNomeTabela(false);
-        String id = tabela.getIdNome();
-        String[] columns = {"COUNT(" + id + ")"};
-        Cursor cursor = db.query(nomeTabela, columns, null, null, id, null, null);
-        int count = cursor.getCount();
-        cursor.close();
-        return count;
-    }
-
-    private String substituiTiposVariaveis(String nome, Tabela t, Object o) {
-            String sql;
-            String nomeTipo = "";
-            if (!nome.toLowerCase().contains("id_")) {
-                if (FuncoesGerais.isTabela(o)) { // caso a coluna seja uma entidade
-                    nomeTipo = " INTEGER ";
-                } else {
-                    if (VerificaTipos.isText(o, null)) {
-                        nomeTipo = " TEXT ";
-                    } else if (VerificaTipos.isReal(o, null)) {
-                        nomeTipo = " REAL ";
-                    } else if(VerificaTipos.isInteger(o, null)){
-                        nomeTipo = " INTEGER ";
-                    }
-                }
-            } else{
-                nomeTipo = " INTEGER PRIMARY KEY ";
-            }
-            sql = nome + nomeTipo;
-            return sql;
     }
 
     public void insert(List<?> tabelas){
@@ -177,8 +74,6 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
 
         HashMap<String, Object> map = tabela.getMapAtributos(true);
 
-        // map.put(entidade.getIdNome(), entidade.getId());
-
         SQLiteDatabase db = getWritableDatabase();
         String sql = montaSqlInsert(map,nomeEntidade);
         db.execSQL(sql);
@@ -199,26 +94,26 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
             }
             if (VerificaTipos.isString(atributo, null)) {
                 colunas += ", " + s;
-                String dps = FuncoesGerais.removeCaracteresEspeciais((String) map.get(s));
+                String dps = FuncoesGerais.removeCaracteresEspeciais((String) atributo);
                 valores += ", '" + dps + "'";
 
             }else if(VerificaTipos.isCalendar(atributo, null)){
                 colunas += ", " + s;
                 valores += ", " + FuncoesGerais.calendarToString((Calendar) atributo, FuncoesGerais.yyyyMMdd_HHMMSS,true);
 
-            } else if (FuncoesGerais.isTabela(map.get(s))) {
+            } else if (FuncoesGerais.isTabela(atributo)) {
                 Tabela e = (Tabela) atributo;
                 colunas += ", " + s;
                 valores += ", " + e.getId();
-            }else if(VerificaTipos.isBoolean(map.get(s), null)){
+            }else if(VerificaTipos.isBoolean(atributo, null)){
                 colunas += ", " + s;
-                valores += ", " + FuncoesGerais.booleanToint((Boolean) map.get(s));
-            } else if(VerificaTipos.isDouble(map.get(s), null)){ // caso seja real ou integer
+                valores += ", " + FuncoesGerais.booleanToint((Boolean) atributo);
+            } else if(VerificaTipos.isDouble(atributo, null)){ // caso seja real ou integer
                 colunas += ", " + s;
-                valores += ", " + map.get(s);
-            }else if(VerificaTipos.isInt(map.get(s), null)){ // caso seja real ou integer
+                valores += ", " + atributo;
+            }else if(VerificaTipos.isInt(atributo, null)){ // caso seja real ou integer
                 colunas += ", " + s;
-                valores += ", " + map.get(s);
+                valores += ", " + atributo;
             } else{
                 Log.e("insert","Tipo da variável " + s + " não encontrado! Verifique");
             }
@@ -229,7 +124,7 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
         return sql;
     }
 
-    public List<?> selectAll(Tabela tabela,String where, boolean pegaExcluidos) {
+    public List<?> selectAll(Tabela tabela, String where, boolean pegaExcluidos) {
         return selectAll(tabela,where,pegaExcluidos,null,null,null,null);
     }
 
@@ -238,7 +133,7 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
     }
 
         /**Informe classes que extendem de Tabela. where == null: buscará todos os campos.
-         * pegaExcluidos: informe true caso queira pegar valores excluidos de forma lógica*/
+         * @param @pegaExcluidos: informe true caso queira pegar valores excluidos de forma lógica*/
     public List<?> selectAll(Tabela tabela, String where, boolean pegaExcluidos,String[] selectionArgs,String groupBy,String orderBy,String limit) {
 
         // verifica se é para pegar registros excluídos
@@ -291,6 +186,11 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
         cursor.close();
         return tabela;
     }
+    // verificar a possibilidade de passsar esse metodo para o FuncoesSql
+    @Override
+    public int countIdEntidadeCriacao(Tabela tabela) {
+        return countIdEntidade(db,tabela);
+    }
 
     /**Adicionará os valores encontrados no registro no map de uma nova tabela e retornará essa tabela.
      * Parametros obrigatórios!*/
@@ -331,7 +231,7 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
         return null;
     }
 
-    public List<Tabela> buscaPessoaPorNomeCpf(Entidade entidade, String colunaWhere, String query) {
+    public List<Tabela> buscaPessoaPorNomeCpf(Tabela entidade, String colunaWhere, String query) {
 
         Pessoa pessoa = new Pessoa();
         String condicao;
@@ -342,7 +242,7 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
         }
         //String nomesAtibutosInLinha = entidade.nomesAtibutosInLinha();
         String sql = "SELECT * FROM "+entidade.getNomeTabela(false)
-                +" JOIN PESSOA ON "+entidade.getIdNome()+" = " + pessoa.getIdNome()
+                +" JOIN PESSOA ON "+entidade.getNomeTabelaNomeId()+" = PESSOA." + pessoa.getIdNome()
                 + " where " + condicao;
         Log.i("Pesquisa",sql);
         SQLiteDatabase db = getReadableDatabase();
@@ -350,7 +250,7 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
         List<Tabela> listTabela = new ArrayList<>();
         while (cursor.moveToNext()) {
             HashMap<String, Object> map = entidade.getMapAtributos(false);
-            entidade = (Entidade) adicionaValoresMap(cursor,map,entidade);
+            entidade = adicionaValoresMap(cursor,map,entidade);
             entidade.setMapAtributos(map);
             listTabela.add(entidade);
         }
@@ -392,8 +292,8 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
                 Field listField = clss.getDeclaredField(nomeColuna);
                 ParameterizedType listFieldGenericType = (ParameterizedType) listField.getGenericType();
                 Class<?> stringListClass = (Class<?>) listFieldGenericType.getActualTypeArguments()[0];
-                String s = stringListClass.getName().replace("class ","");
-                Tabela novaTabela = (Tabela) Class.forName(s).newInstance();
+                String nomeClassTabela = stringListClass.getName().replace("class ","");
+                Tabela novaTabela = (Tabela) Class.forName(nomeClassTabela).newInstance();
                 List list = selectAll(novaTabela, tabela.getNomeTabela(true) + " = " + tabela.getId(),false);
                 map.put(nomeColuna, list);
             } else if(VerificaTipos.isCalendar(o, null)){
@@ -421,6 +321,10 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
 
     public int countIdEntidade(Tabela tabela) {
         SQLiteDatabase db = getReadableDatabase();
+        return countIdEntidade(db,tabela);
+    }
+
+    public int countIdEntidade(SQLiteDatabase db, Tabela tabela){
         String nomeTabela = tabela.getNomeTabela(false);
         String id = tabela.getIdNome();
         String[] columns = {"COUNT(" + id + ")"};
@@ -435,10 +339,10 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
 
         String nomeEntidade = tabela.getNomeTabela(false);
         HashMap<String, Object> map = tabela.getMapAtributos(true);
-        if (tabela.isEntidade()) {
-            Entidade entidade = (Entidade) tabela;
-            map.put(entidade.getIdNome(), entidade.getId());
-        }
+//        if (tabela.isEntidade()) {
+//            Entidade entidade = (Entidade) tabela;
+//            map.put(entidade.getIdNome(), entidade.getId());
+//        }
         SQLiteDatabase db = getWritableDatabase();
         Set<String> set = map.keySet();
         String sql = "UPDATE " + nomeEntidade;
@@ -457,10 +361,10 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
                 colunas += s +" = '" + dps + "',";
 
             } else if (FuncoesGerais.isTabela(map.get(s))) {
-                Entidade e = (Entidade) atributo;
+                Tabela e = (Tabela) atributo;
                 colunas += s + " = " + e.getId() +",";
             } else if(VerificaTipos.isCalendar(map.get(s),null)) {
-                colunas += s + " = " + FuncoesGerais.calendarToString((Calendar) atributo, FuncoesGerais.yyyyMMdd_HHMMSS, false) + ",";
+                colunas += s + " = " + FuncoesGerais.calendarToString((Calendar) atributo, FuncoesGerais.yyyyMMdd_HHMMSS, true) + ",";
             }else if(VerificaTipos.isBoolean(map.get(s),null)){
                 colunas += s + " = " + FuncoesGerais.booleanToint((Boolean) map.get(s))+",";
             } else{ // caso seja real ou integer
@@ -473,6 +377,11 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
         sql += colunas + " WHERE " + tabela.getIdNome() + " = "+ tabela.getId() + ";";
         db.execSQL(sql);
         db.close();
+    }
+
+    @Override
+    public void execSQL(String s) {
+        db.execSQL(s);
     }
 
     public void deleteLogico(Tabela tabela){

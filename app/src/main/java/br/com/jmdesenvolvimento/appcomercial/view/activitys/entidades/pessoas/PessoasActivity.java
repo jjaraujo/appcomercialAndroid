@@ -25,7 +25,7 @@ public class PessoasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pessoas);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle("Pessoas");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -75,20 +75,20 @@ public class PessoasActivity extends AppCompatActivity {
         buttonAddPessoa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(PessoasActivity.this, CadastroPessoasActivity.class);
+                Intent intent;
                switch (fragmentSelecionado){
                    case 0:
-                       intent.putExtra("tipoPessoa","cliente");
+                       intent = new Intent(PessoasActivity.this, CadastroClientesActivity.class);
                        intent.putExtra("tipoAbertura","cadastrar");
                        startActivity(intent);
                        break;
                    case 1:
-                       intent.putExtra("tipoPessoa","fornecedor");
+                       intent = new Intent(PessoasActivity.this, CadastroFornecedoresActivity.class);
                        intent.putExtra("tipoAbertura","cadastrar");
                        startActivity(intent);
                        break;
                    case 2:
-                       intent.putExtra("tipoPessoa","vendedor");
+                       intent = new Intent(PessoasActivity.this, CadastroVendedoresActivity.class);
                        intent.putExtra("tipoAbertura","cadastrar");
                        startActivity(intent);
                        break;

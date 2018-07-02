@@ -11,9 +11,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
-import br.com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaParcelasPagamento;
-import br.com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaPagamento;
+import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
+import com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaParcelasPagamento;
+import com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaPagamento;
 
 
 /**Dialog onde o usuário irá informar tipo de pagamento, parcelas etc.*/

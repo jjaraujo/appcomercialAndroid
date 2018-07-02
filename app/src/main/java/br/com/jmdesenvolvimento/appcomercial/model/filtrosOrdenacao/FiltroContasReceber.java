@@ -4,8 +4,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
-import br.com.jmdesenvolvimento.appcomercial.model.Tabela;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Cliente;
+import com.jmdesenvolvimento.appcomercial.model.Tabela;
+import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Cliente;
 
 public class FiltroContasReceber extends Tabela {
 

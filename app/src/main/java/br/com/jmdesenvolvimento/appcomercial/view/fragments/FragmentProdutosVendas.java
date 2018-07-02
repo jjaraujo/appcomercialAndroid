@@ -15,13 +15,13 @@ import java.util.List;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
+import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.VariaveisControleG;
+import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.VariaveisControleG;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.ProdutoDAO;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
-import br.com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaProdutosVenda;
+import com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
+import com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaProdutosVenda;
 import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas.ArrayAdapterTabelaProdutosVendas;
 import br.com.jmdesenvolvimento.appcomercial.view.dialogFragment.DialogQuantidadeProduto;
 
@@ -34,7 +34,7 @@ public class FragmentProdutosVendas extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_produtos, container, false);
         lista = (ListView) view.findViewById(R.id.produtosDaVenda);
-        VariaveisControleAndroid.fragmentProdutos = this;
+      //  VariaveisControleAndroid.fragmentProdutos = this;
 
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -79,7 +79,6 @@ public class FragmentProdutosVendas extends Fragment {
             ArrayAdapterTabelaProdutosVendas adapter = new ArrayAdapterTabelaProdutosVendas(getContext(), new ArrayList<TabelaProdutosVenda>());
             lista.setAdapter(adapter);
         }
-        FuncoesViewAndroid.alteraValorButtonFinalizarVendaSelecionada();
     }
 
     public void alteraQtdProdutoVenda(int qtdAnterior){

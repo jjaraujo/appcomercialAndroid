@@ -12,9 +12,13 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.Entidade;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Pessoa;
+import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
+import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.VerificaTipos;
+import com.jmdesenvolvimento.appcomercial.model.Tabela;
+import com.jmdesenvolvimento.appcomercial.model.entidades.Entidade;
+import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Pessoa;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,14 +29,10 @@ import java.util.List;
  *
  * @author HP
  */
-public class LeituraJson {
-    Context context;
+public final class LeituraJson {
 
-    public LeituraJson(Context context) {
-        this.context = context;
-    }
 
-    public List<Entidade> lerJsonList(String s, Entidade entidade){
+    public static List<Entidade> lerJsonList( Context context,String s, Entidade entidade){
         Gson gson = new Gson();
         try{
         Type collectionType = new TypeToken<ArrayList<Entidade>>(){}.getType();
@@ -44,11 +44,11 @@ public class LeituraJson {
         }
     }    
 	
-	public List<Entidade> lerJson(String s){
+	public static List<Entidade> lerJson( Context context, String s){
         Gson gson = new Gson();
         System.out.println("vai ler json");
         try{
-        Type type = new TypeToken<List<Entidade>>(){}.getType();
+        Type type = new TypeToken<List<Tabela>>(){}.getType();
         List<Entidade> entidade = gson.fromJson(s, type);
         return  entidade;
         } catch(JsonSyntaxException e){
@@ -57,17 +57,22 @@ public class LeituraJson {
         }
     }    
 	
-	public String tranformaParaJson(Entidade entidade){
+	public static String tranformaParaJson( Context context, Tabela entidade){
         Gson gson = new Gson();
+        entidade.anulaMapAtributo();
         try{
-        return  gson.toJson(entidade);
+            anulaMap(entidade);
+            String json = gson.toJson(entidade);
+        return  "\"" + entidade.getNomeTabela(true) + "\":" +
+                json ;
         } catch(JsonSyntaxException e){
             Toast.makeText(context,"Erro em ler JSON.LeituraJson().enviarJsonPessoa Erro:" + e.getMessage(),Toast.LENGTH_LONG);
-            return null;
+
         }
+        return null;
     }
 	
-	public String transformaListParaJson(List<Pessoa> list){
+	public static String transformaListParaJson(Context context, List<Pessoa> list){
         Gson gson = new Gson();
         try{
         return  gson.toJson(list);
@@ -75,5 +80,38 @@ public class LeituraJson {
             Toast.makeText(context,"Erro em ler JSON.LeituraJson().enviarJsonListPessoas Erro:" + e.getMessage(),Toast.LENGTH_LONG);
             return null;
         }
-    } 
+    }
+
+    private static void anulaMap(Tabela entidade) {
+        try {
+            for (Field f : entidade.getClass().getDeclaredFields()) {
+                f.setAccessible(true);
+                if (VerificaTipos.isTabela(f, entidade)) {
+                    Tabela t = (Tabela) f.get(entidade);
+                   if(t != null) {
+                       t.anulaMapAtributo();
+                       anulaMap(t);
+                   } else{
+                       Tabela tabela = FuncoesGerais.getNovaInstanciaTabela(f);
+                       f.set(entidade,tabela);
+                   }
+                }
+            }
+            for (Field f : entidade.getClass().getFields()) {
+                f.setAccessible(true);
+                if (VerificaTipos.isTabela(f, entidade)) {
+                    Tabela t = (Tabela) f.get(entidade);
+                    if(t != null) {
+                        t.anulaMapAtributo();
+                        anulaMap(t);
+                    } else{
+                        Tabela tabela = FuncoesGerais.getNovaInstanciaTabela(f);
+                        f.set(entidade,tabela);
+                    }
+                }
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -10,8 +10,8 @@ import android.widget.TextView;
 import java.util.List;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
-import br.com.jmdesenvolvimento.appcomercial.model.Tabela;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Fornecedor;
+import com.jmdesenvolvimento.appcomercial.model.Tabela;
+import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Fornecedor;
 
 public class ArrayAdapterFornecedores extends BaseAdapter {
     private List<Tabela> list;

@@ -14,11 +14,10 @@ import java.util.List;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.VariaveisControleG;
-import br.com.jmdesenvolvimento.appcomercial.model.Tabela;
+import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.VariaveisControleG;
+import com.jmdesenvolvimento.appcomercial.model.Tabela;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
-import br.com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
+import com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
 import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas.ArrayAdapterVendasAbertas;
 
 public class FragmentVendasAbertas extends Fragment{
@@ -27,7 +26,7 @@ public class FragmentVendasAbertas extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_vendas_abertas, container, false);
-        VariaveisControleAndroid.fragmentVendasAbertas = this;
+     //   VariaveisControleAndroid.fragmentVendasAbertas = this;
         lista = (GridView) view.findViewById(R.id.vendas_abertas_lista);
 
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -36,8 +35,7 @@ public class FragmentVendasAbertas extends Fragment{
                 Venda venda = (Venda) parent.getItemAtPosition(position);
                 VariaveisControleG.vendaSelecionada = venda;
                 FuncoesViewAndroid.alteraViewVendaSelecionada();
-                VariaveisControleAndroid.fragmentProdutos.carregaLista();
-                FuncoesViewAndroid.alteraValorButtonFinalizarVendaSelecionada();
+           //     VariaveisControleAndroid.fragmentProdutos.carregaLista();
             }
         });
         return view;

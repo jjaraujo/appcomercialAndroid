@@ -13,11 +13,11 @@ import java.util.List;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesMatematicas;
+import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
+import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesMatematicas;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
-import br.com.jmdesenvolvimento.appcomercial.model.Tabela;
-import br.com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaProdutosVenda;
+import com.jmdesenvolvimento.appcomercial.model.Tabela;
+import com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaProdutosVenda;
 
 public class ArrayAdapterTabelaProdutosVendas extends BaseAdapter {
     private List<Tabela> list;
@@ -55,10 +55,10 @@ public class ArrayAdapterTabelaProdutosVendas extends BaseAdapter {
             public void onClick(View v) {
                 TabelaProdutosVenda produtosVenda = (TabelaProdutosVenda) list.get(position);
                 try {
-                    Method method = VariaveisControleAndroid.fragmentProdutos.getClass().getDeclaredMethod("carregaLista",null);
+                    Method method = VariaveisControleAndroid.produtosVendaActivity.getClass().getDeclaredMethod("carregaLista",null);
                     FuncoesViewAndroid.addAlertDialogExcluir(context, produtosVenda,"Produto excluído",
                             "Excluir o produto " + produtosVenda.getProduto().getNome_produto() + "?",
-                            method, VariaveisControleAndroid.fragmentProdutos,null);
+                            method, VariaveisControleAndroid.produtosVendaActivity,null);
                 } catch (NoSuchMethodException e) {
                     e.printStackTrace();
                 }

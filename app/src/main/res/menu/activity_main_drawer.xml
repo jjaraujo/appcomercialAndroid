@@ -5,13 +5,9 @@
 
     <item android:title="Pessoas">
         <item
-            android:id="@+id/menuVendasEncerradas"
-            android:icon="@drawable/icone_venda"
-            android:title="Vendas Fechadas" />
-        <item
             android:id="@+id/menuPessoas"
             android:icon="@drawable/icone_pessoas"
-            android:title="Pessoas" />
+            android:title="Cadastro" />
         <item
             android:id="@+id/menuEstoque"
             android:icon="@drawable/icone_produto"
@@ -19,7 +15,15 @@
         <item
             android:id="@+id/menuContas"
             android:icon="@drawable/icone_contas"
-            android:title="Contas" />
+            android:title="Contas a Receber " />
+        <item
+            android:id="@+id/menuContasPagar"
+            android:icon="@drawable/icone_contas"
+            android:title="Contas a Pagar " />
+        <item
+            android:id="@+id/menuVendasEncerradas"
+            android:icon="@drawable/icone_venda"
+            android:title="Caixa" />
         <item
             android:id="@+id/menuConfiguracoes"
             android:icon="@drawable/ic_menu_manage"
