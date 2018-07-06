@@ -19,8 +19,9 @@ import java.util.List;
 import br.com.jmdesenvolvimento.appcomercial.R;
 import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
 import com.jmdesenvolvimento.appcomercial.model.Tabela;
+import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Funcionario;
+
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Vendedor;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.pessoas.CadastroFornecedoresActivity;
 import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas.ArrayAdapterClientes;
 import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas.ArrayAdapterVendedores;
@@ -117,7 +118,7 @@ public class FragmentVendedor extends Fragment {
 
     public void carregaListaVendedores(String query){
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(getContext());
-        Vendedor vendedor = new Vendedor();
+        Funcionario vendedor = new Funcionario();
         List<Tabela> vendedores;
         if(query != null){
             vendedores = FuncoesGerais.stringIsSomenteNumero(query) ?

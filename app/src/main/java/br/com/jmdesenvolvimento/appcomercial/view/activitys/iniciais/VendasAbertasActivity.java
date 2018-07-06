@@ -1,4 +1,4 @@
-package br.com.jmdesenvolvimento.appcomercial.view.activitys;
+package br.com.jmdesenvolvimento.appcomercial.view.activitys.iniciais;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,11 +27,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesConfiguracao;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.VariaveisControleG;
+import com.jmdesenvolvimento.appcomercial.controller.VariaveisControleG;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
 import com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
+
+import br.com.jmdesenvolvimento.appcomercial.view.activitys.ProdutosVendaActivity;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.configuracoes.ConfiguracoesActivity;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.PagamentoActivity;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.contas.ContaReceberActivity;
@@ -60,7 +61,8 @@ public class VendasAbertasActivity extends AppCompatActivity
         setContentView(R.layout.activity_vendas_abertas);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FuncoesConfiguracao.iniciaConfiguracoes(this);
+
+
 
         setTitle("Vendas abertas");
 
@@ -86,7 +88,7 @@ public class VendasAbertasActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
-        iniciaComponentesMenuLateral(toolbar);
+        MenuLateral.iniciaComponentesMenuLateral(toolbar,this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setVisibility(View.INVISIBLE);
@@ -131,43 +133,9 @@ public class VendasAbertasActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.menuVendasEncerradas) {
-
-        } else if (id == R.id.menuPessoas) {
-            Intent intent = new Intent(VendasAbertasActivity.this, PessoasActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.menuContas) {
-            Intent intent = new Intent(VendasAbertasActivity.this, ContaReceberActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.menuEstoque) {
-            Intent intent = new Intent(VendasAbertasActivity.this, EstoqueActivity.class);
-            startActivity(intent);
-        } else  if (id == R.id.menuConfiguracoes) {
-            Intent intent = new Intent(VendasAbertasActivity.this, ConfiguracoesActivity.class);
-            startActivity(intent);
-            return true;
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        MenuLateral.onNavigationItemSelected(item, this);
         return true;
     }
-
-    private void iniciaComponentesMenuLateral(Toolbar toolbar) {
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-    }
-
 
     public void openDialogFragment(View view) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

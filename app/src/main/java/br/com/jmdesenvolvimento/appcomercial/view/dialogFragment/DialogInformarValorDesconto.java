@@ -16,7 +16,7 @@ import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.Funcoe
 import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
 import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesMatematicas;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.VariaveisControleG;
+import com.jmdesenvolvimento.appcomercial.controller.VariaveisControleG;
 import com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaPagamento;
 
 

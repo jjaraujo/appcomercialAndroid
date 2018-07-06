@@ -20,6 +20,8 @@ import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.Mask;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
 import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
 import com.jmdesenvolvimento.appcomercial.model.Tabela;
+
+import br.com.jmdesenvolvimento.appcomercial.controller.services.conexoes.ConexaoServiceCadastraEmpresa;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
 import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.Estado;
 import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Fornecedor;
@@ -96,6 +98,9 @@ public class CadastroFornecedoresActivity extends AppCompatActivity {
                 Fornecedor pessoaAdicionada = null;
                 if (edicao == false) {
                     pessoaAdicionada = getValoresFormularioFornecedor();
+
+
+
                     dao.insert(pessoaAdicionada.getPessoa());
                     dao.insert( pessoaAdicionada);
                     finish();

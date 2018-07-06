@@ -46,7 +46,7 @@ public class ArrayAdapterHitoricoClientes extends BaseAdapter {
         View view = layoutInflater.inflate(R.layout.list_model_historico_cliente, null);
         Venda venda = (Venda) list.get(position);
         TextView vendedor = view.findViewById(R.id.textViewHistoricoClienteVendedor);
-        vendedor.setText("Vendedor: " + venda.getVendedor().getPessoa().getNome());
+        vendedor.setText("Vendedor: " + venda.getFuncionario().getPessoa().getNome());
         TextView numeroVenda = view.findViewById(R.id.textViewHistoricoClienteNumero);
         numeroVenda.setText(FuncoesGerais.addZeros(venda.getId(),5));
         TextView dataVenda = view.findViewById(R.id.textViewListClientesCpf);

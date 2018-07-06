@@ -15,7 +15,7 @@ import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.Funcoe
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
 import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.VariaveisControleG;
+import com.jmdesenvolvimento.appcomercial.controller.VariaveisControleG;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
 import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Cliente;
 import com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;

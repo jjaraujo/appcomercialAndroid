@@ -1,5 +1,6 @@
 package br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.pessoas;
 
+
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -14,32 +15,25 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.atomic.AtomicReference;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
-import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.Mask;
 import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
 import br.com.jmdesenvolvimento.appcomercial.controller.json.LeituraJson;
-import br.com.jmdesenvolvimento.appcomercial.controller.services.ConexaoService;
+import br.com.jmdesenvolvimento.appcomercial.controller.services.conexoes.ConexaoServiceCadastraEmpresa;
 import com.jmdesenvolvimento.appcomercial.model.Tabela;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
-import retrofit2.Response;
+import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.pessoas.AlteraCamposPessoas;
 
 import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.Estado;
 import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.EmpresaCliente;
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Fornecedor;
 import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Pessoa;
 
 public class CadastroEmpresaActivity extends AppCompatActivity {
 
     private TextInputEditText editTextNome;
-    private TextInputLayout inputTextNome;
     private TextInputEditText editTextCpf;
-    private TextInputLayout inputTextCpf;
     private TextInputEditText editTextRg;
-    private TextInputLayout inputTextRg;
     private TextInputEditText editTextLogradouro;
     private Spinner spinnerEstado;
     private AutoCompleteTextView editTextMunicipio;
@@ -49,8 +43,8 @@ public class CadastroEmpresaActivity extends AppCompatActivity {
     private TextInputEditText editTextTelefone1;
     private TextInputEditText editTextTelefone2;
     private TextInputEditText editTextEmail;
-    private TextInputEditText editTextLimite;
-    private TextInputLayout inputTextLimite;
+    private TextInputEditText editTextSenha;
+    private TextInputEditText editTextConfirmarSenha;
     private Menu menu;
     private boolean visualizacao;
     private boolean edicao;
@@ -62,7 +56,7 @@ public class CadastroEmpresaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cadastro_fornecedores);
+        setContentView(R.layout.activity_cadastro_empresa);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
@@ -80,7 +74,6 @@ public class CadastroEmpresaActivity extends AppCompatActivity {
             setValoresFormularioPessoa(( pessoaVisualizar).getPessoa());
             pessoaNovaAposEdicao = new EmpresaCliente();
         }
-
     }
 
     @Override
@@ -101,29 +94,25 @@ public class CadastroEmpresaActivity extends AppCompatActivity {
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(this);
         switch (item.getItemId()) {
             case R.id.menu_formularios_salvar:
-                EmpresaCliente pessoaAdicionada = null;
+                EmpresaCliente empresaAdicionada = null;
                 if (edicao == false) {
 
-                    pessoaAdicionada = getValoresFormularioFornecedor();
-                    pessoaAdicionada.setPessoa(getValoresFormularioPessoa());
-                    dao.insert(pessoaAdicionada.getPessoa());
-                    dao.insert( pessoaAdicionada);
-                    String s = LeituraJson.tranformaParaJson(this, pessoaAdicionada);
-                    Log.i("JSON",s);
-
-                    ConexaoService conexaoService = new ConexaoService(s);
-                    conexaoService.execute();
-                    finish();
+                    empresaAdicionada = getValoresFormularioEmpresa();
+                    empresaAdicionada.setPessoa(getValoresFormularioPessoa());
+                    if (!verificaPreenchimentoCampos()) {
+                        ConexaoServiceCadastraEmpresa conexaoService = new ConexaoServiceCadastraEmpresa( this, empresaAdicionada);
+                        conexaoService.execute();
+                    }
 
                 } else {
 
-                    this.pessoaEditada = getValoresFormularioFornecedor();
+                    this.pessoaEditada = getValoresFormularioEmpresa();
 
                     pessoaNovaAposEdicao = (EmpresaCliente) FuncoesGerais.getTabelaModificada(this.pessoaVisualizar, this.pessoaEditada, this.pessoaNovaAposEdicao);
                     pessoaNovaAposEdicao.getPessoa().setId(pessoaVisualizar.getPessoa().getId());
                     dao.update(pessoaNovaAposEdicao.getPessoa(), true);
                     dao.update(pessoaNovaAposEdicao, true);
-                    finish();
+
                     Toast.makeText(this, pessoaNovaAposEdicao.getNomeTabela(false) + " " + pessoaNovaAposEdicao.getId() + " alterado!", Toast.LENGTH_SHORT).show();
                 }
                 edicao = false;
@@ -171,9 +160,12 @@ public class CadastroEmpresaActivity extends AppCompatActivity {
 
         editTextEmail = findViewById(R.id.cadastroEmail);
 
-        inputTextCpf = findViewById(R.id.inputLayoutCadastroCpfCnpj);
-        inputTextNome = findViewById(R.id.inputLayoutCadastroNomeRSocial);
-        inputTextRg = findViewById(R.id.inputLayoutCadastroRgIe);
+        editTextSenha = findViewById(R.id.cadastroEmpresaSenha);
+        editTextConfirmarSenha = findViewById(R.id.cadastroEmpresaConfirmarSenha);
+//
+//        inputTextCpf = findViewById(R.id.inputLayoutCadastroCpfCnpj);
+//        inputTextNome = findViewById(R.id.inputLayoutCadastroNomeRSocial);
+//        inputTextRg = findViewById(R.id.inputLayoutCadastroRgIe);    se for depois de 05/07/2018, pode remover
 
         spinnerEstado.setAdapter(getAdapterEstado());
 
@@ -208,7 +200,7 @@ public class CadastroEmpresaActivity extends AppCompatActivity {
         return pessoa;
     }
 
-    private EmpresaCliente getValoresFormularioFornecedor() {
+    private EmpresaCliente getValoresFormularioEmpresa() {
 
         Pessoa pessoa = getValoresFormularioPessoa();
         EmpresaCliente fornecedor = new EmpresaCliente();
@@ -234,5 +226,79 @@ public class CadastroEmpresaActivity extends AppCompatActivity {
 
     private void setValoresFormularioFornecedor(EmpresaCliente fornecedor) {
         setValoresFormularioPessoa(fornecedor.getPessoa());
+    }
+
+    private boolean verificaPreenchimentoCampos(){
+        boolean retorno = true;
+        if(editTextNome.getText().toString().length() < 5) {
+            editTextNome.setError("Informe um nome correto");
+            retorno = false;
+        }
+
+        int tamanhoCPF = FuncoesGerais.removePontosTracos(editTextCpf.getText().toString()).length();
+        if(tamanhoCPF < 11) {
+            editTextCpf.setError("CPF Inválido");
+            retorno = false;
+        }
+        if(tamanhoCPF > 11 && tamanhoCPF < 15 ) {
+            editTextCpf.setError("CNPJ Inválido");
+            retorno = false;
+        }
+
+        if(editTextRg.getText().toString().length() < 6){
+            String msg = tamanhoCPF == 11 ? "RG Inválido" : "IE Inválida";
+            editTextRg.setError(msg);
+            retorno = false;
+        }
+
+        if(editTextLogradouro.getText().toString().length() < 5){
+            editTextLogradouro.setError("Informe um logradouro correto");
+            retorno = false;
+        }
+
+        if(editTextBairro.getText().toString().equals("")){
+            editTextBairro.setError("Informe seu bairro");
+            retorno =  false;
+        }
+
+        if(editTextNumero.getText().toString().equals("")){
+            editTextNumero.setError("Informe o número do endereço");
+            retorno =  false;
+        }
+
+        if(editTextCep.getText().toString().length() < 9){
+            editTextCep.setError("Informe o seu CEP correto");
+            retorno =  false;
+        }
+
+        if(editTextMunicipio.getText().toString().equals("")){
+            editTextMunicipio.setError("Informe o seu município");
+            retorno =  false;
+        }
+
+        if(FuncoesGerais.removePontosTracos(editTextTelefone1.getText().toString()).length() < 10){
+            editTextTelefone1.setError("Informe um telefone de contato válido!");
+            retorno =  false;
+        }
+
+        if(!editTextEmail.getText().toString().contains("@") && !editTextEmail.getText().toString().contains(".com")){
+            editTextEmail.setError("Informe um e-mail válido");
+            retorno =  false;
+        }
+
+        if(!editTextSenha.getText().toString().equals("") && !editTextSenha.getText().toString().equals("")){
+           if(!editTextSenha.getText().toString().equals(editTextConfirmarSenha.getText().toString())){
+               editTextSenha.setText("");
+               editTextSenha.setError("As senhas não são iguais");
+               editTextConfirmarSenha.setText("");
+               retorno = false;
+           }
+        } else {
+            editTextSenha.setError("Informe uma senha");
+            editTextConfirmarSenha.setError("Confirme a senha");
+            retorno = false;
+        }
+
+        return retorno;
     }
 }

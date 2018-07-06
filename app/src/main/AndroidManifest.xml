@@ -4,6 +4,7 @@
 
     <uses-sdk android:minSdkVersion="19" />
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
@@ -26,19 +27,12 @@
         android:theme="@style/AppTheme">
         <activity android:name=".view.activitys.entidades.pessoas.CadastroClientesActivity" />
         <activity android:name=".view.activitys.entidades.pessoas.CadastroEmpresaActivity" />
-        <activity android:name=".view.activitys.entidades.pessoas.CadastroVendedoresActivity" />
+        <activity android:name=".view.activitys.entidades.pessoas.CadastroFuncionarioActivity" />
         <activity android:name=".view.activitys.entidades.pessoas.CadastroFornecedoresActivity" />
         <activity
-            android:name=".view.activitys.VendasAbertasActivity"
+            android:name=".view.activitys.iniciais.VendasAbertasActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.SEND" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.activitys.entidades.estoque.EstoqueActivity"
             android:label="@string/title_activity_estoque"
@@ -65,10 +59,20 @@
             android:label="@string/title_activity_produtos_venda"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".view.activitys.LoginActivity"
-            android:label="@string/title_activity_login" >
+            android:name=".view.activitys.iniciais.LoginActivity"
+            android:label="@string/title_activity_login" />
+        <activity android:name=".view.activitys.HistoricoClienteActivity" />
+        <activity android:name=".view.activitys.iniciais.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-        <activity android:name=".view.activitys.HistoricoClienteActivity"></activity>
+        <activity
+            android:name=".view.activitys.iniciais.CaixaActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

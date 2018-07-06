@@ -21,22 +21,20 @@ import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.Mask;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
 import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
 import com.jmdesenvolvimento.appcomercial.model.Tabela;
+
+import br.com.jmdesenvolvimento.appcomercial.controller.services.conexoes.ConexaoServiceCadastraFuncionario;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
 import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.Estado;
+import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Funcionario;
 import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Pessoa;
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Vendedor;
 
-public class CadastroVendedoresActivity extends AppCompatActivity {
+public class CadastroFuncionarioActivity extends AppCompatActivity {
 
     private TextInputEditText editTextNome;
-    private TextInputLayout inputTextNome;
     private TextInputEditText editTextCpf;
-    private TextInputLayout inputTextCpf;
     private TextInputEditText editTextRg;
-    private TextInputLayout inputTextRg;
     private Spinner spinnerSexo;
     private TextInputEditText editTextNascimento;
-    private TextInputLayout inputTextNascimento;
     private TextInputEditText editTextLogradouro;
     private Spinner spinnerEstado;
     private AutoCompleteTextView editTextMunicipio;
@@ -45,18 +43,19 @@ public class CadastroVendedoresActivity extends AppCompatActivity {
     private TextInputEditText editTextNumero;
     private TextInputEditText editTextTelefone1;
     private TextInputEditText editTextTelefone2;
-    private TextInputEditText editTextEmail;
+    private TextInputEditText editTextUsuario;
+    private TextInputEditText editTextSenha;
     private Menu menu;
     private boolean visualizacao;
     private boolean edicao;
-    private Vendedor pessoaEditada;
-    private Vendedor pessoaVisualizar;
-    private Vendedor pessoaNovaAposEdicao;
+    private Funcionario pessoaEditada;
+    private Funcionario pessoaVisualizar;
+    private Funcionario pessoaNovaAposEdicao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cadastro_vendedores);
+        setContentView(R.layout.activity_cadastro_funcionarios);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
@@ -64,14 +63,14 @@ public class CadastroVendedoresActivity extends AppCompatActivity {
 
         setTitle("Cadastro de Vendedor");
 
-        pessoaVisualizar = (Vendedor) getIntent().getSerializableExtra("pessoaVisualizar");
+        pessoaVisualizar = (Funcionario) getIntent().getSerializableExtra("pessoaVisualizar");
 
         if (getIntent().getSerializableExtra("tipoAbertura").equals("visualizar")) {
             visualizacao = true;
             AlteraCamposPessoas.camposNotAcessible(this);
 
             setValoresFormularioVendedor( pessoaVisualizar);
-            pessoaNovaAposEdicao = new Vendedor();
+            pessoaNovaAposEdicao = new Funcionario();
         }
 
     }
@@ -94,17 +93,17 @@ public class CadastroVendedoresActivity extends AppCompatActivity {
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(this);
         switch (item.getItemId()) {
             case R.id.menu_formularios_salvar:
-                Vendedor pessoaAdicionada = null;
+                Funcionario funcionarioAdicionado = null;
                 if (edicao == false) {
 
-                    pessoaAdicionada = getValoresFormularioVendedor();
-                    dao.insert(pessoaAdicionada.getPessoa());
-                    dao.insert(pessoaAdicionada);
-                    finish();
+                    funcionarioAdicionado = getValoresFormularioVendedor();
+                    ConexaoServiceCadastraFuncionario conexao = new ConexaoServiceCadastraFuncionario(this, funcionarioAdicionado);
+                    conexao.execute();
+
                 } else {
                     this.pessoaEditada = getValoresFormularioVendedor();
                             //  this.pessoa = getValoresProduto();
-                    pessoaNovaAposEdicao = (Vendedor) FuncoesGerais.getTabelaModificada(this.pessoaVisualizar, this.pessoaEditada, this.pessoaNovaAposEdicao);
+                    pessoaNovaAposEdicao = (Funcionario) FuncoesGerais.getTabelaModificada(this.pessoaVisualizar, this.pessoaEditada, this.pessoaNovaAposEdicao);
                     pessoaNovaAposEdicao.getPessoa().setId(pessoaVisualizar.getPessoa().getId());
                     pessoaNovaAposEdicao.getPessoa().setId(pessoaVisualizar.getPessoa().getId());
                     dao.update(pessoaNovaAposEdicao.getPessoa(), true);
@@ -160,12 +159,12 @@ public class CadastroVendedoresActivity extends AppCompatActivity {
         editTextTelefone2 = findViewById(R.id.cadastroTelefone2);
         editTextTelefone2.addTextChangedListener(new Mask().insert(Mask.TELEFONE, editTextTelefone2));
 
-        editTextEmail = findViewById(R.id.cadastroUsuario);
+        editTextUsuario = findViewById(R.id.cadastroUsuario);
 
-        inputTextCpf = findViewById(R.id.inputLayoutCadastroCpfCnpj);
-        inputTextNascimento = findViewById(R.id.inputLayoutCadastroNascimento);
-        inputTextNome = findViewById(R.id.inputLayoutCadastroNomeRSocial);
-        inputTextRg = findViewById(R.id.inputLayoutCadastroRgIe);
+//        inputTextCpf = findViewById(R.id.inputLayoutCadastroCpfCnpj);
+//        inputTextNascimento = findViewById(R.id.inputLayoutCadastroNascimento);
+//        inputTextNome = findViewById(R.id.inputLayoutCadastroNomeRSocial);
+//        inputTextRg = findViewById(R.id.inputLayoutCadastroRgIe);
 
         spinnerEstado.setAdapter(getAdapterEstado());
         spinnerSexo.setAdapter(getAdapterSexo());
@@ -175,7 +174,7 @@ public class CadastroVendedoresActivity extends AppCompatActivity {
     private ArrayAdapter getAdapterEstado() {
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(this);
         List<Tabela> list = (List<Tabela>) dao.selectAll(new Estado(), null, false, null, null, "nome_estado", null);
-        ArrayAdapter<Tabela> arrayAdapter = (ArrayAdapter<Tabela>) new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, list);
+        ArrayAdapter<Tabela> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, list);
         ArrayAdapter<Tabela> spinnerArrayAdapter = arrayAdapter;
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
 
@@ -209,17 +208,17 @@ public class CadastroVendedoresActivity extends AppCompatActivity {
         //    pessoa.setMunicipio(editTextMunicipio.getIte);
         pessoa.setTelefone1(FuncoesGerais.removePontosTracos(editTextTelefone1.getText().toString()));
         pessoa.setTelefone2(FuncoesGerais.removePontosTracos(editTextTelefone2.getText().toString()));
-        pessoa.setEmail(editTextEmail.getText().toString());
+        pessoa.setEmail(editTextUsuario.getText().toString());
         return pessoa;
     }
 
 
-    private Vendedor getValoresFormularioVendedor() {
+    private Funcionario getValoresFormularioVendedor() {
 
         Pessoa pessoa = getValoresFormularioPessoa();
-        Vendedor vendedor = new Vendedor();
-        vendedor.setPessoa(pessoa);
-        return vendedor;
+        Funcionario funcionario = new Funcionario();
+        funcionario.setPessoa(pessoa);
+        return funcionario;
     }
 
     private void setValoresFormularioPessoa(Pessoa pessoa) {
@@ -236,11 +235,37 @@ public class CadastroVendedoresActivity extends AppCompatActivity {
         editTextMunicipio.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getMunicipio().getNome()));
         editTextTelefone1.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getTelefone1() + ""));
         editTextTelefone2.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getTelefone2() + ""));
-        editTextEmail.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getEmail()));
+        editTextUsuario.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getEmail()));
     }
 
-    private void setValoresFormularioVendedor(Vendedor vendedor) {
-        setValoresFormularioPessoa(vendedor.getPessoa());
+    private void setValoresFormularioVendedor(Funcionario funcionario) {
+        setValoresFormularioPessoa(funcionario.getPessoa());
+    }
+
+    private boolean verificaPreenchimentoCampos(){
+        boolean retorno = true;
+        if(editTextNome.getText().toString().length() < 5) {
+            editTextNome.setError("Informe um nome correto");
+            retorno = false;
+        }
+
+
+        if(editTextMunicipio.getText().toString().equals("")){
+            editTextMunicipio.setError("Informe o seu município");
+            retorno =  false;
+        }
+
+        if(FuncoesGerais.removePontosTracos(editTextTelefone1.getText().toString()).length() < 10){
+            editTextTelefone1.setError("Informe um telefone de contato válido!");
+            retorno =  false;
+        }
+
+        if(editTextSenha.getText().equals("")){
+            editTextUsuario.setError("Informe uma senha");
+            retorno =  false;
+        }
+
+        return retorno;
     }
 
 }

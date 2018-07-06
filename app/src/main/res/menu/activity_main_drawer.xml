@@ -13,7 +13,7 @@
             android:icon="@drawable/icone_produto"
             android:title="Estoque" />
         <item
-            android:id="@+id/menuContas"
+            android:id="@+id/menuContasReceber"
             android:icon="@drawable/icone_contas"
             android:title="Contas a Receber " />
         <item
@@ -21,7 +21,7 @@
             android:icon="@drawable/icone_contas"
             android:title="Contas a Pagar " />
         <item
-            android:id="@+id/menuVendasEncerradas"
+            android:id="@+id/menuCaixa"
             android:icon="@drawable/icone_venda"
             android:title="Caixa" />
         <item

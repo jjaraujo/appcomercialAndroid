@@ -18,11 +18,13 @@ import java.util.Set;
 
 import com.jmdesenvolvimento.appcomercial.controller.FuncoesSql;
 import com.jmdesenvolvimento.appcomercial.controller.TabelasMapeadas;
+import com.jmdesenvolvimento.appcomercial.controller.VariaveisControleG;
 import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
 import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.VerificaTipos;
 import com.jmdesenvolvimento.appcomercial.model.Tabela;
 import com.jmdesenvolvimento.appcomercial.model.dao.IConnection;
 import com.jmdesenvolvimento.appcomercial.model.entidades.Entidade;
+import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.EmpresaCliente;
 import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Pessoa;
 import com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaProdutosVenda;
 
@@ -101,7 +103,7 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
                 colunas += ", " + s;
                 valores += ", " + FuncoesGerais.calendarToString((Calendar) atributo, FuncoesGerais.yyyyMMdd_HHMMSS,true);
 
-            } else if (FuncoesGerais.isTabela(atributo)) {
+            } else if (VerificaTipos.isTabela(atributo)) {
                 Tabela e = (Tabela) atributo;
                 colunas += ", " + s;
                 valores += ", " + e.getId();
@@ -177,15 +179,15 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
             where = tabela.getIdNome() + " = " + id;
         }
         String nomeTabela = tabela.getNomeTabela(false);
-        Cursor cursor = db.query(nomeTabela, s, where +"", null, groupBy, null, orderBy,limit);
+        Cursor cursor = db.query(nomeTabela, s, where, null, groupBy, null, orderBy,limit);
 
         while (cursor.moveToNext()) {
-            tabela = adicionaValoresMap(cursor, map, tabela);
-            continue;
+            return adicionaValoresMap(cursor, map, tabela);
         }
         cursor.close();
-        return tabela;
+        return null;
     }
+
     // verificar a possibilidade de passsar esse metodo para o FuncoesSql
     @Override
     public int countIdEntidadeCriacao(Tabela tabela) {
@@ -263,7 +265,7 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
 
         try {
             Object o = map.get(nomeColuna);
-            if (FuncoesGerais.isTabela(map.get(nomeColuna))) {
+            if (VerificaTipos.isTabela(map.get(nomeColuna))) {
                 int idTabela = cursor.getInt(i);
 
                 if(idTabela > 0) { // buscará entidade somente se id > 0
@@ -360,7 +362,7 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
                 String dps = FuncoesGerais.removeCaracteresEspeciais((String) map.get(s));
                 colunas += s +" = '" + dps + "',";
 
-            } else if (FuncoesGerais.isTabela(map.get(s))) {
+            } else if (VerificaTipos.isTabela(map.get(s))) {
                 Tabela e = (Tabela) atributo;
                 colunas += s + " = " + e.getId() +",";
             } else if(VerificaTipos.isCalendar(map.get(s),null)) {

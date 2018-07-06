@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.VariaveisControleG;
+import com.jmdesenvolvimento.appcomercial.controller.VariaveisControleG;
 import com.jmdesenvolvimento.appcomercial.model.Configuracoes;
 import com.jmdesenvolvimento.appcomercial.model.Tabela;
 

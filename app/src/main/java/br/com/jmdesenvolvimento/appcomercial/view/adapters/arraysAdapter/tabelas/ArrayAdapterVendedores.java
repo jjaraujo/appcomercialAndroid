@@ -8,8 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.jmdesenvolvimento.appcomercial.model.Tabela;
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Fornecedor;
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Vendedor;
+import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Funcionario;
 
 import java.util.List;
 
@@ -44,7 +43,7 @@ public class ArrayAdapterVendedores extends BaseAdapter {
 
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.list_model_clientes, null);
-        Vendedor fornecedor = (Vendedor) list.get(position);
+        Funcionario fornecedor = (Funcionario) list.get(position);
         TextView nome = view.findViewById(R.id.textViewListClientesNome);
         nome.setText(fornecedor.getPessoa().getNome());
         TextView cpf = view.findViewById(R.id.textViewListClientesCpf);

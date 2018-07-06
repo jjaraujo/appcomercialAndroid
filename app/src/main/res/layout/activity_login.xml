@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.activitys.LoginActivity"
+    tools:context=".view.activitys.iniciais.LoginActivity"
     android:background="@android:color/white">
 
     <ProgressBar

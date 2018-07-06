@@ -37,12 +37,27 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/inputLayoutCadastroCpfCnpj"
+                android:id="@+id/inputLayoutCadastroEmpresaFantasia"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/inputLayoutCadastroNomeRSocial"
+                android:hint="Nome Fantasia">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/cadastroEmpresaFantasia"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/inputLayoutCadastroCpfCnpj"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/inputLayoutCadastroEmpresaFantasia"
                 android:hint="CPF / CNPJ">
 
                 <android.support.design.widget.TextInputEditText
@@ -216,6 +231,38 @@
                     android:layout_height="50dp"
                     android:inputType="textEmailAddress" />
             </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textLayoutCadastroEmpresaSenha"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textLayoutCadastroEmail"
+                android:hint="Senha">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/cadastroEmpresaSenha"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:inputType="textVisiblePassword" />
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textLayoutCadastroEmpresaConfirmarSenha"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textLayoutCadastroEmpresaSenha"
+                android:hint="Senha">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/cadastroEmpresaConfirmarSenha"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:inputType="textVisiblePassword" />
+            </android.support.design.widget.TextInputLayout>
+
         </RelativeLayout>
     </LinearLayout>
 

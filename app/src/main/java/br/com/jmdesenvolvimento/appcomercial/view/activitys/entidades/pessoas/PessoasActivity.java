@@ -88,7 +88,7 @@ public class PessoasActivity extends AppCompatActivity {
                        startActivity(intent);
                        break;
                    case 2:
-                       intent = new Intent(PessoasActivity.this, CadastroVendedoresActivity.class);
+                       intent = new Intent(PessoasActivity.this, CadastroFuncionarioActivity.class);
                        intent.putExtra("tipoAbertura","cadastrar");
                        startActivity(intent);
                        break;

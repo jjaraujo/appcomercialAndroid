@@ -3,7 +3,7 @@ package br.com.jmdesenvolvimento.appcomercial.model.dao;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.VariaveisControleG;
+import com.jmdesenvolvimento.appcomercial.controller.VariaveisControleG;
 import com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Produto;
 import com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaProdutosVenda;
 

@@ -8,6 +8,7 @@ import android.view.View;
 
 import java.lang.reflect.Field;
 
+import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
 import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Pessoa;
 
 public abstract class AlteraCamposPessoas {
@@ -63,5 +64,4 @@ public abstract class AlteraCamposPessoas {
                 || f.getType().getSimpleName().equals("AutoCompleteTextView")
                 || f.getType().getSimpleName().contains("Spinner");
     }
-
 }

@@ -22,4 +22,7 @@ public interface Service {
 
     @POST("tabelas/cadastraNovaEmpresa")
     public  Call<String> cadastraNovaEmpresa(@Body String s);
+
+    @POST("tabelas/cadastraFuncionario")
+    public  Call<String> cadastraFuncionario(@Body String s);
 }

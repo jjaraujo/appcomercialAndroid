@@ -18,9 +18,12 @@ import java.util.Calendar;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
 import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.VariaveisControleG;
+import com.jmdesenvolvimento.appcomercial.controller.VariaveisControleG;
 import com.jmdesenvolvimento.appcomercial.model.Tabela;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
+import br.com.jmdesenvolvimento.appcomercial.view.activitys.iniciais.CaixaActivity;
+import br.com.jmdesenvolvimento.appcomercial.view.activitys.iniciais.VendasAbertasActivity;
+
 import com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
 
 public final class FuncoesViewAndroid {
@@ -115,14 +118,27 @@ public final class FuncoesViewAndroid {
                 .show();
     }
 
-    public static void addAlertDialogErro(Context context, String titulo, String mensagem){
-        new AlertDialog.Builder(context)
+
+    /**Adiciona um alertDialog com icone de erro
+     * @param activity - Informe a activity que onde será exibida o alert
+     * @param titulo - Informe o título do dialogo
+     * @param mensagem - Informe o titulo da mensagem
+     * @param encerrarActivity - Informar true caso queira encerrar a @activity */
+    public static AlertDialog addAlertDialogErro(AppCompatActivity activity, String titulo, String mensagem, boolean encerrarActivity){
+       return new AlertDialog.Builder(activity)
                 .setTitle(titulo)
                 .setMessage(mensagem)
                 .setIcon(R.drawable.icone_erro)
                 .setCancelable(true)
-                .setPositiveButton("Fechar",null)
-                .show();
+                .setPositiveButton("Fechar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(encerrarActivity){
+                            activity.finish();
+                        }
+                    }
+                }).create();
+
     }
 
     public static void addSnackBarToast(View v, Context context, String mensagem){
@@ -130,6 +146,17 @@ public final class FuncoesViewAndroid {
             Snackbar.make(v, mensagem, Snackbar.LENGTH_LONG).show();
         }catch (Exception e){
             Toast.makeText(context,mensagem,Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public static Class  getActivityInicial(){
+        String caminho = "br.com.jmdesenvolvimento.appcomercial.view.activitys.iniciais.";
+        String nome = VariaveisControleG.configuracoesSimples.getActivityInicial();
+        try {
+            return Class.forName(caminho+nome).getClass();
+        } catch (ClassNotFoundException e) {
+            //      e.printStackTrace();
+            return CaixaActivity.class;
         }
     }
 }

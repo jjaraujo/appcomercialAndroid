@@ -31,5 +31,6 @@
         completions."
     </string>
     <string name="title_activity_login4">Sign in</string>
+    <string name="title_activity_caixa">CaixaActivity</string>
 
 </resources>
