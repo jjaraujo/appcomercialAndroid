@@ -139,7 +139,7 @@ public class FragmentClientes extends Fragment {
             if (FuncoesGerais.stringIsSomenteNumero(query)) {
                 clientes = dao.buscaPessoaPorNomeCpf(cliente, "cpfCNPJ", query);
             } else {
-                clientes = dao.buscaPessoaPorNomeCpf(cliente, "nome_pessoa", query);
+                clientes = dao.buscaPessoaPorNomeCpf(cliente, "nomePessoa", query);
             }
         } else {
             clientes = (List<Tabela>) dao.selectAll(cliente, null, false, null, null, cliente.getIdNome(), "100");

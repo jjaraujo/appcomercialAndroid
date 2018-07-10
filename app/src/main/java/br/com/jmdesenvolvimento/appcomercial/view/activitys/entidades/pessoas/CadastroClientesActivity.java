@@ -240,7 +240,7 @@ public class CadastroClientesActivity extends AppCompatActivity {
         editTextBairro.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getBairro()));
         editTextNumero.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getNumero() + ""));
         editTextCep.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getCep() + ""));
-        spinnerEstado.setSelection(pessoa.getEstado().getId());
+        spinnerEstado.setSelection((int)pessoa.getEstado().getId());
         editTextMunicipio.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getMunicipio().getNome()));
         editTextTelefone1.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getTelefone1() + ""));
         editTextTelefone2.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getTelefone2() + ""));

@@ -24,6 +24,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
@@ -78,8 +79,9 @@ public class VendasAbertasActivity extends AppCompatActivity
                 VariaveisControleG.vendaSelecionada = venda;
          //       FuncoesViewAndroid.alteraViewVendaSelecionada();
                 // VariaveisControleAndroid.fragmentProdutos.carregaLista();
-                if(venda.getId() == 0){
+                if(venda.getDataRegistro() == null){
                     SQLiteDatabaseDao dao = new SQLiteDatabaseDao(VendasAbertasActivity.this);
+                    venda.setDataRegistro(Calendar.getInstance());
                     dao.insert(venda);
                     dao.close();
                 }
@@ -191,7 +193,7 @@ public class VendasAbertasActivity extends AppCompatActivity
         String orderby = "numeroMesaComanda," + venda.getIdNome();
         List<Venda> vendasAbertas = (List<Venda>) dao.selectAll(venda,"dataFechamento IS NULL", false,null,null,orderby,null);
         dao.close();
-        vendasAbertas = VariaveisControleG.configuracoesSimples.getNumeroDeMesasComandas() == 0 ? vendasAbertas : organizaQtdVendasAbertas(vendasAbertas);
+        vendasAbertas = organizaQtdVendasAbertas(vendasAbertas);
         ArrayAdapterVendasAbertas adapterTabelas = new ArrayAdapterVendasAbertas(this,vendasAbertas);
         lista.setAdapter(adapterTabelas);
     }
@@ -203,6 +205,7 @@ public class VendasAbertasActivity extends AppCompatActivity
         for(int i = 0; i < tamanho ; i++){
             vendasAbertasOrganizadas.add(new Venda(i+1));
         }
+        // verifica se há vendas abertas e substitui por elas na lista
         for(int i = 0; i < listVendas.size(); i++) {
             Venda v = listVendas.get(i);
             vendasAbertasOrganizadas.remove(v.getNumeroMesaComanda() -1);

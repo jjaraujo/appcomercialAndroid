@@ -61,7 +61,7 @@ public class ArrayAdapterVendasAbertas extends BaseAdapter {
             textViewClienteTipoVenda.setText(nome);
         }
 
-        if(v.getId() > 0){
+        if(v.getDataRegistro() != null){
             Log.i("É usado","Sim");
             view.setBackgroundColor(Color.RED);
         }

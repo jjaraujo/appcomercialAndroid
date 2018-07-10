@@ -141,6 +141,18 @@ public final class FuncoesViewAndroid {
 
     }
 
+    public static AlertDialog addAlertaSemInternet(AppCompatActivity appCompatActivity,boolean encerrarActivity){
+       return addAlertDialogErro(appCompatActivity,"Falha na conexão",
+                "Parece que você não está conectado à Internet. Verifique sua conexão e tente novamente",
+                encerrarActivity);
+    }
+
+    public static AlertDialog addAlertaErroServidor(AppCompatActivity appCompatActivity,boolean encerrarActivity){
+        return addAlertDialogErro(appCompatActivity, "Falha na conexão",
+                "Nosso sistema não está respondendo. Tente novamente em instantes e caso o problema persista, entre em contato com o suporte!", encerrarActivity);
+
+    }
+
     public static void addSnackBarToast(View v, Context context, String mensagem){
         try {
             Snackbar.make(v, mensagem, Snackbar.LENGTH_LONG).show();

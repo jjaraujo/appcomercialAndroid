@@ -3,7 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <item android:title="Pessoas">
+    <group android:title="Pessoas">
+        <item
+            android:id="@+id/menuContasAbertas"
+            android:icon="@drawable/icone_pessoas"
+            android:title="Contas Abertas" />
         <item
             android:id="@+id/menuPessoas"
             android:icon="@drawable/icone_pessoas"
@@ -28,7 +32,11 @@
             android:id="@+id/menuConfiguracoes"
             android:icon="@drawable/ic_menu_manage"
             android:title="Configurações" />
-    </item>
+    </group>
+
+
+    <item android:id="@+id/sair"
+        android:title="Sair"></item>
 
 
 </menu>

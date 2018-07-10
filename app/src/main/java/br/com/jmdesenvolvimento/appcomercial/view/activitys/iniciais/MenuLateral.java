@@ -18,6 +18,7 @@ import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Empr
 import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Funcionario;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
+import br.com.jmdesenvolvimento.appcomercial.controller.Logout;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.configuracoes.ConfiguracoesActivity;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.contas.ContaReceberActivity;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.estoque.EstoqueActivity;
@@ -43,8 +44,8 @@ public class MenuLateral {
         EmpresaCliente empCli = VariaveisControleG.empresaCliente;
         Funcionario vendedor = VariaveisControleG.funcionarioLogado;
 
-        textViewNomeEmpresa.setText(vendedor == null ? "" : empCli.getPessoa().getNome());
-        textViewNomePessoaLogada.setText(vendedor == null ? empCli.getPessoa().getNome() : vendedor.getPessoa().getNome());
+        textViewNomeEmpresa.setText(vendedor == null ? "" : empCli.getPessoa().getNomeFantasia());
+        textViewNomePessoaLogada.setText(vendedor == null ? empCli.getPessoa().getNomeFantasia() : vendedor.getPessoa().getNome());
         textViewNomePessoaLogada.setTextSize(TypedValue.COMPLEX_UNIT_DIP,25);
     }
 
@@ -52,6 +53,10 @@ public class MenuLateral {
 
         Intent intent;
         switch (item.getItemId()) {
+            case R.id.menuContasAbertas:
+                intent = new Intent(appCompatActivity, VendasAbertasActivity.class);
+                appCompatActivity.startActivity(intent);
+                break;
             case R.id.menuPessoas:
                 intent = new Intent(appCompatActivity, PessoasActivity.class);
                 appCompatActivity.startActivity(intent);
@@ -74,6 +79,9 @@ public class MenuLateral {
                 intent = new Intent(appCompatActivity, ConfiguracoesActivity.class);
                 appCompatActivity.startActivity(intent);
                 break;
+            case R.id.sair:
+                Logout logout = new Logout(appCompatActivity);
+                logout.execute();
         }
 
         DrawerLayout drawer = appCompatActivity.findViewById(R.id.drawer_layout);

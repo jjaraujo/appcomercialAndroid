@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import br.com.jmdesenvolvimento.appcomercial.view.fragments.FragmentClientes;
 import br.com.jmdesenvolvimento.appcomercial.view.fragments.FragmentFornecedor;
-import br.com.jmdesenvolvimento.appcomercial.view.fragments.FragmentVendedor;
+import br.com.jmdesenvolvimento.appcomercial.view.fragments.FragmentFuncionario;
 
 public class AdapterFragmentActivityPessoas extends FragmentStatePagerAdapter{
 
@@ -15,7 +15,7 @@ public class AdapterFragmentActivityPessoas extends FragmentStatePagerAdapter{
 
     private FragmentClientes fragmentCliente = new FragmentClientes(0,"cliente");
     private FragmentFornecedor fragmentFornecedor = new FragmentFornecedor();
-    private FragmentVendedor fragmentVendedor = new FragmentVendedor(2,"pessoa");
+    private FragmentFuncionario fragmentVendedor = new FragmentFuncionario(2,"pessoa");
 
     public AdapterFragmentActivityPessoas(FragmentManager fm) {
         super(fm);

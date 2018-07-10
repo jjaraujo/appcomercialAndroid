@@ -32,6 +32,7 @@ import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Pess
 public class CadastroEmpresaActivity extends AppCompatActivity {
 
     private TextInputEditText editTextNome;
+    private TextInputEditText editTextFantsasia;
     private TextInputEditText editTextCpf;
     private TextInputEditText editTextRg;
     private TextInputEditText editTextLogradouro;
@@ -138,6 +139,7 @@ public class CadastroEmpresaActivity extends AppCompatActivity {
     private void addIdsEAdapters() {
 
         editTextNome = findViewById(R.id.cadastroNomeRSocial);
+        editTextFantsasia = findViewById(R.id.cadastroEmpresaFantasia);
         editTextCpf = findViewById(R.id.cadastroCpfCnpj);
         editTextCpf.addTextChangedListener(new Mask().insert(Mask.CPF, editTextCpf));
 
@@ -186,6 +188,7 @@ public class CadastroEmpresaActivity extends AppCompatActivity {
     private Pessoa getValoresFormularioPessoa() {
         Pessoa pessoa = new Pessoa();
         pessoa.setNome(editTextNome.getText().toString());
+        pessoa.setNomeFantasia(editTextFantsasia.getText().toString());
         pessoa.setCpfCNPJ(FuncoesGerais.removePontosTracos(editTextCpf.getText().toString()));
         pessoa.setRgIE(FuncoesGerais.corrigeValoresCamposInt(editTextRg.getText().toString()));
         pessoa.setLogradouro(editTextLogradouro.getText().toString());
@@ -211,13 +214,14 @@ public class CadastroEmpresaActivity extends AppCompatActivity {
 
     private void setValoresFormularioPessoa(Pessoa pessoa) {
         editTextNome.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getNome()));
+        editTextFantsasia.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getNomeFantasia()));
         editTextCpf.setText(pessoa.getCpfCNPJ());
         editTextRg.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getRgIE() + ""));
         editTextLogradouro.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getLogradouro()));
         editTextBairro.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getBairro()));
         editTextNumero.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getNumero() + ""));
         editTextCep.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getCep() + ""));
-        spinnerEstado.setSelection(pessoa.getEstado().getId());
+        spinnerEstado.setSelection((int)pessoa.getEstado().getId());
         editTextMunicipio.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getMunicipio().getNome()));
         editTextTelefone1.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getTelefone1() + ""));
         editTextTelefone2.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getTelefone2() + ""));

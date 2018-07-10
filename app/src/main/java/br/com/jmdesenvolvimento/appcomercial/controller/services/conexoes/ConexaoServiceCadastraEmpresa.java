@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.jmdesenvolvimento.appcomercial.model.Dispositivo;
 import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.APessoa;
 
 import java.io.IOException;
@@ -17,18 +18,20 @@ import br.com.jmdesenvolvimento.appcomercial.controller.json.LeituraJson;
 import br.com.jmdesenvolvimento.appcomercial.controller.services.RetrofitInicializador;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.iniciais.MainActivity;
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ConexaoServiceCadastraEmpresa extends AsyncTask<Void, Void, Integer> {
 
     private AlertDialog alertDialog;
-    private Response response;
     private ProgressDialog dialog;
     private AppCompatActivity context;
     private APessoa empresaCliente;
     private final int  FALHA_SEM_INTERNET = 1;
     private final int  FALHA_SERVIDOR = 2;
     private final int SUCESSO = 3;
+    private int tipoResposta;
 
 
     public ConexaoServiceCadastraEmpresa( AppCompatActivity context, APessoa tabela){
@@ -48,27 +51,35 @@ public class ConexaoServiceCadastraEmpresa extends AsyncTask<Void, Void, Integer
     @Override
     protected Integer doInBackground(Void... voids) {
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(context);
+        int retorno;
         try {
-
             dao.insert(empresaCliente.getPessoa());
+            Dispositivo dispositivo = (Dispositivo) dao.select(new Dispositivo(),null, null, null,null,null);
+            String jsonEmpresa = LeituraJson.tranformaParaJson(context, empresaCliente);
+            String token = dispositivo.getToken();
+            Log.i("JSON empresaCliente", jsonEmpresa);
 
-            String json = LeituraJson.tranformaParaJson(context, empresaCliente);
-            Log.i("JSON empresaCliente",json);
-            response = new RetrofitInicializador(context).getService().cadastraNovaEmpresa(json).execute();
-          //  empresaCliente.setId(Integer.parseInt(response.body()+""));
-            empresaCliente.setId(1);
+           Response response =  new RetrofitInicializador(context).getService().cadastraNovaEmpresa(jsonEmpresa, token).execute();
+           if(response.isSuccessful()){
+               empresaCliente.setId(Integer.parseInt(response.body()+""));
+               dao.insert(empresaCliente);
+               retorno =  SUCESSO;
+           } else{
+               throw new IOException();
+           }
+        } catch (NumberFormatException e){
+            Log.e("ERRO","Servidor não retornou um número correto.");
+            retorno = FALHA_SERVIDOR;
+         }catch (ExceptionInternet e){
+            retorno = FALHA_SEM_INTERNET;
         } catch (IOException e) {
-            Log.e("Erro","erro no servidor");
-            dialog.dismiss();
-          //  return FALHA_SERVIDOR;
-        } catch (ExceptionInternet e){
-            dialog.dismiss();
-         //   return FALHA_SEM_INTERNET;
+            retorno = FALHA_SERVIDOR;
+        } catch (Exception e){
+            e.printStackTrace();
+            retorno = FALHA_SERVIDOR;
         }
-
-        dao.insert(empresaCliente);
         dao.close();
-        return SUCESSO;
+        return retorno;
     }
 
     @Override
@@ -82,14 +93,14 @@ public class ConexaoServiceCadastraEmpresa extends AsyncTask<Void, Void, Integer
                 break;
 
             case FALHA_SERVIDOR:
-                FuncoesViewAndroid.addAlertDialogErro(context, "Falha na conexão",
-                        "Nosso sistema não está respondendo. Tente novamente em instantes e caso o problema persista, entre em contato com o suporte!", true).show();
+                FuncoesViewAndroid.addAlertaErroServidor(context,true).show();
                 break;
 
             case FALHA_SEM_INTERNET:
-                FuncoesViewAndroid.addAlertDialogErro(context,"Falha na conexão",
-                        "Parece que você não está conectado à Internet. Verifique sua conexão e tente novamente",
-                        true).show();
+                FuncoesViewAndroid.addAlertaSemInternet(context,true).show();
+                break;
+            default:
+                FuncoesViewAndroid.addAlertaErroServidor(context,true).show();
                 break;
         }
     }

@@ -160,6 +160,7 @@ public class CadastroFuncionarioActivity extends AppCompatActivity {
         editTextTelefone2.addTextChangedListener(new Mask().insert(Mask.TELEFONE, editTextTelefone2));
 
         editTextUsuario = findViewById(R.id.cadastroUsuario);
+        editTextSenha = findViewById(R.id.cadastroFuncionarioSenha);
 
 //        inputTextCpf = findViewById(R.id.inputLayoutCadastroCpfCnpj);
 //        inputTextNascimento = findViewById(R.id.inputLayoutCadastroNascimento);
@@ -208,7 +209,6 @@ public class CadastroFuncionarioActivity extends AppCompatActivity {
         //    pessoa.setMunicipio(editTextMunicipio.getIte);
         pessoa.setTelefone1(FuncoesGerais.removePontosTracos(editTextTelefone1.getText().toString()));
         pessoa.setTelefone2(FuncoesGerais.removePontosTracos(editTextTelefone2.getText().toString()));
-        pessoa.setEmail(editTextUsuario.getText().toString());
         return pessoa;
     }
 
@@ -218,6 +218,8 @@ public class CadastroFuncionarioActivity extends AppCompatActivity {
         Pessoa pessoa = getValoresFormularioPessoa();
         Funcionario funcionario = new Funcionario();
         funcionario.setPessoa(pessoa);
+        funcionario.setUsuario(editTextUsuario.getText().toString());
+        funcionario.setSenha(editTextSenha.getText().toString());
         return funcionario;
     }
 
@@ -231,14 +233,15 @@ public class CadastroFuncionarioActivity extends AppCompatActivity {
         editTextBairro.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getBairro()));
         editTextNumero.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getNumero() + ""));
         editTextCep.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getCep() + ""));
-        spinnerEstado.setSelection(pessoa.getEstado().getId());
+        pessoa.getMapAtributos(true);
+        spinnerEstado.setSelection((int)pessoa.getEstado().getId());
         editTextMunicipio.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getMunicipio().getNome()));
         editTextTelefone1.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getTelefone1() + ""));
         editTextTelefone2.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getTelefone2() + ""));
-        editTextUsuario.setText(FuncoesGerais.removeNullZeroFormularios(pessoa.getEmail()));
     }
 
     private void setValoresFormularioVendedor(Funcionario funcionario) {
+
         setValoresFormularioPessoa(funcionario.getPessoa());
     }
 

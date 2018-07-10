@@ -57,11 +57,14 @@ public class ConexaoServiceCadastraFuncionario extends AsyncTask<Void, Void, Int
 
             String json = LeituraJson.tranformaParaJson(context, funcionario);
             Log.i("JSON",json);
-            response = new RetrofitInicializador(context).getService().cadastraFuncionario(json).execute();
-         //   empresaCliente.setId(Integer.parseInt(response.body()+""));
+            response = new RetrofitInicializador(context).getService().cadastraNovaEmpresa(json,"").execute();
+            funcionario.setId(Integer.parseInt(response.body()+""));
       //      empresaCliente.setId(1);
-//            dao.insert(empresaCliente);
-//            dao.close();
+            if(response.body().equals("false")){
+                throw new IOException();
+            }
+            dao.insert(funcionario);
+            dao.close();
         } catch (IOException e) {
             Log.e("Erro","erro no servidor");
             dialog.dismiss();
@@ -71,8 +74,6 @@ public class ConexaoServiceCadastraFuncionario extends AsyncTask<Void, Void, Int
             e.addMensagem(context, true);
         //    return FALHA_SEM_INTERNET;
         }
-        dao.insert(funcionario);
-        dao.close();
         return SUCESSO;
     }
 
@@ -83,8 +84,6 @@ public class ConexaoServiceCadastraFuncionario extends AsyncTask<Void, Void, Int
         switch (tipoErro) {
             case SUCESSO:
                 context.finish();
-                Intent intent = new Intent(context, MainActivity.class);
-                context.startActivity(intent);
 
                 break;
 
@@ -94,7 +93,9 @@ public class ConexaoServiceCadastraFuncionario extends AsyncTask<Void, Void, Int
                 break;
 
             case FALHA_SEM_INTERNET:
-
+                FuncoesViewAndroid.addAlertDialogErro(context,"Falha na conexão",
+                        "Parece que você não está conectado à Internet. Verifique sua conexão e tente novamente",
+                        true).show();
                 break;
         }
     }

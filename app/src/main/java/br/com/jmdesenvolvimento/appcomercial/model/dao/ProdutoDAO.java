@@ -23,7 +23,7 @@ public class ProdutoDAO  extends SQLiteDatabaseDao{
         }
     }
 
-    public void addEstoque( int id, int qtd){
+    public void addEstoque( long id, int qtd){
         if(!VariaveisControleG.configuracoesSimples.isVendaSemEstoque()) {
             SQLiteDatabase db = getWritableDatabase();
             String sql = "UPDATE PRODUTO set qtd = qtd + " + qtd

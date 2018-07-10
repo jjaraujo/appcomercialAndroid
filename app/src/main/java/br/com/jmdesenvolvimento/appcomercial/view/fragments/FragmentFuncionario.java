@@ -23,11 +23,12 @@ import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Func
 
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.pessoas.CadastroFornecedoresActivity;
+import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.pessoas.CadastroFuncionarioActivity;
 import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas.ArrayAdapterClientes;
 import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas.ArrayAdapterVendedores;
 
 @SuppressLint("ValidFragment")
-public class FragmentVendedor extends Fragment {
+public class FragmentFuncionario extends Fragment {
 
 
     private OnFragmentInteractionListener mListener;
@@ -35,12 +36,12 @@ public class FragmentVendedor extends Fragment {
     private SearchView searchView;
     private int posicaoFragment;
 
-    public FragmentVendedor() {
+    public FragmentFuncionario() {
         // Required empty public constructor
     }
 
 
-    public FragmentVendedor(int posicaoFragment, String tipoPessoa){
+    public FragmentFuncionario(int posicaoFragment, String tipoPessoa){
         this.posicaoFragment = posicaoFragment;
     }
 
@@ -75,7 +76,7 @@ public class FragmentVendedor extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getContext(), CadastroFornecedoresActivity.class);
+                Intent intent = new Intent(getContext(), CadastroFuncionarioActivity.class);
                 intent.putExtra("tipoAbertura","visualizar");
                 Tabela pessoa = (Tabela) listView.getItemAtPosition(position);
                 intent.putExtra("pessoaVisualizar", pessoa);
@@ -123,7 +124,7 @@ public class FragmentVendedor extends Fragment {
         if(query != null){
             vendedores = FuncoesGerais.stringIsSomenteNumero(query) ?
                     dao.buscaPessoaPorNomeCpf(vendedor,"cpfCNPJ",query) :
-                    dao.buscaPessoaPorNomeCpf(vendedor,"nome_pessoa",query);
+                    dao.buscaPessoaPorNomeCpf(vendedor,"nomePessoa",query);
         } else{
             vendedores = (List<Tabela>) dao.selectAll(vendedor,null,false,null,null,vendedor.getIdNome(),"100");
         }

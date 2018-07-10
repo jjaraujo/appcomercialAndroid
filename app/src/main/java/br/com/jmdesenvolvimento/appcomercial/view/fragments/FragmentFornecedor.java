@@ -111,7 +111,7 @@ public class FragmentFornecedor extends Fragment {
             if (FuncoesGerais.stringIsSomenteNumero(query)) {
                 fornecedores = dao.buscaPessoaPorNomeCpf(fornecedor,"cpfCNPJ",query);
             } else {
-                fornecedores = dao.buscaPessoaPorNomeCpf(fornecedor,"nome_pessoa",query);
+                fornecedores = dao.buscaPessoaPorNomeCpf(fornecedor,"nomePessoa",query);
             }
         } else{
         fornecedores = (List<Tabela>) dao.selectAll(fornecedor,null,false,null,null,fornecedor.getIdNome(),"100");
