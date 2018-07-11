@@ -19,6 +19,8 @@ import br.com.jmdesenvolvimento.appcomercial.R;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.Mask;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
+
+import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.EstrategiaLogin;
 import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
 import com.jmdesenvolvimento.appcomercial.model.Tabela;
 
@@ -106,8 +108,8 @@ public class CadastroFuncionarioActivity extends AppCompatActivity {
                     pessoaNovaAposEdicao = (Funcionario) FuncoesGerais.getTabelaModificada(this.pessoaVisualizar, this.pessoaEditada, this.pessoaNovaAposEdicao);
                     pessoaNovaAposEdicao.getPessoa().setId(pessoaVisualizar.getPessoa().getId());
                     pessoaNovaAposEdicao.getPessoa().setId(pessoaVisualizar.getPessoa().getId());
-                    dao.update(pessoaNovaAposEdicao.getPessoa(), true);
-                    dao.update(pessoaNovaAposEdicao, true);
+                    dao.update(pessoaNovaAposEdicao.getPessoa());
+                    dao.update(pessoaNovaAposEdicao);
                     finish();
                     Toast.makeText(this, pessoaNovaAposEdicao.getNomeTabela(false) + " " + pessoaNovaAposEdicao.getId() + " alterado!", Toast.LENGTH_SHORT).show();
                 }
@@ -219,7 +221,7 @@ public class CadastroFuncionarioActivity extends AppCompatActivity {
         Funcionario funcionario = new Funcionario();
         funcionario.setPessoa(pessoa);
         funcionario.setUsuario(editTextUsuario.getText().toString());
-        funcionario.setSenha(editTextSenha.getText().toString());
+        funcionario.setSenha(EstrategiaLogin.criptografaSenha(editTextSenha.getText().toString()));
         return funcionario;
     }
 

@@ -111,8 +111,8 @@ public class CadastroFornecedoresActivity extends AppCompatActivity {
 
                     pessoaNovaAposEdicao = (Fornecedor) FuncoesGerais.getTabelaModificada(this.pessoaVisualizar, this.pessoaEditada, this.pessoaNovaAposEdicao);
                     pessoaNovaAposEdicao.getPessoa().setId(pessoaVisualizar.getPessoa().getId());
-                    dao.update(pessoaNovaAposEdicao.getPessoa(), true);
-                    dao.update(pessoaNovaAposEdicao, true);
+                    dao.update(pessoaNovaAposEdicao.getPessoa());
+                    dao.update(pessoaNovaAposEdicao);
                     finish();
                     Toast.makeText(this, pessoaNovaAposEdicao.getNomeTabela(false) + " " + pessoaNovaAposEdicao.getId() + " alterado!", Toast.LENGTH_SHORT).show();
                 }

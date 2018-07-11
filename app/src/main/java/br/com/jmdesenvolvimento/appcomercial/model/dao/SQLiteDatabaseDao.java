@@ -189,66 +189,15 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
         return count;
     }
 
-    /**
-     * Ignorar valores vazios somente caso ZEROS não sejam uteis
-     */
-    public void update(Tabela tabela, boolean ignorarValoresVazios) {
-
-        String nomeEntidade = tabela.getNomeTabela(false);
-        HashMap<String, Object> map = tabela.getMapAtributos(true);
-//        if (tabela.isEntidade()) {
-//            Entidade entidade = (Entidade) tabela;
-//            map.put(entidade.getIdNome(), entidade.getId());
-//        }
-        SQLiteDatabase db = getWritableDatabase();
-        Set<String> set = map.keySet();
-        String sql = "UPDATE " + nomeEntidade;
-        String colunas = " SET ";
-        for (String s : set) {
-            Object atributo = map.get(s);
-            if ((atributo == null || (atributo + "").equals("0") || (atributo + "").equals("0.0")
-                    || atributo.equals("") || atributo.equals(" ")) && ignorarValoresVazios) {
-                continue;
-            }
-            if (atributo.getClass().getSimpleName().contains("List"))
-                continue;
-
-            if (atributo.getClass().toString().trim().toLowerCase().contains("string")) {
-                String dps = FuncoesGerais.removeCaracteresEspeciais((String) map.get(s));
-                colunas += s + " = '" + dps + "',";
-
-            } else if (VerificaTipos.isTabela(map.get(s))) {
-                Tabela e = (Tabela) atributo;
-                colunas += s + " = " + e.getId() + ",";
-            } else if (VerificaTipos.isCalendar(map.get(s), null)) {
-                colunas += s + " = " + FuncoesGerais.calendarToString((Calendar) atributo, FuncoesGerais.yyyyMMdd_HHMMSS, true) + ",";
-            } else if (VerificaTipos.isBoolean(map.get(s), null)) {
-                colunas += s + " = " + FuncoesGerais.booleanToint((Boolean) map.get(s)) + ",";
-            } else { // caso seja real ou integer
-                colunas += s + " = " + atributo + ",";
-            }
-        }
-        colunas += ",,";
-        colunas = colunas.replace(",,,", " ").replace(",,", " ");
-
-        sql += colunas + " WHERE " + tabela.getIdNome() + " = " + tabela.getId() + ";";
-        db.execSQL(sql);
-        db.close();
-    }
-
     @Override
     public void execSQL(String s) {
-        db = db == null ? getWritableDatabase() : db;
-        db.execSQL(s);
-    }
-
-    public void deleteLogico(Tabela tabela) {
-        SQLiteDatabase db = getWritableDatabase();
-        String sql = "UPDATE " + tabela.getNomeTabela(false)
-                + " SET " + tabela.getDataExclusaoNome() + " = " + FuncoesGerais.calendarToString(Calendar.getInstance(), FuncoesGerais.yyyyMMdd_HHMMSS, true)
-                + " WHERE " + tabela.getIdNome() + " = " + tabela.getId();
-        db.execSQL(sql);
-        db.close();
+        if(db == null){
+            db = getWritableDatabase();
+            db.execSQL(s);
+            db.close();
+        } else {
+            db.execSQL(s);
+        }
     }
 
     public void updateQtdProdutoVenda(TabelaProdutosVenda tpv) {

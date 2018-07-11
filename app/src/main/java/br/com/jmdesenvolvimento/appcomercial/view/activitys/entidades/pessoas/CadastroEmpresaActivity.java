@@ -18,6 +18,8 @@ import java.util.List;
 
 import br.com.jmdesenvolvimento.appcomercial.R;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.Mask;
+
+import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.EstrategiaLogin;
 import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
 import br.com.jmdesenvolvimento.appcomercial.controller.json.LeituraJson;
 import br.com.jmdesenvolvimento.appcomercial.controller.services.conexoes.ConexaoServiceCadastraEmpresa;
@@ -111,8 +113,8 @@ public class CadastroEmpresaActivity extends AppCompatActivity {
 
                     pessoaNovaAposEdicao = (EmpresaCliente) FuncoesGerais.getTabelaModificada(this.pessoaVisualizar, this.pessoaEditada, this.pessoaNovaAposEdicao);
                     pessoaNovaAposEdicao.getPessoa().setId(pessoaVisualizar.getPessoa().getId());
-                    dao.update(pessoaNovaAposEdicao.getPessoa(), true);
-                    dao.update(pessoaNovaAposEdicao, true);
+                    dao.update(pessoaNovaAposEdicao.getPessoa());
+                    dao.update(pessoaNovaAposEdicao);
 
                     Toast.makeText(this, pessoaNovaAposEdicao.getNomeTabela(false) + " " + pessoaNovaAposEdicao.getId() + " alterado!", Toast.LENGTH_SHORT).show();
                 }
@@ -206,10 +208,12 @@ public class CadastroEmpresaActivity extends AppCompatActivity {
     private EmpresaCliente getValoresFormularioEmpresa() {
 
         Pessoa pessoa = getValoresFormularioPessoa();
-        EmpresaCliente fornecedor = new EmpresaCliente();
-        fornecedor.setPessoa(pessoa);
+        EmpresaCliente empresaCliente = new EmpresaCliente();
+        empresaCliente.setPessoa(pessoa);
+        empresaCliente.setEmail(editTextEmail.getText().toString());
+        empresaCliente.setSenha(EstrategiaLogin.criptografaSenha(editTextSenha.getText().toString()));
 
-        return fornecedor;
+        return empresaCliente;
     }
 
     private void setValoresFormularioPessoa(Pessoa pessoa) {

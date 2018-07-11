@@ -57,7 +57,7 @@ public class ConexaoServiceCadastraFuncionario extends AsyncTask<Void, Void, Int
 
             String json = LeituraJson.tranformaParaJson(context, funcionario);
             Log.i("JSON",json);
-            response = new RetrofitInicializador(context).getService().cadastraNovaEmpresa(json,"").execute();
+            response = new RetrofitInicializador(context).getService().cadastraFuncionario(json).execute();
             funcionario.setId(Integer.parseInt(response.body()+""));
       //      empresaCliente.setId(1);
             if(response.body().equals("false")){

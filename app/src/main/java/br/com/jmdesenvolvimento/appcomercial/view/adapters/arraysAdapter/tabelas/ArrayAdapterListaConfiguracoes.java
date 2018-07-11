@@ -149,7 +149,7 @@ public class ArrayAdapterListaConfiguracoes extends BaseAdapter {
                 } else{
                     tipoPagamentos.setAceito(false);
                 }
-                dao.update(tipoPagamentos,false);
+                dao.update(tipoPagamentos);
                 dao.close();
             }
         });
@@ -185,7 +185,7 @@ public class ArrayAdapterListaConfiguracoes extends BaseAdapter {
                                             map.put("numeroDeMesasComandas", Integer.parseInt(editText.getText().toString()));
                                             configuracoes.setMapAtributos(map);
                                             final SQLiteDatabaseDao dao = new SQLiteDatabaseDao(context);
-                                            dao.update(configuracoes, false);
+                                            dao.update(configuracoes);
                                             dao.close();
                                             FuncoesViewAndroid.addSnackBarToast(v,context,
                                                     "Agora você aceita venda por " + tipoVenda.toLowerCase());
@@ -212,7 +212,7 @@ public class ArrayAdapterListaConfiguracoes extends BaseAdapter {
                         map.put("vendaSemEstoque",true);
                         configuracoes.setMapAtributos(map);
                         final SQLiteDatabaseDao dao = new SQLiteDatabaseDao(context);
-                        dao.update(configuracoes, false);
+                        dao.update(configuracoes);
                         FuncoesViewAndroid.addSnackBarToast(switchButton, context,"Agora você aceita" + nomeCampotextoMensagem);
                         dao.close();
                     }
@@ -225,7 +225,7 @@ public class ArrayAdapterListaConfiguracoes extends BaseAdapter {
                     FuncoesViewAndroid.addSnackBarToast(switchButton,context,"Você optou por não aceitar mais" + nomeCampotextoMensagem);
                     configuracoes.setMapAtributos(map);
                     final SQLiteDatabaseDao dao = new SQLiteDatabaseDao(context);
-                    dao.update(configuracoes, false);
+                    dao.update(configuracoes);
                     dao.close();
                 }
             }

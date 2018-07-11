@@ -122,7 +122,7 @@ public class CadastroProdutoActivity extends AppCompatActivity {
                 } else {
                     this.produto = getValoresProduto();
                     Produto produto = (Produto) FuncoesGerais.getTabelaModificada(produtoAntigo, this.produto, new Produto());
-                    dao.update(produto,true);
+                    dao.update(produto);
                     finish();
                     Toast.makeText(this,"Produto " + produto.getId() +" alterado!",Toast.LENGTH_SHORT).show();
                 }
