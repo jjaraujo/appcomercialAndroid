@@ -9,10 +9,10 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import br.com.jmdesenvolvimento.appcomercial.R;
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
-import com.jmdesenvolvimento.appcomercial.model.Tabela;
-import com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Produto;
+import br.com.jmdesenvolvimento.appcomercial.R;;
+import app.jm.funcional.controller.funcoesGerais.FuncoesGerais;
+import app.jm.funcional.model.Tabela;
+import app.jm.funcional.model.entidades.estoque.Produto;
 
 public class ArrayAdapterProdutos extends BaseAdapter {
     private List<Tabela> list;

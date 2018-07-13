@@ -6,18 +6,19 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 
-import com.jmdesenvolvimento.appcomercial.controller.VariaveisControleG;
-import com.jmdesenvolvimento.appcomercial.model.Configuracoes;
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Cliente;
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.EmpresaCliente;
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Fornecedor;
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Funcionario;
-import com.jmdesenvolvimento.appcomercial.model.entidades.contas.ContaReceber;
-import com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Produto;
-import com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
-import com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaPagamento;
-import com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaParcelasPagamento;
-import com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaProdutosVenda;
+import app.jm.funcional.controller.VariaveisControle;
+import app.jm.funcional.model.Configuracoes;
+import app.jm.funcional.model.entidades.cadastral.pessoas.Cliente;
+import app.jm.funcional.model.entidades.cadastral.pessoas.EmpresaCliente;
+import app.jm.funcional.model.entidades.cadastral.pessoas.Fornecedor;
+import app.jm.funcional.model.entidades.cadastral.pessoas.Funcionario;
+import app.jm.funcional.model.entidades.cadastral.pessoas.Usuario;
+import app.jm.funcional.model.entidades.contas.ContaReceber;
+import app.jm.funcional.model.entidades.estoque.Produto;
+import app.jm.funcional.model.entidades.vendas.Venda;
+import app.jm.funcional.model.tabelasIntermediarias.TabelaPagamento;
+import app.jm.funcional.model.tabelasIntermediarias.TabelaParcelasPagamento;
+import app.jm.funcional.model.tabelasIntermediarias.TabelaProdutosVenda;
 
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
@@ -42,8 +43,8 @@ public class Logout extends AsyncTask<Void, Void, Void>{
 
     @Override
     protected Void doInBackground(Void... voids) {
-        VariaveisControleG.funcionarioLogado = null;
-        VariaveisControleG.empresaCliente = null;
+        VariaveisControle.usuarioFuncionarioLogado = null;
+        VariaveisControle.empresaCliente = null;
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(appCompatActivity);
         String sql =
         "DELETE FROM " + new EmpresaCliente().getNomeTabela(true) + ";" +
@@ -56,6 +57,7 @@ public class Logout extends AsyncTask<Void, Void, Void>{
         "DELETE FROM " + new TabelaPagamento().getNomeTabela(true) + ";" +
         "DELETE FROM " + new TabelaParcelasPagamento().getNomeTabela(true) + ";" +
         "DELETE FROM " + new TabelaProdutosVenda().getNomeTabela(true) + ";" +
+        "DELETE FROM " + new Usuario().getNomeTabela(true) + ";" +
         "DELETE FROM " + new ContaReceber().getNomeTabela(true) + ";";
         dao.execSQL(sql);
         return null;

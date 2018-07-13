@@ -3,6 +3,7 @@ package br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid;
 import android.support.design.widget.FloatingActionButton;
 import android.widget.EditText;
 
+import br.com.jmdesenvolvimento.appcomercial.controller.services.Service;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.ProdutosVendaActivity;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.PagamentoActivity;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.contas.ContaReceberActivity;
@@ -26,6 +27,8 @@ public final class VariaveisControleAndroid {
     public static PagamentoActivity activityPagamento;
     public static ContaReceberActivity contaReceberActivity;
     public static ProdutosVendaActivity produtosVendaActivity;
+
+    public static Service service;
 
     // public static FragmentVendasAbertas fragmentVendasAbertas;
    // public static FragmentProdutosVendas fragmentProdutos;

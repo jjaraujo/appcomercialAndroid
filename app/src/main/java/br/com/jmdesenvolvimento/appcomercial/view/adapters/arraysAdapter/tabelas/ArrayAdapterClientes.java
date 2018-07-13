@@ -9,9 +9,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import br.com.jmdesenvolvimento.appcomercial.R;
-import com.jmdesenvolvimento.appcomercial.model.Tabela;
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Cliente;
+import br.com.jmdesenvolvimento.appcomercial.R;;
+import app.jm.funcional.model.Tabela;
+import app.jm.funcional.model.entidades.cadastral.pessoas.Cliente;
 
 public class ArrayAdapterClientes extends BaseAdapter {
     private List<Tabela> list;

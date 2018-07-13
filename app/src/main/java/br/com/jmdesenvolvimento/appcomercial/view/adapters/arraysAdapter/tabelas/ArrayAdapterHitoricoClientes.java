@@ -9,11 +9,11 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import br.com.jmdesenvolvimento.appcomercial.R;
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesMatematicas;
-import com.jmdesenvolvimento.appcomercial.model.Tabela;
-import com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
+import br.com.jmdesenvolvimento.appcomercial.R;;
+import app.jm.funcional.controller.funcoesGerais.FuncoesGerais;
+import app.jm.funcional.controller.funcoesGerais.FuncoesMatematicas;
+import app.jm.funcional.model.Tabela;
+import app.jm.funcional.model.entidades.vendas.Venda;
 
 public class ArrayAdapterHitoricoClientes extends BaseAdapter {
     private List<Tabela> list;

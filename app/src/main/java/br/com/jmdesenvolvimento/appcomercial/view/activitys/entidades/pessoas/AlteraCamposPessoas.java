@@ -8,8 +8,8 @@ import android.view.View;
 
 import java.lang.reflect.Field;
 
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Pessoa;
+import app.jm.funcional.controller.funcoesGerais.FuncoesGerais;
+import app.jm.funcional.model.entidades.cadastral.pessoas.Pessoa;
 
 public abstract class AlteraCamposPessoas {
 

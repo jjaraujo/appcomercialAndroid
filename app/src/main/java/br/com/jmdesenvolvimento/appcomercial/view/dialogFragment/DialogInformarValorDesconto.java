@@ -11,13 +11,13 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import br.com.jmdesenvolvimento.appcomercial.R;
+import br.com.jmdesenvolvimento.appcomercial.R;;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesMatematicas;
+import app.jm.funcional.controller.funcoesGerais.FuncoesGerais;
+import app.jm.funcional.controller.funcoesGerais.FuncoesMatematicas;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
-import com.jmdesenvolvimento.appcomercial.controller.VariaveisControleG;
-import com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaPagamento;
+import app.jm.funcional.controller.VariaveisControle;
+import app.jm.funcional.model.tabelasIntermediarias.TabelaPagamento;
 
 
 /**Dialog onde o usuário irá informar tipo de pagamento, parcelas etc.*/
@@ -36,7 +36,7 @@ public class DialogInformarValorDesconto extends DialogFragment {
 
     public DialogInformarValorDesconto(TextView textViewDesconto){
         this.textViewDesconto = textViewDesconto;
-        this.valorTotal = FuncoesMatematicas.calculaValorTotalVendaDouble(VariaveisControleG.vendaSelecionada);
+        this.valorTotal = FuncoesMatematicas.calculaValorTotalVendaDouble(VariaveisControle.vendaSelecionada);
     }
 
 
@@ -66,7 +66,7 @@ public class DialogInformarValorDesconto extends DialogFragment {
                 double valorDesconto = getValorDesconto() ;
                 textViewDesconto.setText(("R$"+valorDesconto).replace(".",","));
                 dismiss();
-                VariaveisControleG.vendaSelecionada.setDesconto(valorDesconto);
+                VariaveisControle.vendaSelecionada.setDesconto(valorDesconto);
                 VariaveisControleAndroid.activityPagamento.carregaTextValores();
             }
         });

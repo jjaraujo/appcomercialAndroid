@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:272821395706:android:2c9dda54e52c56b3",
         "android_client_info": {
-          "package_name": "br.com.jmdesenvolvimento.appcomercial"
+          "package_name": "br.app.jm.funcional"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "272821395706-pk0in1e9mcmt1i0u1v22m0j78bogq1o2.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "br.com.jmdesenvolvimento.appcomercial",
+            "package_name": "br.app.jm.funcional",
             "certificate_hash": "423b43b1d35b284248f959a933771df699a7d279"
           }
         },

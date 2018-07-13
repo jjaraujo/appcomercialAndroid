@@ -11,7 +11,7 @@ import android.view.MenuItem;
 
 import com.google.zxing.Result;
 
-import br.com.jmdesenvolvimento.appcomercial.R;
+import br.com.jmdesenvolvimento.appcomercial.R;;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
 import me.dm7.barcodescanner.core.CameraUtils;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;

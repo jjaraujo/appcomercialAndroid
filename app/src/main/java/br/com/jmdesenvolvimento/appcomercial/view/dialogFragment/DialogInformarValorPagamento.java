@@ -17,13 +17,13 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import br.com.jmdesenvolvimento.appcomercial.R;
+import br.com.jmdesenvolvimento.appcomercial.R;;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
+import app.jm.funcional.controller.funcoesGerais.FuncoesGerais;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
-import com.jmdesenvolvimento.appcomercial.controller.VariaveisControleG;
-import com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaParcelasPagamento;
-import com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaPagamento;
+import app.jm.funcional.controller.VariaveisControle;
+import app.jm.funcional.model.tabelasIntermediarias.TabelaParcelasPagamento;
+import app.jm.funcional.model.tabelasIntermediarias.TabelaPagamento;
 import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas.ArrayAdapterDatasParcelas;
 
 
@@ -81,11 +81,11 @@ public class DialogInformarValorPagamento extends android.support.v4.app.DialogF
             public void onClick(View v) {
                 if(valorRestante != null) {
                     double valorRecebido = Double.parseDouble(editTextValorRecebido.getText().toString());
-                    VariaveisControleG.valorRestante =  VariaveisControleG.valorRestante - valorRecebido;
-                    valorRestante.setText("R$ " + (VariaveisControleG.valorRestante+"").replace(".",","));
+                    VariaveisControle.valorRestante =  VariaveisControle.valorRestante - valorRecebido;
+                    valorRestante.setText("R$ " + (VariaveisControle.valorRestante+"").replace(".",","));
                     tabelaPagamento.setValor(valorRecebido);
                     tabelaPagamento.seTabelaParcelasPagamento(listParcelasPagamentos);
-                    VariaveisControleG.vendaSelecionada.getTabelaPagamentos().add(tabelaPagamento);
+                    VariaveisControle.vendaSelecionada.getTabelaPagamentos().add(tabelaPagamento);
                     VariaveisControleAndroid.activityPagamento.carregaListPagamentosEscolhidos();
                 }
                 dismiss();
@@ -100,9 +100,9 @@ public class DialogInformarValorPagamento extends android.support.v4.app.DialogF
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(!s.toString().equals("") && s != null){
-                    if(Double.parseDouble(s+"") > VariaveisControleG.valorRestante){
+                    if(Double.parseDouble(s+"") > VariaveisControle.valorRestante){
                         FuncoesViewAndroid.addAlertDialogAlerta(getContext(),"Valor informado maior que o restante!");
-                        editTextValorRecebido.setText(VariaveisControleG.valorRestante +"");
+                        editTextValorRecebido.setText(VariaveisControle.valorRestante +"");
                     }
                 }
             }

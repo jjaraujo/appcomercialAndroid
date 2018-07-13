@@ -7,19 +7,20 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.jmdesenvolvimento.appcomercial.model.Dispositivo;
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.APessoa;
+import app.jm.funcional.controller.LeituraJson;
+import app.jm.funcional.controller.VariaveisControle;
+import app.jm.funcional.model.Dispositivo;
+import app.jm.funcional.model.entidades.cadastral.pessoas.APessoa;
 
 import java.io.IOException;
 
+import app.jm.funcional.model.entidades.cadastral.pessoas.EmpresaCliente;
+import app.jm.funcional.model.entidades.cadastral.pessoas.Usuario;
 import br.com.jmdesenvolvimento.appcomercial.controller.exceptions.ExceptionInternet;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
-import br.com.jmdesenvolvimento.appcomercial.controller.json.LeituraJson;
 import br.com.jmdesenvolvimento.appcomercial.controller.services.RetrofitInicializador;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.iniciais.MainActivity;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ConexaoServiceCadastraEmpresa extends AsyncTask<Void, Void, Integer> {
@@ -27,14 +28,10 @@ public class ConexaoServiceCadastraEmpresa extends AsyncTask<Void, Void, Integer
     private AlertDialog alertDialog;
     private ProgressDialog dialog;
     private AppCompatActivity context;
-    private APessoa empresaCliente;
-    private final int  FALHA_SEM_INTERNET = 1;
-    private final int  FALHA_SERVIDOR = 2;
-    private final int SUCESSO = 3;
-    private int tipoResposta;
+    private Usuario empresaCliente;
 
 
-    public ConexaoServiceCadastraEmpresa( AppCompatActivity context, APessoa tabela){
+    public ConexaoServiceCadastraEmpresa( AppCompatActivity context, EmpresaCliente tabela){
         this.context = context;
         this.empresaCliente = tabela;
     }
@@ -54,29 +51,40 @@ public class ConexaoServiceCadastraEmpresa extends AsyncTask<Void, Void, Integer
         int retorno;
         try {
             dao.insert(empresaCliente.getPessoa());
+            empresaCliente.setTipoUsuario(VariaveisControle.LOGIN_EMPRESA);
+            String jsonEmpresa = LeituraJson.tabelaParaJson(empresaCliente);
+
             Dispositivo dispositivo = (Dispositivo) dao.select(new Dispositivo(),null, null, null,null,null);
-            String jsonEmpresa = LeituraJson.tranformaParaJson(context, empresaCliente);
             String token = dispositivo.getToken();
             Log.i("JSON empresaCliente", jsonEmpresa);
 
            Response response =  new RetrofitInicializador(context).getService().cadastraNovaEmpresa(jsonEmpresa, token).execute();
-           if(response.isSuccessful()){
+           if(!response.isSuccessful() || response.body().equals("false") || response.body() == null){
+               throw new IOException();
+
+           } else{
                empresaCliente.setId(Integer.parseInt(response.body()+""));
                dao.insert(empresaCliente);
-               retorno =  SUCESSO;
-           } else{
-               throw new IOException();
+
+               Usuario usuario = new Usuario();
+               usuario.setLogin(empresaCliente.getLogin());
+               usuario.setSenha(empresaCliente.getSenha());
+               usuario.setPessoa(empresaCliente.getPessoa());
+               usuario.setEmpresaClienteId(empresaCliente.getEmpresaClienteId());
+
+               dao.insert(usuario);
+               retorno =  TipoOcorrenciasConexao.SUCESSO;
            }
         } catch (NumberFormatException e){
             Log.e("ERRO","Servidor não retornou um número correto.");
-            retorno = FALHA_SERVIDOR;
+            retorno =  TipoOcorrenciasConexao.FALHA_SERVIDOR;
          }catch (ExceptionInternet e){
-            retorno = FALHA_SEM_INTERNET;
+            retorno =  TipoOcorrenciasConexao.FALHA_SEM_INTERNET;
         } catch (IOException e) {
-            retorno = FALHA_SERVIDOR;
+            retorno =  TipoOcorrenciasConexao.FALHA_SERVIDOR;
         } catch (Exception e){
             e.printStackTrace();
-            retorno = FALHA_SERVIDOR;
+            retorno =  TipoOcorrenciasConexao.FALHA_SERVIDOR;
         }
         dao.close();
         return retorno;
@@ -87,18 +95,15 @@ public class ConexaoServiceCadastraEmpresa extends AsyncTask<Void, Void, Integer
         super.onPostExecute(tipoErro);
         dialog.dismiss();
         switch (tipoErro) {
-            case SUCESSO:
+            case  TipoOcorrenciasConexao.SUCESSO:
                 Intent intent = new Intent(context, MainActivity.class);
                 context.startActivity(intent);
                 break;
 
-            case FALHA_SERVIDOR:
+            case  TipoOcorrenciasConexao.FALHA_SERVIDOR:
                 FuncoesViewAndroid.addAlertaErroServidor(context,true).show();
                 break;
 
-            case FALHA_SEM_INTERNET:
-                FuncoesViewAndroid.addAlertaSemInternet(context,true).show();
-                break;
             default:
                 FuncoesViewAndroid.addAlertaErroServidor(context,true).show();
                 break;

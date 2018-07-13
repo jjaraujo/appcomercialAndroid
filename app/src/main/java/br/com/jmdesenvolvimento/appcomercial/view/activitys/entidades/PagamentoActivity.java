@@ -14,15 +14,15 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import br.com.jmdesenvolvimento.appcomercial.R;
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesMatematicas;
+import br.com.jmdesenvolvimento.appcomercial.R;;
+import app.jm.funcional.controller.funcoesGerais.FuncoesMatematicas;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesVendas;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
-import com.jmdesenvolvimento.appcomercial.controller.VariaveisControleG;
+import app.jm.funcional.controller.VariaveisControle;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
-import com.jmdesenvolvimento.appcomercial.model.entidades.vendas.TipoPagamento;
-import com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
-import com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaPagamento;
+import app.jm.funcional.model.entidades.vendas.TipoPagamento;
+import app.jm.funcional.model.entidades.vendas.Venda;
+import app.jm.funcional.model.tabelasIntermediarias.TabelaPagamento;
 import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.ArrayAdapterPagamentoEscolhido;
 import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas.ArrayAdapterTiposPagamentos;
 import br.com.jmdesenvolvimento.appcomercial.view.dialogFragment.DialogInformarValorDesconto;
@@ -52,9 +52,9 @@ public class PagamentoActivity extends AppCompatActivity {
         relativeLayoutDesconto = findViewById(R.id.relativeLayoutDescontoPagamento);
 
         VariaveisControleAndroid.activityPagamento = this;
-        VariaveisControleG.valorRestante = FuncoesMatematicas.calculaValorTotalVendaDouble(VariaveisControleG.vendaSelecionada);
+        VariaveisControle.valorRestante = FuncoesMatematicas.calculaValorTotalVendaDouble(VariaveisControle.vendaSelecionada);
 
-        valotTotal = FuncoesMatematicas.calculaValorTotalVendaDouble(VariaveisControleG.vendaSelecionada);
+        valotTotal = FuncoesMatematicas.calculaValorTotalVendaDouble(VariaveisControle.vendaSelecionada);
         final List list = getList();
 
         ArrayAdapterTiposPagamentos adapterTabelas = new ArrayAdapterTiposPagamentos(this, list);
@@ -63,7 +63,7 @@ public class PagamentoActivity extends AppCompatActivity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Venda vendaSelecionada = VariaveisControleG.vendaSelecionada;
+                Venda vendaSelecionada = VariaveisControle.vendaSelecionada;
                 TipoPagamento tipoPagamento = (TipoPagamento) list.get(position);
                 TabelaPagamento tabelaPagamento = new TabelaPagamento(vendaSelecionada.getId());
                 tabelaPagamento.setTipoPagamentos(tipoPagamento);
@@ -113,28 +113,28 @@ public class PagamentoActivity extends AppCompatActivity {
     }
 
     public void carregaTextValores() {
-        double valorRestante = VariaveisControleG.valorRestante - VariaveisControleG.vendaSelecionada.getDesconto();
+        double valorRestante = VariaveisControle.valorRestante - VariaveisControle.vendaSelecionada.getDesconto();
 
         textViewRestantePagamento.setText("R$" + FuncoesMatematicas.formataValoresDouble(valorRestante));
         textViewValorTotalPagamento.setText("R$" + FuncoesMatematicas.formataValoresDouble(valotTotal));
     }
 
     public void carregaListPagamentosEscolhidos() {
-        List listPagamentos = VariaveisControleG.vendaSelecionada.getTabelaPagamentos();
+        List listPagamentos = VariaveisControle.vendaSelecionada.getTabelaPagamentos();
         ArrayAdapterPagamentoEscolhido adapter = new ArrayAdapterPagamentoEscolhido(this, listPagamentos);
         listViewPagamentosEscolhidos.setAdapter(adapter);
     }
 
     public void excluiPagamentoDaVenda(Object o) {
-        VariaveisControleG.vendaSelecionada.removePagamento((TabelaPagamento) o);
+        VariaveisControle.vendaSelecionada.removePagamento((TabelaPagamento) o);
         carregaListPagamentosEscolhidos();
         carregaTextValores();
     }
 
     private List<TipoPagamento> getList(){
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(this);
-        String where = VariaveisControleG.vendaSelecionada.getCliente() == null
-                || VariaveisControleG.vendaSelecionada.getCliente().getId() == 0 ? "aceitaParcela = 0" : null;
+        String where = VariaveisControle.vendaSelecionada.getCliente() == null
+                || VariaveisControle.vendaSelecionada.getCliente().getId() == 0 ? "aceitaParcela = 0" : null;
         List<TipoPagamento> list = (List<TipoPagamento>) dao.selectAll(new TipoPagamento(), where, false);
         dao.close();
         return list;

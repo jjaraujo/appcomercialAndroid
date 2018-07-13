@@ -19,19 +19,19 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import br.com.jmdesenvolvimento.appcomercial.R;
+import br.com.jmdesenvolvimento.appcomercial.R;;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesVendas;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
+import app.jm.funcional.controller.funcoesGerais.FuncoesGerais;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
-import com.jmdesenvolvimento.appcomercial.controller.VariaveisControleG;
-import com.jmdesenvolvimento.appcomercial.model.Tabela;
+import app.jm.funcional.controller.VariaveisControle;
+import app.jm.funcional.model.Tabela;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.ProdutoDAO;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Cliente;
-import com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Produto;
-import com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
-import com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaProdutosVenda;
+import app.jm.funcional.model.entidades.cadastral.pessoas.Cliente;
+import app.jm.funcional.model.entidades.estoque.Produto;
+import app.jm.funcional.model.entidades.vendas.Venda;
+import app.jm.funcional.model.tabelasIntermediarias.TabelaProdutosVenda;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.LeitorCodigoBarrasActivity;
 import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas.ArrayAdapterClientes;
 import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas.ArrayAdapterProdutos;
@@ -125,7 +125,7 @@ public class DialogEscolherEntidade extends DialogFragment {
 
         switch (tipoEntidade) {
             case TIPO_CLIENTE:
-                if(VariaveisControleG.configuracoesSimples.isVendaMesaComanda()){
+                if(VariaveisControle.configuracoesSimples.isVendaMesaComanda()){
                     imageViewContador.setVisibility(View.VISIBLE);
                 }
                searchView.setQueryHint("Buscar clientes...");
@@ -194,7 +194,7 @@ public class DialogEscolherEntidade extends DialogFragment {
 
     public void addProdutoNaVenda(AdapterView<?> parent, int position) {
         Produto produto = (Produto) parent.getItemAtPosition(position);
-        Venda venda = VariaveisControleG.vendaSelecionada;
+        Venda venda = VariaveisControle.vendaSelecionada;
 
         if (venda == null) {
             venda = new Venda();
@@ -253,13 +253,13 @@ public class DialogEscolherEntidade extends DialogFragment {
                         + " OR CodigoBarras = " + query;
                     }
                     // verifica a configuração de venda sem estoque do usuário
-                    if(!VariaveisControleG.configuracoesSimples.isVendaSemEstoque()){
+                    if(!VariaveisControle.configuracoesSimples.isVendaSemEstoque()){
                         where += " AND qtd > 0";
                     }
                 }
                 else { // caso query == null, irá buscar somente os produtos com qtd > 0
                     // verifica a configuração de venda sem estoque do usuário
-                    if(!VariaveisControleG.configuracoesSimples.isVendaSemEstoque()){
+                    if(!VariaveisControle.configuracoesSimples.isVendaSemEstoque()){
                         where = " qtd > 0";
                     }
                 }
@@ -279,7 +279,7 @@ public class DialogEscolherEntidade extends DialogFragment {
 
     public void openDialogFragment(AdapterView<?> parent, int position) {
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-        if (tipoEntidade == TIPO_CLIENTE && VariaveisControleG.vendaSelecionada == null) {
+        if (tipoEntidade == TIPO_CLIENTE && VariaveisControle.vendaSelecionada == null) {
             new AlertDialog.Builder(getContext()).
                     setMessage("Nenhuma venda selecionada!").show();
             //  alert.setMessage("Não");

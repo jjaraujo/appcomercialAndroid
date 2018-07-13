@@ -16,15 +16,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Calendar;
 
-import br.com.jmdesenvolvimento.appcomercial.R;
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
-import com.jmdesenvolvimento.appcomercial.controller.VariaveisControleG;
-import com.jmdesenvolvimento.appcomercial.model.Tabela;
+import br.com.jmdesenvolvimento.appcomercial.R;;
+import app.jm.funcional.controller.funcoesGerais.FuncoesGerais;
+import app.jm.funcional.controller.VariaveisControle;
+import app.jm.funcional.model.Tabela;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.iniciais.CaixaActivity;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.iniciais.VendasAbertasActivity;
 
-import com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
+import app.jm.funcional.model.entidades.vendas.Venda;
 
 public final class FuncoesViewAndroid {
 
@@ -61,7 +61,7 @@ public final class FuncoesViewAndroid {
     }
 
     public static void alteraViewVendaSelecionada() {
-        Venda venda = VariaveisControleG.vendaSelecionada;
+        Venda venda = VariaveisControle.vendaSelecionada;
         if (venda.getCliente() != null) {
             if (venda.getCliente().getId() > 0) {
                 String[] palavrasNome = venda.getCliente().getPessoa().getNome().split(" ");
@@ -163,7 +163,7 @@ public final class FuncoesViewAndroid {
 
     public static Class  getActivityInicial(){
         String caminho = "br.com.jmdesenvolvimento.appcomercial.view.activitys.iniciais.";
-        String nome = VariaveisControleG.configuracoesSimples.getActivityInicial();
+        String nome = VariaveisControle.configuracoesSimples.getActivityInicial();
         try {
             return Class.forName(caminho+nome).getClass();
         } catch (ClassNotFoundException e) {

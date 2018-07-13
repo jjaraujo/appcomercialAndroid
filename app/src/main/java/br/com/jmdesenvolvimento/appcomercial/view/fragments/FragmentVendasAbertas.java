@@ -12,12 +12,12 @@ import android.widget.GridView;
 
 import java.util.List;
 
-import br.com.jmdesenvolvimento.appcomercial.R;
+import br.com.jmdesenvolvimento.appcomercial.R;;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
-import com.jmdesenvolvimento.appcomercial.controller.VariaveisControleG;
-import com.jmdesenvolvimento.appcomercial.model.Tabela;
+import app.jm.funcional.controller.VariaveisControle;
+import app.jm.funcional.model.Tabela;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
-import com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
+import app.jm.funcional.model.entidades.vendas.Venda;
 import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas.ArrayAdapterVendasAbertas;
 
 public class FragmentVendasAbertas extends Fragment{
@@ -33,7 +33,7 @@ public class FragmentVendasAbertas extends Fragment{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Venda venda = (Venda) parent.getItemAtPosition(position);
-                VariaveisControleG.vendaSelecionada = venda;
+                VariaveisControle.vendaSelecionada = venda;
                 FuncoesViewAndroid.alteraViewVendaSelecionada();
            //     VariaveisControleAndroid.fragmentProdutos.carregaLista();
             }

@@ -3,9 +3,9 @@ package br.com.jmdesenvolvimento.appcomercial.model.dao;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.jmdesenvolvimento.appcomercial.controller.VariaveisControleG;
-import com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Produto;
-import com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaProdutosVenda;
+import app.jm.funcional.controller.VariaveisControle;
+import app.jm.funcional.model.entidades.estoque.Produto;
+import app.jm.funcional.model.tabelasIntermediarias.TabelaProdutosVenda;
 
 public class ProdutoDAO  extends SQLiteDatabaseDao{
 
@@ -14,7 +14,7 @@ public class ProdutoDAO  extends SQLiteDatabaseDao{
     }
 
     public void subtraiEstoque(TabelaProdutosVenda tpv){
-        if(!VariaveisControleG.configuracoesSimples.isVendaSemEstoque()) {
+        if(!VariaveisControle.configuracoesSimples.isVendaSemEstoque()) {
             SQLiteDatabase db = getWritableDatabase();
             String sql = "UPDATE PRODUTO set qtd = qtd - " + tpv.getQtd()
                     + " where " + tpv.getProduto().getIdNome() + " = " + tpv.getProduto().getId();
@@ -24,7 +24,7 @@ public class ProdutoDAO  extends SQLiteDatabaseDao{
     }
 
     public void addEstoque( long id, int qtd){
-        if(!VariaveisControleG.configuracoesSimples.isVendaSemEstoque()) {
+        if(!VariaveisControle.configuracoesSimples.isVendaSemEstoque()) {
             SQLiteDatabase db = getWritableDatabase();
             String sql = "UPDATE PRODUTO set qtd = qtd + " + qtd
                     + " where " + new Produto().getIdNome() + " = " + id;

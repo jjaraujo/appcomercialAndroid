@@ -10,12 +10,12 @@ import android.widget.TextView;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import br.com.jmdesenvolvimento.appcomercial.R;
+import br.com.jmdesenvolvimento.appcomercial.R;;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesMatematicas;
-import com.jmdesenvolvimento.appcomercial.model.Tabela;
-import com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaPagamento;
+import app.jm.funcional.controller.funcoesGerais.FuncoesMatematicas;
+import app.jm.funcional.model.Tabela;
+import app.jm.funcional.model.tabelasIntermediarias.TabelaPagamento;
 
 public class ArrayAdapterPagamentoEscolhido extends BaseAdapter {
     private List<Tabela> list;

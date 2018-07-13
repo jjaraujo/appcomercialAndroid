@@ -13,15 +13,15 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.jmdesenvolvimento.appcomercial.R;
+import br.com.jmdesenvolvimento.appcomercial.R;;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
+import app.jm.funcional.controller.funcoesGerais.FuncoesGerais;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
-import com.jmdesenvolvimento.appcomercial.controller.VariaveisControleG;
+import app.jm.funcional.controller.VariaveisControle;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.ProdutoDAO;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
-import com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
-import com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaProdutosVenda;
+import app.jm.funcional.model.entidades.vendas.Venda;
+import app.jm.funcional.model.tabelasIntermediarias.TabelaProdutosVenda;
 import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas.ArrayAdapterTabelaProdutosVendas;
 import br.com.jmdesenvolvimento.appcomercial.view.dialogFragment.DialogQuantidadeProduto;
 
@@ -67,7 +67,7 @@ public class FragmentProdutosVendas extends Fragment {
 
     public void carregaLista() {
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(getContext());
-        Venda venda = VariaveisControleG.vendaSelecionada;
+        Venda venda = VariaveisControle.vendaSelecionada;
         String where = null;
         if (venda != null) {
             where = " venda = " + venda.getId();

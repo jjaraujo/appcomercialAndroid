@@ -7,12 +7,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.jmdesenvolvimento.appcomercial.model.Tabela;
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Funcionario;
+import app.jm.funcional.model.Tabela;
+import app.jm.funcional.model.entidades.cadastral.pessoas.Funcionario;
 
 import java.util.List;
 
-import br.com.jmdesenvolvimento.appcomercial.R;
+import br.com.jmdesenvolvimento.appcomercial.R;;
 
 public class ArrayAdapterVendedores extends BaseAdapter {
     private List<Tabela> list;

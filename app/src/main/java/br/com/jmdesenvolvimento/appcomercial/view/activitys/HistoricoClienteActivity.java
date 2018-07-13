@@ -6,10 +6,10 @@ import android.widget.ListView;
 
 import java.util.List;
 
-import br.com.jmdesenvolvimento.appcomercial.R;
+import br.com.jmdesenvolvimento.appcomercial.R;;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Cliente;
-import com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
+import app.jm.funcional.model.entidades.cadastral.pessoas.Cliente;
+import app.jm.funcional.model.entidades.vendas.Venda;
 import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas.ArrayAdapterHitoricoClientes;
 
 public class HistoricoClienteActivity extends AppCompatActivity {

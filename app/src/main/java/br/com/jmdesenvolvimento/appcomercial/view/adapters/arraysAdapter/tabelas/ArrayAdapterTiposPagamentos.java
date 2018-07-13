@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import br.com.jmdesenvolvimento.appcomercial.R;
-import com.jmdesenvolvimento.appcomercial.model.Tabela;
-import com.jmdesenvolvimento.appcomercial.model.entidades.vendas.TipoPagamento;
+import br.com.jmdesenvolvimento.appcomercial.R;;
+import app.jm.funcional.model.Tabela;
+import app.jm.funcional.model.entidades.vendas.TipoPagamento;
 
 public class ArrayAdapterTiposPagamentos extends BaseAdapter {
     private List<Tabela> list;

@@ -1,4 +1,4 @@
-package br.com.jmdesenvolvimento.appcomercial;
+package br.app.jm.funcional;
 
 import org.junit.Test;
 

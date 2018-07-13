@@ -14,12 +14,12 @@ import android.widget.ListView;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import br.com.jmdesenvolvimento.appcomercial.R;
+import br.com.jmdesenvolvimento.appcomercial.R;;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
+import app.jm.funcional.controller.funcoesGerais.FuncoesGerais;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
-import com.jmdesenvolvimento.appcomercial.model.entidades.contas.ContaReceber;
+import app.jm.funcional.model.entidades.contas.ContaReceber;
 import br.com.jmdesenvolvimento.appcomercial.model.filtrosOrdenacao.FiltroContasReceber;
 import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas.ArrayAdapterContasReceber;
 import br.com.jmdesenvolvimento.appcomercial.view.dialogFragment.DialogFiltrosContaReceber;

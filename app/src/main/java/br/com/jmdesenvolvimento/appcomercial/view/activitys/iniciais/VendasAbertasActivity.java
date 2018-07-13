@@ -27,11 +27,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import br.com.jmdesenvolvimento.appcomercial.R;
+import br.com.jmdesenvolvimento.appcomercial.R;;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
-import com.jmdesenvolvimento.appcomercial.controller.VariaveisControleG;
+import app.jm.funcional.controller.VariaveisControle;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
-import com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
+import app.jm.funcional.model.entidades.vendas.Venda;
 
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.ProdutosVendaActivity;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.configuracoes.ConfiguracoesActivity;
@@ -76,7 +76,7 @@ public class VendasAbertasActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Venda venda = (Venda) parent.getItemAtPosition(position);
-                VariaveisControleG.vendaSelecionada = venda;
+                VariaveisControle.vendaSelecionada = venda;
          //       FuncoesViewAndroid.alteraViewVendaSelecionada();
                 // VariaveisControleAndroid.fragmentProdutos.carregaLista();
                 if(venda.getDataRegistro() == null){
@@ -141,7 +141,7 @@ public class VendasAbertasActivity extends AppCompatActivity
 
     public void openDialogFragment(View view) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        if (fragmentSelecionado == 1 && VariaveisControleG.vendaSelecionada == null) {
+        if (fragmentSelecionado == 1 && VariaveisControle.vendaSelecionada == null) {
             FuncoesViewAndroid.addAlertDialogAlerta(this,"Nenhuma venda selecionada!");
             //  alert.setMessage("Não");
         } else {
@@ -154,13 +154,13 @@ public class VendasAbertasActivity extends AppCompatActivity
         buttonFinalizarVenda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Venda venda = VariaveisControleG.vendaSelecionada;
+                final Venda venda = VariaveisControle.vendaSelecionada;
                 String textMensagem = "";
                 if (venda == null) {
                     FuncoesViewAndroid.addSnackBarToast(v,VendasAbertasActivity.this, "Selecione uma venda!");
                 } else {
                     if (venda.getCliente().getId() == 0) {
-                        textMensagem = "Deseja fechar a " + VariaveisControleG.configuracoesSimples.getNomeTipoVenda()
+                        textMensagem = "Deseja fechar a " + VariaveisControle.configuracoesSimples.getNomeTipoVenda()
                                 + " " + venda.getNumeroMesaComanda() + "?";
                     } else {
                         textMensagem = "Deseja fechar a venda " + venda.getId() + "?";
@@ -200,7 +200,7 @@ public class VendasAbertasActivity extends AppCompatActivity
 
     public List<Venda> organizaQtdVendasAbertas(List<Venda> listVendas){
         List<Venda> vendasAbertasOrganizadas = new ArrayList<>();
-        int tamanho = VariaveisControleG.configuracoesSimples.getNumeroDeMesasComandas();
+        int tamanho = VariaveisControle.configuracoesSimples.getNumeroDeMesasComandas();
 
         for(int i = 0; i < tamanho ; i++){
             vendasAbertasOrganizadas.add(new Venda(i+1));

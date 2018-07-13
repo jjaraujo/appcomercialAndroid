@@ -10,15 +10,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import br.com.jmdesenvolvimento.appcomercial.R;
+import br.com.jmdesenvolvimento.appcomercial.R;;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesVendas;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
+import app.jm.funcional.controller.funcoesGerais.FuncoesGerais;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
-import com.jmdesenvolvimento.appcomercial.controller.VariaveisControleG;
+import app.jm.funcional.controller.VariaveisControle;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Cliente;
-import com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
+import app.jm.funcional.model.entidades.cadastral.pessoas.Cliente;
+import app.jm.funcional.model.entidades.vendas.Venda;
 
 @SuppressLint("ValidFragment")
 public class DialogVendaPorComanda extends DialogFragment {
@@ -49,7 +49,7 @@ public class DialogVendaPorComanda extends DialogFragment {
         subtrair = view.findViewById(R.id.buttonComandaSubtrair);
         textComanda = view.findViewById(R.id.editTexComanda);
         textComanda.setText("");
-        final String nomeTipoVenda = VariaveisControleG.configuracoesSimples.getNomeTipoVenda();
+        final String nomeTipoVenda = VariaveisControle.configuracoesSimples.getNomeTipoVenda();
         TextView textViewTextoComandaMesa = view.findViewById(R.id.textViewTextoComandaMesa);
         textViewTextoComandaMesa.setText(textViewTextoComandaMesa.getText().toString() + nomeTipoVenda);
         if(nomeTipoVenda.toLowerCase().equals("comanda")) {

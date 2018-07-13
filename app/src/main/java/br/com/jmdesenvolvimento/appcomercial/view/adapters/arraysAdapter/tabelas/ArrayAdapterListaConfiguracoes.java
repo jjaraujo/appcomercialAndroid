@@ -22,14 +22,14 @@ import android.widget.TextView;
 import java.util.HashMap;
 import java.util.List;
 
-import br.com.jmdesenvolvimento.appcomercial.R;
-import com.jmdesenvolvimento.appcomercial.controller.VariaveisControleG;
-import com.jmdesenvolvimento.appcomercial.model.Configuracoes;
-import com.jmdesenvolvimento.appcomercial.model.Tabela;
+import br.com.jmdesenvolvimento.appcomercial.R;;
+import app.jm.funcional.controller.VariaveisControle;
+import app.jm.funcional.model.Configuracoes;
+import app.jm.funcional.model.Tabela;
 
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
-import com.jmdesenvolvimento.appcomercial.model.entidades.vendas.TipoPagamento;
+import app.jm.funcional.model.entidades.vendas.TipoPagamento;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.configuracoes.ConfigurarPagamentosActivity;
 
 public class ArrayAdapterListaConfiguracoes extends BaseAdapter {
@@ -95,13 +95,13 @@ public class ArrayAdapterListaConfiguracoes extends BaseAdapter {
             case 5:
                 switchButton.setVisibility(View.VISIBLE);
                 nomeCampo = "vendaMesaComanda";
-                switchButton.setChecked(VariaveisControleG.configuracoesSimples.isVendaMesaComanda());
+                switchButton.setChecked(VariaveisControle.configuracoesSimples.isVendaMesaComanda());
                 setAcoesCliquesButton(switchButton, nomeCampo, " vendas por ");
                 break;
             case 6:
                 switchButton.setVisibility(View.VISIBLE);
                 nomeCampo = "vendaSemEstoque";
-                switchButton.setChecked(VariaveisControleG.configuracoesSimples.isVendaSemEstoque());
+                switchButton.setChecked(VariaveisControle.configuracoesSimples.isVendaSemEstoque());
                 setAcoesCliquesButton(switchButton, nomeCampo, " vendas de produtos sem estoque");
                 break;
         }
@@ -159,7 +159,7 @@ public class ArrayAdapterListaConfiguracoes extends BaseAdapter {
 
     private void setAcoesCliquesButton(final Switch switchButton, final String nomeCampo, final String nomeCampotextoMensagem) {
 
-        final Configuracoes configuracoes = VariaveisControleG.configuracoesSimples;
+        final Configuracoes configuracoes = VariaveisControle.configuracoesSimples;
         final HashMap<String, Object> map = configuracoes.getMapAtributos(false);
 
         switchButton.setOnClickListener(new View.OnClickListener() {

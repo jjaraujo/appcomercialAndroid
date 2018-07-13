@@ -5,18 +5,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
-
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,10 +16,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import br.com.jmdesenvolvimento.appcomercial.R;
+import app.jm.funcional.model.entidades.cadastral.pessoas.Usuario;
+import br.com.jmdesenvolvimento.appcomercial.R;;
+import br.com.jmdesenvolvimento.appcomercial.controller.services.conexoes.ConexaoServiceLogin;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.pessoas.CadastroEmpresaActivity;
 
 
@@ -38,8 +28,8 @@ import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.pessoas.Ca
 public class LoginActivity extends AppCompatActivity {
 
     // UI references.
-    private EditText mEmailView;
-    private EditText mPasswordView;
+    private EditText editTextLogin;
+    private EditText editTextSenha;
     private TextView textViewCadastre;
     private View mProgressView;
     private View mLoginFormView;
@@ -49,12 +39,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
-        mEmailView = findViewById(R.id.loginUsuarioEditText);
+        editTextLogin = findViewById(R.id.loginUsuarioEditText);
 
         mProgressView = findViewById(R.id.login_progress);
 
-        mPasswordView = findViewById(R.id.loginSenhaEditText);
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        editTextSenha = findViewById(R.id.loginSenhaEditText);
+        editTextSenha.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == EditorInfo.IME_ACTION_DONE || id == EditorInfo.IME_NULL) {
@@ -70,6 +60,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                String login = editTextLogin.getText().toString();
+                String senha = editTextSenha.getText().toString();
+               new ConexaoServiceLogin(LoginActivity.this, login, senha).execute();
             }
         });
 

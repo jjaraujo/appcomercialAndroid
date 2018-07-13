@@ -14,18 +14,18 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import br.com.jmdesenvolvimento.appcomercial.R;
+import br.com.jmdesenvolvimento.appcomercial.R;;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.Mask;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
-import com.jmdesenvolvimento.appcomercial.model.Tabela;
+import app.jm.funcional.controller.funcoesGerais.FuncoesGerais;
+import app.jm.funcional.model.Tabela;
 
 import br.com.jmdesenvolvimento.appcomercial.controller.services.conexoes.ConexaoServiceCadastraEmpresa;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.Estado;
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Fornecedor;
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Pessoa;
+import app.jm.funcional.model.entidades.cadastral.Estado;
+import app.jm.funcional.model.entidades.cadastral.pessoas.Fornecedor;
+import app.jm.funcional.model.entidades.cadastral.pessoas.Pessoa;
 
 public class CadastroFornecedoresActivity extends AppCompatActivity {
 

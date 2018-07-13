@@ -4,9 +4,10 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.EmpresaCliente;
+import app.jm.funcional.model.entidades.cadastral.pessoas.EmpresaCliente;
 
-import br.com.jmdesenvolvimento.appcomercial.R;
+import app.jm.funcional.model.entidades.cadastral.pessoas.Usuario;
+import br.com.jmdesenvolvimento.appcomercial.R;;
 import br.com.jmdesenvolvimento.appcomercial.controller.IniciaAplicacaoTask;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
 
@@ -22,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(this);
-        EmpresaCliente ec = (EmpresaCliente) dao.selectEmpresaCliente();
+        EmpresaCliente ec = dao.selectEmpresaCliente();
         if( ec != null) {
             new IniciaAplicacaoTask(this).execute();
         } else{

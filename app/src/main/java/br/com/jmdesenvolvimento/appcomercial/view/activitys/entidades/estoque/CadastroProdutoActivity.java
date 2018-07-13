@@ -23,20 +23,20 @@ import android.widget.Toast;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import br.com.jmdesenvolvimento.appcomercial.R;
+import br.com.jmdesenvolvimento.appcomercial.R;;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
+import app.jm.funcional.controller.funcoesGerais.FuncoesGerais;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
-import com.jmdesenvolvimento.appcomercial.model.Tabela;
+import app.jm.funcional.model.Tabela;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Fornecedor;
-import com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Cfop;
-import com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Csons;
-import com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Grupo;
-import com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Ncm;
-import com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Produto;
-import com.jmdesenvolvimento.appcomercial.model.entidades.estoque.TipoItem;
-import com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Unidade;
+import app.jm.funcional.model.entidades.cadastral.pessoas.Fornecedor;
+import app.jm.funcional.model.entidades.estoque.Cfop;
+import app.jm.funcional.model.entidades.estoque.Csons;
+import app.jm.funcional.model.entidades.estoque.Grupo;
+import app.jm.funcional.model.entidades.estoque.Ncm;
+import app.jm.funcional.model.entidades.estoque.Produto;
+import app.jm.funcional.model.entidades.estoque.TipoItem;
+import app.jm.funcional.model.entidades.estoque.Unidade;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.LeitorCodigoBarrasActivity;
 
 public class CadastroProdutoActivity extends AppCompatActivity {

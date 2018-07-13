@@ -10,12 +10,12 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 
-import br.com.jmdesenvolvimento.appcomercial.R;
+import br.com.jmdesenvolvimento.appcomercial.R;;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
+import app.jm.funcional.controller.funcoesGerais.FuncoesGerais;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
-import com.jmdesenvolvimento.appcomercial.controller.VariaveisControleG;
-import com.jmdesenvolvimento.appcomercial.model.entidades.estoque.Produto;
+import app.jm.funcional.controller.VariaveisControle;
+import app.jm.funcional.model.entidades.estoque.Produto;
 
 @SuppressLint("ValidFragment")
 public class DialogQuantidadeProduto extends DialogFragment {
@@ -71,7 +71,7 @@ public class DialogQuantidadeProduto extends DialogFragment {
             @Override
             public void onClick(View v) {
                 int qtd = FuncoesGerais.corrigeValoresCamposInt(textQtd.getText().toString());
-                if (qtd <= produto.getQtd() || VariaveisControleG.configuracoesSimples.isVendaSemEstoque()) {
+                if (qtd <= produto.getQtd() || VariaveisControle.configuracoesSimples.isVendaSemEstoque()) {
                     int qtdAnterior = VariaveisControleAndroid.qtdSelecionadaProdutoVenda; // para ser adicionado ao estoque em caso de mudança na quantidade do produto
                     VariaveisControleAndroid.qtdSelecionadaProdutoVenda = qtd;
 

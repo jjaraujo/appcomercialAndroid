@@ -13,11 +13,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.jmdesenvolvimento.appcomercial.controller.VariaveisControleG;
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.EmpresaCliente;
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Funcionario;
+import app.jm.funcional.controller.VariaveisControle;
+import app.jm.funcional.model.entidades.cadastral.pessoas.EmpresaCliente;
+import app.jm.funcional.model.entidades.cadastral.pessoas.Funcionario;
 
-import br.com.jmdesenvolvimento.appcomercial.R;
+import app.jm.funcional.model.entidades.cadastral.pessoas.Usuario;
+import br.com.jmdesenvolvimento.appcomercial.R;;
 import br.com.jmdesenvolvimento.appcomercial.controller.Logout;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.configuracoes.ConfiguracoesActivity;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.contas.ContaReceberActivity;
@@ -41,11 +42,11 @@ public class MenuLateral {
         TextView textViewNomeEmpresa = cabecalho.findViewById(R.id.textViewNomeEmpresa);
         TextView textViewNomePessoaLogada = cabecalho.findViewById(R.id.textViewNomePessoaLogada);
 
-        EmpresaCliente empCli = VariaveisControleG.empresaCliente;
-        Funcionario vendedor = VariaveisControleG.funcionarioLogado;
+        EmpresaCliente empCli = VariaveisControle.empresaCliente;
+        Usuario usuarioFuncionario = VariaveisControle.usuarioFuncionarioLogado;
 
-        textViewNomeEmpresa.setText(vendedor == null ? "" : empCli.getPessoa().getNomeFantasia());
-        textViewNomePessoaLogada.setText(vendedor == null ? empCli.getPessoa().getNomeFantasia() : vendedor.getPessoa().getNome());
+        textViewNomeEmpresa.setText(usuarioFuncionario == null ? "" : empCli.getPessoa().getNomeFantasia());
+        textViewNomePessoaLogada.setText(usuarioFuncionario == null ? empCli.getPessoa().getNomeFantasia() : usuarioFuncionario.getPessoa().getNome());
         textViewNomePessoaLogada.setTextSize(TypedValue.COMPLEX_UNIT_DIP,25);
     }
 

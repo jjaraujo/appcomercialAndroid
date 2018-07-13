@@ -7,10 +7,10 @@ import android.widget.ListView;
 
 import java.util.List;
 
-import br.com.jmdesenvolvimento.appcomercial.R;
-import com.jmdesenvolvimento.appcomercial.model.Tabela;
+import br.com.jmdesenvolvimento.appcomercial.R;;
+import app.jm.funcional.model.Tabela;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
-import com.jmdesenvolvimento.appcomercial.model.entidades.vendas.TipoPagamento;
+import app.jm.funcional.model.entidades.vendas.TipoPagamento;
 import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas.ArrayAdapterListaConfiguracoes;
 
 public class ConfigurarPagamentosActivity extends AppCompatActivity {

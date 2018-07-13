@@ -12,14 +12,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-import com.jmdesenvolvimento.appcomercial.controller.FuncoesSql;
-import com.jmdesenvolvimento.appcomercial.model.TabelasMapeadas;
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.VerificaTipos;
-import com.jmdesenvolvimento.appcomercial.model.Tabela;
-import com.jmdesenvolvimento.appcomercial.model.dao.IConnection;
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Pessoa;
-import com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaProdutosVenda;
+import app.jm.funcional.controller.FuncoesSql;
+import app.jm.funcional.model.TabelasMapeadas;
+import app.jm.funcional.controller.funcoesGerais.FuncoesGerais;
+import app.jm.funcional.controller.funcoesGerais.VerificaTipos;
+import app.jm.funcional.model.Tabela;
+import app.jm.funcional.model.dao.IConnection;
+import app.jm.funcional.model.entidades.cadastral.pessoas.Pessoa;
+import app.jm.funcional.model.tabelasIntermediarias.TabelaProdutosVenda;
 
 public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
     public static final String NOME_BANCO = "appcomercial";

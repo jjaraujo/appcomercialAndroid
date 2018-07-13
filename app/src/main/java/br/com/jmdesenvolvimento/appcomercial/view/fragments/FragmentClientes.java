@@ -16,11 +16,11 @@ import android.widget.SearchView;
 
 import java.util.List;
 
-import br.com.jmdesenvolvimento.appcomercial.R;
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
-import com.jmdesenvolvimento.appcomercial.model.Tabela;
+import br.com.jmdesenvolvimento.appcomercial.R;;
+import app.jm.funcional.controller.funcoesGerais.FuncoesGerais;
+import app.jm.funcional.model.Tabela;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Cliente;
+import app.jm.funcional.model.entidades.cadastral.pessoas.Cliente;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.HistoricoClienteActivity;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.pessoas.CadastroClientesActivity;
 import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas.ArrayAdapterClientes;

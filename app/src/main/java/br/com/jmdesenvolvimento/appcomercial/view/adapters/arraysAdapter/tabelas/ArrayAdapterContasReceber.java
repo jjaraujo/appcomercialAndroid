@@ -10,11 +10,11 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import br.com.jmdesenvolvimento.appcomercial.R;
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesMatematicas;
-import com.jmdesenvolvimento.appcomercial.model.Tabela;
-import com.jmdesenvolvimento.appcomercial.model.entidades.contas.ContaReceber;
+import br.com.jmdesenvolvimento.appcomercial.R;;
+import app.jm.funcional.controller.funcoesGerais.FuncoesGerais;
+import app.jm.funcional.controller.funcoesGerais.FuncoesMatematicas;
+import app.jm.funcional.model.Tabela;
+import app.jm.funcional.model.entidades.contas.ContaReceber;
 
 public class ArrayAdapterContasReceber extends BaseAdapter {
     private List<Tabela> list;

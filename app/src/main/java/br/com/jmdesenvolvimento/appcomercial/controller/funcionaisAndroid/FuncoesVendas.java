@@ -4,15 +4,15 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesVendasG;
-import com.jmdesenvolvimento.appcomercial.controller.VariaveisControleG;
-import com.jmdesenvolvimento.appcomercial.model.dao.IConnection;
+import app.jm.funcional.controller.funcoesGerais.FuncoesVendasG;
+import app.jm.funcional.controller.VariaveisControle;
+import app.jm.funcional.model.dao.IConnection;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
-import com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
+import app.jm.funcional.model.entidades.vendas.Venda;
 public final class FuncoesVendas {
 
     public static void finalizaVenda(AppCompatActivity context){
-        if (VariaveisControleG.valorRestante > 0) {
+        if (VariaveisControle.valorRestante > 0) {
             FuncoesViewAndroid.addAlertDialogAlerta(context, "Ainda há valores a pagar!");
         } else {
             IConnection dao = new SQLiteDatabaseDao(context);
@@ -32,7 +32,7 @@ public final class FuncoesVendas {
     }
 
     public static void limpaCamposVenda(){
-        VariaveisControleG.vendaSelecionada = null;
+        VariaveisControle.vendaSelecionada = null;
      //   VariaveisControleAndroid.buttonValorTotal.setText("FINALIZAR \n\nR$0,00");
      //   VariaveisControleAndroid.textViewVendaSelectionada.setText("Nenhuma venda selecionada");
       //  VariaveisControleAndroid.fragmentProdutos.carregaLista();

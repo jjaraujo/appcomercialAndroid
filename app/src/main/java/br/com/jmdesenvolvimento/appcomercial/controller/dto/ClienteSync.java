@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
 
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Cliente;
+import app.jm.funcional.model.entidades.cadastral.pessoas.Cliente;
 
 
 public class ClienteSync {

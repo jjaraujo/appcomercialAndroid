@@ -7,14 +7,14 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.APessoa;
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Funcionario;
+import app.jm.funcional.controller.LeituraJson;
+import app.jm.funcional.model.entidades.cadastral.pessoas.APessoa;
+import app.jm.funcional.model.entidades.cadastral.pessoas.Funcionario;
 
 import java.io.IOException;
 
 import br.com.jmdesenvolvimento.appcomercial.controller.exceptions.ExceptionInternet;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
-import br.com.jmdesenvolvimento.appcomercial.controller.json.LeituraJson;
 import br.com.jmdesenvolvimento.appcomercial.controller.services.RetrofitInicializador;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.iniciais.MainActivity;
@@ -28,9 +28,6 @@ public class ConexaoServiceCadastraFuncionario extends AsyncTask<Void, Void, Int
     private AppCompatActivity context;
     private Funcionario funcionario;
     private String mensagemDialog;
-    private final int  FALHA_SEM_INTERNET = 1;
-    private final int  FALHA_SERVIDOR = 2;
-    private final int SUCESSO = 3;
 
 
     public ConexaoServiceCadastraFuncionario(AppCompatActivity context, Funcionario funcionario){
@@ -55,12 +52,12 @@ public class ConexaoServiceCadastraFuncionario extends AsyncTask<Void, Void, Int
 
             dao.insert(funcionario.getPessoa());
 
-            String json = LeituraJson.tranformaParaJson(context, funcionario);
+            String json = LeituraJson.tabelaParaJson(funcionario);
             Log.i("JSON",json);
             response = new RetrofitInicializador(context).getService().cadastraFuncionario(json).execute();
             funcionario.setId(Integer.parseInt(response.body()+""));
       //      empresaCliente.setId(1);
-            if(response.body().equals("false")){
+            if(!response.isSuccessful() || response.body().equals("false") || response.body()== null){
                 throw new IOException();
             }
             dao.insert(funcionario);
@@ -68,13 +65,13 @@ public class ConexaoServiceCadastraFuncionario extends AsyncTask<Void, Void, Int
         } catch (IOException e) {
             Log.e("Erro","erro no servidor");
             dialog.dismiss();
-          //  return FALHA_SERVIDOR;
+           return  TipoOcorrenciasConexao.FALHA_SERVIDOR;
         } catch (ExceptionInternet e){
             dialog.dismiss();
             e.addMensagem(context, true);
-        //    return FALHA_SEM_INTERNET;
+           return  TipoOcorrenciasConexao.FALHA_SEM_INTERNET;
         }
-        return SUCESSO;
+        return  TipoOcorrenciasConexao.SUCESSO;
     }
 
     @Override
@@ -82,20 +79,14 @@ public class ConexaoServiceCadastraFuncionario extends AsyncTask<Void, Void, Int
         super.onPostExecute(tipoErro);
         dialog.dismiss();
         switch (tipoErro) {
-            case SUCESSO:
+            case  TipoOcorrenciasConexao.SUCESSO:
                 context.finish();
 
                 break;
 
-            case FALHA_SERVIDOR:
+            case  TipoOcorrenciasConexao.FALHA_SERVIDOR:
                 FuncoesViewAndroid.addAlertDialogErro(context, "Falha na conexão",
                         "Nosso sistema não está respondendo. Tente novamente em instantes e caso o problema persista, entre em contato com o suporte!", true).show();
-                break;
-
-            case FALHA_SEM_INTERNET:
-                FuncoesViewAndroid.addAlertDialogErro(context,"Falha na conexão",
-                        "Parece que você não está conectado à Internet. Verifique sua conexão e tente novamente",
-                        true).show();
                 break;
         }
     }

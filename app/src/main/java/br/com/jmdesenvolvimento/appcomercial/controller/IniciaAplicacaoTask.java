@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 
-import com.jmdesenvolvimento.appcomercial.controller.VariaveisControleG;
-import com.jmdesenvolvimento.appcomercial.model.Tabela;
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.EmpresaCliente;
+import app.jm.funcional.controller.VariaveisControle;
+import app.jm.funcional.model.Tabela;
+import app.jm.funcional.model.entidades.cadastral.pessoas.EmpresaCliente;
 
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesConfiguracao;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;

@@ -15,20 +15,20 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.jmdesenvolvimento.appcomercial.R;
+import br.com.jmdesenvolvimento.appcomercial.R;;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.Mask;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
 
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.EstrategiaLogin;
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
-import com.jmdesenvolvimento.appcomercial.model.Tabela;
+import app.jm.funcional.controller.funcoesGerais.EstrategiaLogin;
+import app.jm.funcional.controller.funcoesGerais.FuncoesGerais;
+import app.jm.funcional.model.Tabela;
 
 import br.com.jmdesenvolvimento.appcomercial.controller.services.conexoes.ConexaoServiceCadastraFuncionario;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.Estado;
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Funcionario;
-import com.jmdesenvolvimento.appcomercial.model.entidades.cadastral.pessoas.Pessoa;
+import app.jm.funcional.model.entidades.cadastral.Estado;
+import app.jm.funcional.model.entidades.cadastral.pessoas.Funcionario;
+import app.jm.funcional.model.entidades.cadastral.pessoas.Pessoa;
 
 public class CadastroFuncionarioActivity extends AppCompatActivity {
 
@@ -220,7 +220,7 @@ public class CadastroFuncionarioActivity extends AppCompatActivity {
         Pessoa pessoa = getValoresFormularioPessoa();
         Funcionario funcionario = new Funcionario();
         funcionario.setPessoa(pessoa);
-        funcionario.setUsuario(editTextUsuario.getText().toString());
+        funcionario.setLogin(editTextUsuario.getText().toString());
         funcionario.setSenha(EstrategiaLogin.criptografaSenha(editTextSenha.getText().toString()));
         return funcionario;
     }

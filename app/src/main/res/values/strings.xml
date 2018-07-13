@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">AppComercial</string>
-    <string name="title_activity_login">Login</string>
+    <string name="title_activity_login">Entrar</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_principal">ActivityPrincipal</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>

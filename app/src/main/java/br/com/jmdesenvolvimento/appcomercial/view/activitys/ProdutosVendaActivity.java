@@ -13,15 +13,15 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.jmdesenvolvimento.appcomercial.R;
+import br.com.jmdesenvolvimento.appcomercial.R;;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
-import com.jmdesenvolvimento.appcomercial.controller.funcoesGerais.FuncoesGerais;
-import com.jmdesenvolvimento.appcomercial.controller.VariaveisControleG;
+import app.jm.funcional.controller.funcoesGerais.FuncoesGerais;
+import app.jm.funcional.controller.VariaveisControle;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.ProdutoDAO;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
-import com.jmdesenvolvimento.appcomercial.model.entidades.vendas.Venda;
-import com.jmdesenvolvimento.appcomercial.model.tabelasIntermediarias.TabelaProdutosVenda;
+import app.jm.funcional.model.entidades.vendas.Venda;
+import app.jm.funcional.model.tabelasIntermediarias.TabelaProdutosVenda;
 import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas.ArrayAdapterTabelaProdutosVendas;
 import br.com.jmdesenvolvimento.appcomercial.view.dialogFragment.DialogEscolherEntidade;
 import br.com.jmdesenvolvimento.appcomercial.view.dialogFragment.DialogQuantidadeProduto;
@@ -37,8 +37,8 @@ public class ProdutosVendaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_produtos_venda);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        int numeroMesaComanda =  VariaveisControleG.vendaSelecionada.getNumeroMesaComanda();
-        setTitle("Produtos da " + VariaveisControleG.configuracoesSimples.getNomeTipoVenda() + " " + FuncoesGerais.addZeros(numeroMesaComanda,2));
+        int numeroMesaComanda =  VariaveisControle.vendaSelecionada.getNumeroMesaComanda();
+        setTitle("Produtos da " + VariaveisControle.configuracoesSimples.getNomeTipoVenda() + " " + FuncoesGerais.addZeros(numeroMesaComanda,2));
 
         lista = (ListView)findViewById(R.id.produtosDaVenda);
         VariaveisControleAndroid.produtosVendaActivity = this;
@@ -74,7 +74,7 @@ public class ProdutosVendaActivity extends AppCompatActivity {
 
     public void carregaLista() {
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(this);
-        Venda venda = VariaveisControleG.vendaSelecionada;
+        Venda venda = VariaveisControle.vendaSelecionada;
         String where = null;
         if (venda != null) {
             where = " venda = " + venda.getId();

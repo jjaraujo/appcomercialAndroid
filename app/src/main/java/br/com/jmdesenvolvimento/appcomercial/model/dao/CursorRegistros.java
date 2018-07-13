@@ -2,8 +2,8 @@ package br.com.jmdesenvolvimento.appcomercial.model.dao;
 
 import android.database.Cursor;
 
-import com.jmdesenvolvimento.appcomercial.controller.FuncoesSql;
-import com.jmdesenvolvimento.appcomercial.model.dao.IRegistros;
+import app.jm.funcional.controller.FuncoesSql;
+import app.jm.funcional.model.dao.IRegistros;
 
 public class CursorRegistros implements IRegistros{
 

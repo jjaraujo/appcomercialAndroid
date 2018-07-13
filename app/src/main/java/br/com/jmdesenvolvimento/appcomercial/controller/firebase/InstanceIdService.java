@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
-import com.jmdesenvolvimento.appcomercial.model.Dispositivo;
+import app.jm.funcional.model.Dispositivo;
 
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
 
@@ -28,7 +28,7 @@ public class InstanceIdService extends FirebaseInstanceIdService{
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(getApplicationContext());
         Dispositivo dispositivo = new Dispositivo();
         dispositivo.setToken(refreshedToken);
-        dispositivo.setEmpresaCliente(0);
+        dispositivo.setEmpresaClienteId(0);
         dao.insert(dispositivo);
 
     }
