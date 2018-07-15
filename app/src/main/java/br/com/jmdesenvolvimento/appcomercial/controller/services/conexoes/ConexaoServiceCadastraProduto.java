@@ -1,46 +1,42 @@
 package br.com.jmdesenvolvimento.appcomercial.controller.services.conexoes;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import app.jm.funcional.controller.LeituraJson;
-import app.jm.funcional.controller.VariaveisControle;
-import app.jm.funcional.model.entidades.cadastral.pessoas.APessoa;
-import app.jm.funcional.model.entidades.cadastral.pessoas.Funcionario;
-
 import java.io.IOException;
 
+import app.jm.funcional.controller.LeituraJson;
+import app.jm.funcional.controller.VariaveisControle;
+import app.jm.funcional.model.entidades.estoque.Produto;
 import br.com.jmdesenvolvimento.appcomercial.controller.exceptions.ExceptionInternet;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
 import br.com.jmdesenvolvimento.appcomercial.controller.services.RetrofitInicializador;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
-import br.com.jmdesenvolvimento.appcomercial.view.activitys.iniciais.MainActivity;
 import retrofit2.Response;
 
-public class ConexaoServiceCadastraFuncionario extends AsyncTask<Void, Void, Integer> {
+public class ConexaoServiceCadastraProduto extends AsyncTask<Void, Void, Integer> {
 
     private AlertDialog alertDialog;
     private Response response;
     private ProgressDialog dialog;
     private AppCompatActivity context;
-    private Funcionario funcionario;
+    private Produto produto;
     private String mensagemDialog;
 
 
-    public ConexaoServiceCadastraFuncionario(AppCompatActivity context, Funcionario funcionario){
+    public ConexaoServiceCadastraProduto(AppCompatActivity context, Produto funcionario){
         this.context = context;
-        this.funcionario = funcionario;
+        this.produto = funcionario;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
         dialog = new ProgressDialog(context);
-        dialog.setMessage("Cadastrando funcionário...");
+        dialog.setMessage("Cadastrando produto...");
         dialog.setCancelable(false);
         dialog.show();
     }
@@ -49,24 +45,20 @@ public class ConexaoServiceCadastraFuncionario extends AsyncTask<Void, Void, Int
     protected Integer doInBackground(Void... voids) {
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(context);
         try {
-
-
-            dao.insert(funcionario.getPessoa());
-
             if(!VariaveisControle.configuracoesSimples.isBackupEmNuvem()){
-                dao.insert(funcionario);
+                produto.setIdNaEmpresa(dao.countIdNaEmpresa(produto));
+                dao.insert(produto);
                 return TipoOcorrenciasConexao.SUCESSO;
             }
-
-            String json = LeituraJson.tabelaParaJson(funcionario);
+            String json = LeituraJson.tabelaParaJson(produto);
             Log.i("JSON",json);
-            response = new RetrofitInicializador(context).getService().cadastraFuncionario(json).execute();
-            funcionario.setId(Integer.parseInt(response.body()+""));
+            response = new RetrofitInicializador(context).getService().cadastraProduto(json).execute();
+            produto.setIdNaEmpresa(Integer.parseInt(response.body()+""));
       //      empresaCliente.setId(1);
             if(!response.isSuccessful() || response.body().equals("false") || response.body()== null){
                 throw new IOException();
             }
-            dao.insert(funcionario);
+            dao.insert(produto);
             dao.close();
         } catch (IOException e) {
             Log.e("Erro","erro no servidor");

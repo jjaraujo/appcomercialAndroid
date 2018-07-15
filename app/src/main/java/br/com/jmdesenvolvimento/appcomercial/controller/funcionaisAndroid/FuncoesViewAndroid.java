@@ -110,9 +110,19 @@ public final class FuncoesViewAndroid {
     }
 
 
-    public static void addAlertDialogAlerta(Context context, String mensagem){
-        new AlertDialog.Builder(context).setTitle(mensagem)
+    public static void addAlertDialogAlerta(Context context, String titulo, String mensagem){
+        new AlertDialog.Builder(context).setTitle(titulo)
+                .setMessage(mensagem)
                 .setIcon(R.drawable.icone_atencao)
+                .setCancelable(true)
+                .setPositiveButton("Ok",null)
+                .show();
+    }
+
+    public static void addAlertDialogSucesso(Context context, String titulo, String mensagem){
+        new AlertDialog.Builder(context).setTitle(titulo)
+                .setMessage(mensagem)
+                .setIcon(R.drawable.icone_salvar)
                 .setCancelable(true)
                 .setPositiveButton("Ok",null)
                 .show();

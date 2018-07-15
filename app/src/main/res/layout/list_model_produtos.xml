@@ -36,7 +36,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="12dp"
         android:layout_marginTop="11dp"
-        android:background="@drawable/imagem_redonda"/>
+        android:background="@drawable/view_redonda"/>
 
     <TextView
         android:id="@+id/textViewListProdutosNome"

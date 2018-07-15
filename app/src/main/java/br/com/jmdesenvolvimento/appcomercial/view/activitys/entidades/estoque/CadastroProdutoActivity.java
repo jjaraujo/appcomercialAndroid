@@ -28,6 +28,7 @@ import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.Funcoe
 import app.jm.funcional.controller.funcoesGerais.FuncoesGerais;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
 import app.jm.funcional.model.Tabela;
+import br.com.jmdesenvolvimento.appcomercial.controller.services.conexoes.ConexaoServiceCadastraProduto;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
 import app.jm.funcional.model.entidades.cadastral.pessoas.Fornecedor;
 import app.jm.funcional.model.entidades.estoque.Cfop;
@@ -63,7 +64,7 @@ public class CadastroProdutoActivity extends AppCompatActivity {
     private AutoCompleteTextView editTextCfopNfce;
     private AutoCompleteTextView editTextCsonsNfce;
     private TextInputEditText editTextAliquota;
-    private Produto produto = new Produto();
+    private Produto produto;
     private Produto produtoAntigo;
     private Button buttonAddGrupo;
     private Button buttonCameraCodigo;
@@ -116,13 +117,14 @@ public class CadastroProdutoActivity extends AppCompatActivity {
             case R.id.menu_formularios_salvar:
                 SQLiteDatabaseDao dao = new SQLiteDatabaseDao(this);
                 if (edicao == false) {
-                    dao.insert(getValoresProduto());
-                    finish();
+
+                   new ConexaoServiceCadastraProduto(this,getValoresProduto()).execute();
                     Toast.makeText(this,"Produto " + produto.getId() +" adicionado!",Toast.LENGTH_SHORT).show();
+
                 } else {
                     this.produto = getValoresProduto();
-                    Produto produto = (Produto) FuncoesGerais.getTabelaModificada(produtoAntigo, this.produto, new Produto());
-                    dao.update(produto);
+                //    Produto produto = (Produto) FuncoesGerais.getTabelaModificada(produtoAntigo, this.produto, new Produto());
+                    dao.update(this.produto);
                     finish();
                     Toast.makeText(this,"Produto " + produto.getId() +" alterado!",Toast.LENGTH_SHORT).show();
                 }
@@ -176,6 +178,7 @@ public class CadastroProdutoActivity extends AppCompatActivity {
     }
 
     private Produto getValoresProduto() {
+        produto = produtoAntigo == null ? new Produto() : produtoAntigo;
         produto.setAliquota(FuncoesGerais.corrigeValoresCamposDouble(editTextAliquota.getText().toString()));
         produto.setCit(FuncoesGerais.corrigeValoresCampos(editTextCit.getText().toString()));
         produto.setCodigoBarras(FuncoesGerais.corrigeValoresCamposLong(editTextCodigoBarras.getText().toString()));
@@ -330,11 +333,11 @@ public class CadastroProdutoActivity extends AppCompatActivity {
     }
 
     /**Monta o adapter genérico para as tabelas que serão listadas no formulário de cadastro através de autocomplete*/
-    private ArrayAdapter<Tabela> getAdapterEntidade(Tabela entidade, String sequencia, String colunaFiltro) {
+    private ArrayAdapter<Tabela> getAdapterEntidade(Tabela entidade, String colunaFiltro, String sequencia) {
         ProgressDialog dialog = new ProgressDialog(CadastroProdutoActivity.this);
         dialog.show();
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(CadastroProdutoActivity.this);
-        List<Tabela> list = (List<Tabela>) dao.selectAll(entidade, colunaFiltro +" like %" +sequencia+"%" , false);
+        List<Tabela> list = (List<Tabela>) dao.selectAll(entidade, colunaFiltro +" like '%" +sequencia+"%'" , false);
         ArrayAdapter adapter = new ArrayAdapter(CadastroProdutoActivity.this, android.R.layout.simple_dropdown_item_1line, list);
         dialog.dismiss();
         dao.close();
@@ -343,7 +346,7 @@ public class CadastroProdutoActivity extends AppCompatActivity {
 
     private  ArrayAdapter<Fornecedor> getAdapterFonecedor(String s){
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(CadastroProdutoActivity.this);
-        List<Tabela> list = dao.buscaPessoaPorNomeCpf(new Fornecedor(), "nome_pessoa",s);
+        List<Tabela> list = dao.buscaPessoaPorNomeCpf(new Fornecedor(), "nomePessoa",s);
         ArrayAdapter adapter = new ArrayAdapter(CadastroProdutoActivity.this, android.R.layout.simple_dropdown_item_1line, list);
         dao.close();
         return adapter;

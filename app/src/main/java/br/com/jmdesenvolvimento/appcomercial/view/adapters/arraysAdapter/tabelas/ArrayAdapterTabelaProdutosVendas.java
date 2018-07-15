@@ -68,7 +68,7 @@ public class ArrayAdapterTabelaProdutosVendas extends BaseAdapter {
         TabelaProdutosVenda tabelaProdutosVenda = (TabelaProdutosVenda) list.get(position);
 
         TextView nomeProduto = view.findViewById(R.id.listProdutosVendaTextViewNomeProduto);
-        nomeProduto.setText((FuncoesGerais.addZeros(tabelaProdutosVenda.getProduto().getId(),4))+" - "+tabelaProdutosVenda.getProduto().getNome_produto());
+        nomeProduto.setText((FuncoesGerais.addZeros(tabelaProdutosVenda.getProduto().getIdNaEmpresa(),4))+" - "+tabelaProdutosVenda.getProduto().getNome_produto());
 
         TextView qtd = view.findViewById(R.id.listProdutosVendaTextViewQuantidade);
         qtd.setText("x" + tabelaProdutosVenda.getQtd() + " " + tabelaProdutosVenda.getProduto().getUnidade().getNome_unidade());

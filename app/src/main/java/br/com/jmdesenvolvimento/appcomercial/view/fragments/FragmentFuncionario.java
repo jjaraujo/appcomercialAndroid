@@ -131,6 +131,6 @@ public class FragmentFuncionario extends Fragment {
         dao.close();
         ArrayAdapterVendedores adapter = new ArrayAdapterVendedores(getContext(),vendedores);
         listView.setAdapter(adapter);
-    }
+    }//  INSERT OR IGNORE  INTO Funcionario( pessoa, senha, idAnterior, dataExclusao, id, empresaClienteId, comissao, login) VALUES ( 36078684802278, 'd41d8cd98f00b204e9800998ecf8427e', 0, null, 6703316, 3, 0.0, 'ÇLLKKKK');
 
 }

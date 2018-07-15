@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.activitys.entidades.PagamentoActivity"
+    tools:context=".view.activitys.entidades.PagamentoDaVendaActivity"
     android:background="@android:color/white">
 
     <RelativeLayout

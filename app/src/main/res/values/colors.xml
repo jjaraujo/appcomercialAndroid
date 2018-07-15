@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#115095</color>
-    <color name="colorPrimaryDark">#0a0d6c</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="corTema">#723E4A</color>
+    <color name="corTemaEscuro">#6b3d48</color>
+    <color name="corBarasEHints">#898989</color>
+    <color name="corItensDestaqueVerde">#77BA50</color>
+    <color name="corItensDestaqueMarron">#A88089</color>
+    <color name="corTextViewTexto">#ffffff</color>
 </resources>

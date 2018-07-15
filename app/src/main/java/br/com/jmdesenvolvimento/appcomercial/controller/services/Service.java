@@ -33,8 +33,11 @@ public interface Service {
     @POST("insert/cadastraNovaEmpresa/{token}")
     public  Call<String> cadastraNovaEmpresa(@Body String empresa, @Path("token") String token);
 
-    @POST("insert/cadastraFuncionario")
+    @POST("insert/cadastraProduto")
     public  Call<String> cadastraFuncionario(@Body String s);
+
+    @POST("insert/cadastraProduto")
+    public  Call<String> cadastraProduto(@Body String s);
 
 
 }

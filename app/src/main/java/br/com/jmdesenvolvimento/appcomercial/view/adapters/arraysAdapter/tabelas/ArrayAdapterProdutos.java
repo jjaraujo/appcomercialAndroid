@@ -47,7 +47,7 @@ public class ArrayAdapterProdutos extends BaseAdapter {
         View view = layoutInflater.inflate(R.layout.list_model_produtos, null);
         Produto produto = (Produto) list.get(position);
         TextView textId = view.findViewById(R.id.textViewListProdutoCodigo);
-        textId.setText(FuncoesGerais.addZeros(produto.getId(),4));
+        textId.setText(FuncoesGerais.addZeros(produto.getIdNaEmpresa(),4));
         TextView nome = view.findViewById(R.id.textViewListProdutosNome);
         nome.setText(produto.getNome_produto());
         TextView grupo = view.findViewById(R.id.textViewListProdutosGrupo);

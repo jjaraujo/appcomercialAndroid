@@ -13,7 +13,7 @@ public final class FuncoesVendas {
 
     public static void finalizaVenda(AppCompatActivity context){
         if (VariaveisControle.valorRestante > 0) {
-            FuncoesViewAndroid.addAlertDialogAlerta(context, "Ainda há valores a pagar!");
+            FuncoesViewAndroid.addAlertDialogAlerta(context, "Atenção", "Ainda há valores a pagar!");
         } else {
             IConnection dao = new SQLiteDatabaseDao(context);
             FuncoesVendasG.finalizaVenda(dao);

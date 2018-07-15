@@ -52,7 +52,7 @@
         <activity
             android:name=".view.activitys.LeitorCodigoBarrasActivity"
             android:configChanges="orientation|screenSize" />
-        <activity android:name=".view.activitys.entidades.PagamentoActivity" />
+        <activity android:name=".view.activitys.entidades.PagamentoDaVendaActivity" />
         <activity android:name=".view.activitys.entidades.contas.ContaReceberActivity" />
         <activity
             android:name=".view.activitys.ProdutosVendaActivity"
@@ -74,21 +74,18 @@
             android:name=".view.activitys.iniciais.CaixaActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
-
-        <service
-            android:name=".controller.firebase.InstanceIdService">
+        <service android:name=".controller.firebase.InstanceIdService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".controller.firebase.RecebeMensagensService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <service
-            android:name=".controller.firebase.RecebeMensagensService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
-            </intent-filter>
-        </service>
-
+        <activity android:name=".view.activitys.configuracoes.ConfigurarCaixaActivity"></activity>
     </application>
 
 </manifest>

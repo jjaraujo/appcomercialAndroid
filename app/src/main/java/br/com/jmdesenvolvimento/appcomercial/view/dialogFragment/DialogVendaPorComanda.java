@@ -63,7 +63,7 @@ public class DialogVendaPorComanda extends DialogFragment {
                     addVenda();
                     dismiss();
                 } else{
-                    FuncoesViewAndroid.addAlertDialogAlerta(getContext(),"Já existe uma venda aberta para a "+
+                    FuncoesViewAndroid.addAlertDialogAlerta(getContext(),"Atenção","Já existe uma venda aberta para a "+
                             nomeTipoVenda +" " +numeroComanda+". Verifique!");
                 }
             }

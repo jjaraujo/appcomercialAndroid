@@ -101,7 +101,7 @@ public class DialogInformarValorPagamento extends android.support.v4.app.DialogF
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(!s.toString().equals("") && s != null){
                     if(Double.parseDouble(s+"") > VariaveisControle.valorRestante){
-                        FuncoesViewAndroid.addAlertDialogAlerta(getContext(),"Valor informado maior que o restante!");
+                        FuncoesViewAndroid.addAlertDialogAlerta(getContext(),"Atenção", "Valor informado maior que o restante!");
                         editTextValorRecebido.setText(VariaveisControle.valorRestante +"");
                     }
                 }
@@ -121,7 +121,7 @@ public class DialogInformarValorPagamento extends android.support.v4.app.DialogF
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 if(tabelaPagamento.getValor() == 0){
-                    FuncoesViewAndroid.addAlertDialogAlerta(getContext(),"Informe o valor do pagamento!");
+                    FuncoesViewAndroid.addAlertDialogAlerta(getContext(),"Atenção", "Informe o valor do pagamento!");
                     return;
                 }
             }
@@ -147,7 +147,7 @@ public class DialogInformarValorPagamento extends android.support.v4.app.DialogF
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 if(tabelaPagamento.getValor() == 0){
-                    FuncoesViewAndroid.addAlertDialogAlerta(getContext(),"Informe o valor do pagamento!");
+                    FuncoesViewAndroid.addAlertDialogAlerta(getContext(),"Atenção","Informe o valor do pagamento!");
                     return;
                 }
             }
@@ -186,7 +186,7 @@ public class DialogInformarValorPagamento extends android.support.v4.app.DialogF
             @Override
             public void afterTextChanged(Editable s) {
                 if(tabelaPagamento.getValor() == 0){
-                    FuncoesViewAndroid.addAlertDialogAlerta(getContext(),"Informe o valor do pagamento!");
+                    FuncoesViewAndroid.addAlertDialogAlerta(getContext(),"Atenção","Informe o valor do pagamento!");
                 } else {
                     if(s.length() == 10) {
                         dataPrimeiraParcela = FuncoesGerais.stringToCalendar(s.toString(), FuncoesGerais.ddMMyyyy);

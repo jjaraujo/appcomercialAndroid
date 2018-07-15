@@ -28,7 +28,7 @@ import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas
 import br.com.jmdesenvolvimento.appcomercial.view.dialogFragment.DialogInformarValorDesconto;
 import br.com.jmdesenvolvimento.appcomercial.view.dialogFragment.DialogInformarValorPagamento;
 
-public class PagamentoActivity extends AppCompatActivity {
+public class PagamentoDaVendaActivity extends AppCompatActivity {
     private TextView textViewValorTotalPagamento;
     private TextView textViewRestantePagamento;
     private TextView textViewDesconto;

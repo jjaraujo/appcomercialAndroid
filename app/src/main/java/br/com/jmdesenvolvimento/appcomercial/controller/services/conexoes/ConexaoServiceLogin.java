@@ -3,6 +3,7 @@ package br.com.jmdesenvolvimento.appcomercial.controller.services.conexoes;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 
 import app.jm.funcional.controller.LeituraJson;
@@ -56,8 +57,7 @@ public class ConexaoServiceLogin extends AsyncTask<Void, Void, Integer> {
             if (!response.isSuccessful())
                 throw new IOException();
 
-            if(response.body().equals("null")) {
-                FuncoesViewAndroid.addAlertDialogErro(context, "Falha no login", "Usuário ou senha inválidos!", false).show();
+            if(response.body().toString().equals("null")) {
                 return  0;
             }
 
@@ -99,6 +99,7 @@ public class ConexaoServiceLogin extends AsyncTask<Void, Void, Integer> {
 
         switch (tipoErro) {
             case 0:
+                FuncoesViewAndroid.addAlertDialogErro(context, "Falha no login", "Usuário ou senha inválidos!", false).show();
                 break;
             case TipoOcorrenciasConexao.SUCESSO:
                 context.finish();

@@ -14,13 +14,11 @@ public class ProdutoDAO  extends SQLiteDatabaseDao{
     }
 
     public void subtraiEstoque(TabelaProdutosVenda tpv){
-        if(!VariaveisControle.configuracoesSimples.isVendaSemEstoque()) {
             SQLiteDatabase db = getWritableDatabase();
             String sql = "UPDATE PRODUTO set qtd = qtd - " + tpv.getQtd()
                     + " where " + tpv.getProduto().getIdNome() + " = " + tpv.getProduto().getId();
             db.execSQL(sql);
             db.close();
-        }
     }
 
     public void addEstoque( long id, int qtd){

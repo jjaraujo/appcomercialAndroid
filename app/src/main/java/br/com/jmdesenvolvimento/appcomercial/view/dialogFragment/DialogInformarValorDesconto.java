@@ -100,7 +100,7 @@ public class DialogInformarValorDesconto extends DialogFragment {
             double percentual = Double.parseDouble(textValor.getText().toString()) / 100;
             return valorTotal * percentual;
         } else{
-            FuncoesViewAndroid.addAlertDialogAlerta(getContext(),"Selecione o tipo de desconto");
+            FuncoesViewAndroid.addAlertDialogAlerta(getContext(),"Atenção", "Selecione o tipo de desconto");
             return 0;
         }
     }

@@ -52,6 +52,7 @@ public class ConexaoServiceCadastraEmpresa extends AsyncTask<Void, Void, Integer
         try {
             dao.insert(empresaCliente.getPessoa());
             empresaCliente.setTipoUsuario(VariaveisControle.LOGIN_EMPRESA);
+
             String jsonEmpresa = LeituraJson.tabelaParaJson(empresaCliente);
 
             Dispositivo dispositivo = (Dispositivo) dao.select(new Dispositivo(),null, null, null,null,null);

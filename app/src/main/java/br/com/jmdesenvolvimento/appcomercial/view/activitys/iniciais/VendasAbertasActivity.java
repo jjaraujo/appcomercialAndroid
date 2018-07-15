@@ -12,7 +12,6 @@ import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -34,11 +33,7 @@ import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
 import app.jm.funcional.model.entidades.vendas.Venda;
 
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.ProdutosVendaActivity;
-import br.com.jmdesenvolvimento.appcomercial.view.activitys.configuracoes.ConfiguracoesActivity;
-import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.PagamentoActivity;
-import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.contas.ContaReceberActivity;
-import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.pessoas.PessoasActivity;
-import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.estoque.EstoqueActivity;
+import br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades.PagamentoDaVendaActivity;
 import br.com.jmdesenvolvimento.appcomercial.view.adapters.adaptersFragments.AdapterFragmentActivityPrincipal;
 import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas.ArrayAdapterVendasAbertas;
 import br.com.jmdesenvolvimento.appcomercial.view.dialogFragment.DialogEscolherEntidade;
@@ -142,7 +137,7 @@ public class VendasAbertasActivity extends AppCompatActivity
     public void openDialogFragment(View view) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         if (fragmentSelecionado == 1 && VariaveisControle.vendaSelecionada == null) {
-            FuncoesViewAndroid.addAlertDialogAlerta(this,"Nenhuma venda selecionada!");
+            FuncoesViewAndroid.addAlertDialogAlerta(this,"Atenção", "Nenhuma venda selecionada!");
             //  alert.setMessage("Não");
         } else {
             DialogEscolherEntidade ecf = new DialogEscolherEntidade(1, 2, fragmentSelecionado);
@@ -150,42 +145,7 @@ public class VendasAbertasActivity extends AppCompatActivity
         }
     }
 
-    private void cliqueButonFinalizar(){
-        buttonFinalizarVenda.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Venda venda = VariaveisControle.vendaSelecionada;
-                String textMensagem = "";
-                if (venda == null) {
-                    FuncoesViewAndroid.addSnackBarToast(v,VendasAbertasActivity.this, "Selecione uma venda!");
-                } else {
-                    if (venda.getCliente().getId() == 0) {
-                        textMensagem = "Deseja fechar a " + VariaveisControle.configuracoesSimples.getNomeTipoVenda()
-                                + " " + venda.getNumeroMesaComanda() + "?";
-                    } else {
-                        textMensagem = "Deseja fechar a venda " + venda.getId() + "?";
-                    }
-                    new AlertDialog.Builder(VendasAbertasActivity.this)
-                            .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Intent intent = new Intent(VendasAbertasActivity.this, PagamentoActivity.class);
-                                    startActivity(intent);
-                                }
-                            })
-                            .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            })
-                            .setTitle(textMensagem)
-                            .setIcon(R.drawable.icone_pergunta)
-                            .show();
-                }
-            }
-        });
-    }
+
 
     public void carregaLista(){
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(this);

@@ -211,7 +211,7 @@ public class DialogEscolherEntidade extends DialogFragment {
             venda.setTabelaProdutosVenda(listTPV);
         }
         venda.getTabelaProdutosVenda().add(tpv);
-        venda.setDataRegistro(Calendar.getInstance());
+       // venda.setDataRegistro(Calendar.getInstance());
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(getContext());
         dao.insert(tpv);
         ProdutoDAO produtoDao = new ProdutoDAO(getContext());
@@ -278,6 +278,7 @@ public class DialogEscolherEntidade extends DialogFragment {
 
 
     public void openDialogFragment(AdapterView<?> parent, int position) {
+
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         if (tipoEntidade == TIPO_CLIENTE && VariaveisControle.vendaSelecionada == null) {
             new AlertDialog.Builder(getContext()).
@@ -288,6 +289,8 @@ public class DialogEscolherEntidade extends DialogFragment {
             dialog.show(ft, "dialogQuantidadeProduto");
         }
     }
+
+
 
     public void openDialogFragmentComanda() {
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();

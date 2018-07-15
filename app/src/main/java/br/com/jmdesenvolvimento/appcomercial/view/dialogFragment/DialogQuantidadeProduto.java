@@ -82,7 +82,7 @@ public class DialogQuantidadeProduto extends DialogFragment {
                     }
                     dismiss();
                 } else {
-                    FuncoesViewAndroid.addAlertDialogAlerta(getContext(), "Quantidade maior que o estoque!");
+                    FuncoesViewAndroid.addAlertDialogAlerta(getContext(),"Atenção", "Quantidade maior que o estoque!");
                 }
             }
         });

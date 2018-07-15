@@ -57,6 +57,7 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
 
     public void insert(Tabela tabela) {
 
+      //  tabela.getMapAtributos(false).put("dataExclusao",null);
         if(!tabela.usaInsert())
             return;
 
@@ -65,7 +66,7 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
         }
 
         if (tabela.getId() == 0) {
-            tabela.setId(countIdEntidade(tabela) + 1);
+            tabela.geraId(this);
         }
 
         SQLiteDatabase db = getWritableDatabase();
@@ -98,10 +99,9 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
                 where = tabela.getDataExclusaoNome() + " IS NULL";
             }
         }
-        int i = countIdEntidade(tabela);
         //   Log.i("buscaTodos", "Entrou");
         SQLiteDatabase db = getReadableDatabase();
-        String[] s = tabela.getNomesAtributos();
+        String[] s = selectionArgs == null ? tabela.getNomesAtributos() : selectionArgs;
         CursorRegistros cursor = new CursorRegistros(db.query(tabela.getNomeTabela(false), s, where, selectionArgs, groupBy, null, orderBy, limit));
 
         List<Tabela> listEntidades = new ArrayList();
@@ -121,7 +121,7 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
      * Busca apenas apenas um registro. Usar em casos de id conhecido ou em tabelas com apenas um registro.
      * Neste ultimo caso, informar id == null
      */
-    public Tabela select(Tabela tabela, String id, String where, String groupBy, String orderBy, String limit) {
+    public Tabela select(Tabela tabela, String id,String[] colunasPesquisar, String where, String groupBy, String orderBy, String limit) {
 
         SQLiteDatabase db = getReadableDatabase();
         String[] s = tabela.getNomesAtributos();
@@ -133,11 +133,13 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
         CursorRegistros cursor = new CursorRegistros(db.query(nomeTabela, s, where, null, groupBy, null, orderBy, limit));
 
         while (cursor.moveToNext()) {
+            db.close();
             return FuncoesSql.percorreColunasSqlEAdicionaNoMap(this, cursor, tabela);
         }
         cursor.close();
         return null;
     }
+
 
     // verificar a possibilidade de passsar esse metodo para o FuncoesSql
     @Override
@@ -157,7 +159,7 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
         }
         //String nomesAtibutosInLinha = entidade.nomesAtibutosInLinha();
         String sql = "SELECT * FROM " + entidade.getNomeTabela(false)
-                + " JOIN PESSOA ON " + entidade.getNomeTabelaNomeId() + " = PESSOA." + pessoa.getIdNome()
+                + " JOIN Pessoa P ON pessoa = P." + pessoa.getIdNome()
                 + " where " + condicao;
         Log.i("Pesquisa", sql);
         SQLiteDatabase db = getReadableDatabase();
@@ -174,10 +176,6 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
 
     }
 
-    public int countIdEntidade(Tabela tabela) {
-        SQLiteDatabase db = getReadableDatabase();
-        return countIdEntidade(db, tabela);
-    }
 
     public int countIdEntidade(SQLiteDatabase db, Tabela tabela) {
         String nomeTabela = tabela.getNomeTabela(false);
@@ -191,7 +189,7 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
 
     @Override
     public void execSQL(String s) {
-        if(db == null){
+        if(db == null || !db.isOpen()){
             db = getWritableDatabase();
             db.execSQL(s);
             db.close();
@@ -206,11 +204,5 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
         SQLiteDatabase dao = getWritableDatabase();
         dao.execSQL(sql);
         dao.close();
-    }
-
-    public void drop(Tabela tabela) {
-        SQLiteDatabase db = getWritableDatabase();
-        String sql = "DROP TABLE " + tabela.getNomeTabela(false);
-        db.execSQL(sql);
     }
 }

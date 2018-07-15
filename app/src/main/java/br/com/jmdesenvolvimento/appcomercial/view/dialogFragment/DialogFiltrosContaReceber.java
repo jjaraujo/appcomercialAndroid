@@ -121,7 +121,7 @@ public class DialogFiltrosContaReceber extends android.support.v4.app.DialogFrag
                 contaReceber.setDataInicio(dataInicio);
                 if(dataFim != null){
                     if(dataFim.getTimeInMillis() < dataInicio.getTimeInMillis())
-                        FuncoesViewAndroid.addAlertDialogAlerta(getContext(),"Data FIM menor que a data INICIO!");
+                        FuncoesViewAndroid.addAlertDialogAlerta(getContext(),"Atenção","Data fim menor que a data inicio!");
                 }
             }
         });
@@ -145,7 +145,7 @@ public class DialogFiltrosContaReceber extends android.support.v4.app.DialogFrag
                 contaReceber.setDataFim(dataFim);
                 if(dataInicio != null) {
                     if (dataFim.getTimeInMillis() < dataInicio.getTimeInMillis())
-                        FuncoesViewAndroid.addAlertDialogAlerta(getContext(), "Data FIM menor que a data INICIO!");
+                        FuncoesViewAndroid.addAlertDialogAlerta(getContext(), "Atenção","Data FIM menor que a data INICIO!");
                     }
                 }
         });
