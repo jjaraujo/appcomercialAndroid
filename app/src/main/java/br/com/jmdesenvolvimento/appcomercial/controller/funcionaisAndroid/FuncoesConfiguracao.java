@@ -14,16 +14,17 @@ import app.jm.funcional.model.entidades.cadastral.pessoas.Usuario;
 import app.jm.funcional.model.entidades.vendas.Caixa;
 import br.com.jmdesenvolvimento.appcomercial.controller.exceptions.ExceptionInternet;
 import br.com.jmdesenvolvimento.appcomercial.controller.services.RetrofitInicializador;
+import br.com.jmdesenvolvimento.appcomercial.controller.services.conexoes.ConexaoServiceRecuperaTabela;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
 
 public final class FuncoesConfiguracao {
 
-    public static void inicaDadosBasicos(AppCompatActivity context){
-       carregaEmpresaEUsuario(context);
-       carregaConfiguracoesSimples(context);
-       carregaVariaveisControle(context);
-       carregaCaixa(context);
+    public static void inicaDadosBasicos(AppCompatActivity context, boolean backup){
 
+        carregaEmpresaEUsuario(context);
+        carregaCaixa(context);
+        carregaVariaveisControle(context);
+        carregaConfiguracoesSimples(context);
     }
 
     public static void carregaConfiguracoesSimples(Context context){
@@ -60,8 +61,6 @@ public final class FuncoesConfiguracao {
 
     public static void carregaVariaveisControle(AppCompatActivity context){
         VariaveisControle.iConnection = new SQLiteDatabaseDao(context);
-
-
         try {
             VariaveisControleAndroid.service = new RetrofitInicializador(context).getService();
         } catch (ExceptionInternet exceptionInternet) {

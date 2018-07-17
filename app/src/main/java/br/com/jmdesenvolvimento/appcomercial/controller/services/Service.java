@@ -27,13 +27,16 @@ public interface Service {
     @GET("select/{nomeTabela}/{id}")
     public Call<String> getTabela(@Path("nomeTabela") String nomeTabela, @Path("id") long id);
 
+    @GET("select/todas/{nomeTabela}/{idEmpresa}")
+    public Call<String> getListTabela(@Path("nomeTabela") String nomeTabela, @Path("idEmpresa") long idEmpresa);
+
     @POST("insert/insertTabela")
     public  Call<String> insertTabela(@Body String s);
 
     @POST("insert/cadastraNovaEmpresa/{token}")
     public  Call<String> cadastraNovaEmpresa(@Body String empresa, @Path("token") String token);
 
-    @POST("insert/cadastraProduto")
+    @POST("insert/cadastraFuncionario")
     public  Call<String> cadastraFuncionario(@Body String s);
 
     @POST("insert/cadastraProduto")

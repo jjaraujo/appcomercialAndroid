@@ -1,34 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="170dp"
-    android:layout_height="130dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginStart="10dp"
-    android:layout_marginTop="12dp"
-    android:background="#e6e6e6"
+    android:layout_marginTop="5dp"
     android:elevation="4dp"
     android:stateListAnimator="@null">
 
 
-
         <ImageView
             android:id="@+id/imageViewIconeTipoPagamento"
-            android:layout_width="132dp"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/icone_cartao" />
 
         <TextView
             android:id="@+id/textViewTipoPagamento"
-            android:layout_width="match_parent"
+            android:layout_width="318dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/imageViewIconeTipoPagamento"
             android:text="Cartão de Crédito"
-            android:textAlignment="center"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+            android:textAlignment="textStart"
+            android:textSize="25dp"
+            app:layout_constraintStart_toEndOf="@+id/imageViewIconeTipoPagamento"
+            app:layout_constraintTop_toTopOf="@+id/imageViewIconeTipoPagamento" />
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

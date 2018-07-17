@@ -31,6 +31,11 @@ public class SQLiteDatabaseDao extends SQLiteOpenHelper implements IConnection {
     }
 
 
+    @Override
+    public int getTipoSql() {
+        return FuncoesSql.SQLITE;
+    }
+
     public void onCreate(SQLiteDatabase db) {
         this.db = db;
         FuncoesSql.createTables(this, FuncoesSql.SQLITE);

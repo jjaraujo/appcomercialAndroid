@@ -25,10 +25,19 @@ public class MainActivity extends AppCompatActivity {
         SQLiteDatabaseDao dao = new SQLiteDatabaseDao(this);
         EmpresaCliente ec = dao.selectEmpresaCliente();
         if( ec != null) {
-            new IniciaAplicacaoTask(this).execute();
-        } else{
+            boolean login = false;
+            if(getIntent().getSerializableExtra("login") != null){
+                login = true;
+            }
+            new IniciaAplicacaoTask(this,login).execute();
+        } else {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
         }
     }
+
+    private void backup(){
+
+    }
+
 }

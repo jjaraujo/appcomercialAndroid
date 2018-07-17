@@ -19,9 +19,11 @@ public class IniciaAplicacaoTask extends AsyncTask<Void, Void, Void>{
     private ProgressDialog prograssDialog;
     private AppCompatActivity context;
     private String activityInicial;
+    private boolean isLogin;
 
-    public IniciaAplicacaoTask(AppCompatActivity context){
+    public IniciaAplicacaoTask(AppCompatActivity context, boolean isLogin){
         this.context = context;
+        this.isLogin = isLogin;
     }
 
     @Override
@@ -34,7 +36,7 @@ public class IniciaAplicacaoTask extends AsyncTask<Void, Void, Void>{
 
     @Override
     protected Void doInBackground(Void... voids) {
-        FuncoesConfiguracao.inicaDadosBasicos(context);
+        FuncoesConfiguracao.inicaDadosBasicos(context, isLogin);
         return null;
     }
 
@@ -44,6 +46,7 @@ public class IniciaAplicacaoTask extends AsyncTask<Void, Void, Void>{
         prograssDialog.dismiss();
         Class activity = FuncoesViewAndroid.getActivityInicial();
         Intent intent = new Intent(context,activity);
+        intent.putExtra("login",isLogin);
         prograssDialog.dismiss();
         context.startActivity(intent);
     }

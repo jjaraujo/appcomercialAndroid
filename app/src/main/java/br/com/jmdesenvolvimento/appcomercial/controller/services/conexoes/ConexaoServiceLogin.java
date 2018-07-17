@@ -136,11 +136,14 @@ public class ConexaoServiceLogin extends AsyncTask<Void, Void, Integer> {
 
             dao.close();
             Intent intent = new Intent(context, MainActivity.class);
+            intent.putExtra("login",true);
             context.startActivity(intent);
 
         } catch (Exception e) {
             FuncoesViewAndroid.addAlertDialogErro(context, "Falha no login", "Não foi possível efetuar seu login, contate o suporte! Mensagem: " + e.getMessage(), false);
         }
     }
+
+
 
 }

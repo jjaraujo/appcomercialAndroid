@@ -19,6 +19,7 @@ import android.widget.TextView;
 import java.util.Calendar;
 import java.util.List;
 
+import app.jm.funcional.model.filtrosOrdenacao.FiltroContasReceber;
 import br.com.jmdesenvolvimento.appcomercial.R;;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
@@ -26,7 +27,6 @@ import app.jm.funcional.controller.funcoesGerais.FuncoesGerais;
 import app.jm.funcional.model.Tabela;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
 import app.jm.funcional.model.entidades.cadastral.pessoas.Cliente;
-import br.com.jmdesenvolvimento.appcomercial.model.filtrosOrdenacao.FiltroContasReceber;
 
 
 /**Dialog onde o usuário irá informar tipo de pagamento, parcelas etc.*/

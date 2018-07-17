@@ -4,7 +4,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import java.sql.Time;
+import java.time.Instant;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Timer;
 
 import app.jm.funcional.model.entidades.vendas.HorariosCaixa;
 import br.com.jmdesenvolvimento.appcomercial.R;
@@ -29,6 +33,7 @@ public class ConfigurarCaixaActivity extends AppCompatActivity {
         List<HorariosCaixa> horariosCaixas = (List<HorariosCaixa>) dao.selectAll(new HorariosCaixa(),null,false);
         ArrayAdapterHorariosCaixa adapter = new ArrayAdapterHorariosCaixa(this,horariosCaixas);
         listView.setAdapter(adapter);
+
 
     }
 }

@@ -1,5 +1,6 @@
 package br.com.jmdesenvolvimento.appcomercial.view.activitys.iniciais;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -15,11 +16,15 @@ import android.widget.TextView;
 import java.util.Calendar;
 import java.util.List;
 
+import app.jm.funcional.controller.VariaveisControle;
 import app.jm.funcional.controller.funcoesGerais.FuncoesGerais;
 import app.jm.funcional.controller.funcoesGerais.FuncoesMatematicas;
 import app.jm.funcional.model.entidades.vendas.Caixa;
+import app.jm.funcional.model.entidades.vendas.Venda;
 import br.com.jmdesenvolvimento.appcomercial.R;
-import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;;
+import br.com.jmdesenvolvimento.appcomercial.controller.services.conexoes.ConexaoServiceRecuperaTabela;
+import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
+import br.com.jmdesenvolvimento.appcomercial.view.activitys.ProdutosVendaActivity;;
 
 public class CaixaActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -36,11 +41,18 @@ public class CaixaActivity extends AppCompatActivity implements NavigationView.O
         setTitle("Caixa");
         MenuLateral.iniciaComponentesMenuLateral(toolbar,this);
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setVisibility(View.INVISIBLE);
 
         textViewAvista = findViewById(R.id.textViewCaixaValorAVista);
         textViewAPrazo = findViewById(R.id.textViewCaixaValorAPrazo);
         textViewTotal = findViewById(R.id.textViewCaixaValorTotal);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                criaVendaCaixa();
+            }
+        });
+
     }
 
 
@@ -51,11 +63,24 @@ public class CaixaActivity extends AppCompatActivity implements NavigationView.O
         return true;
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        Object loginI = getIntent().getSerializableExtra("login");
+        boolean login =loginI == null ? false : (boolean) loginI;
+        if(login) {
+            getIntent().putExtra("login",false);
+            new ConexaoServiceRecuperaTabela(this).execute();
+        }
+
         carregaCaixa();
+
     }
 
     private void carregaCaixa(){
@@ -68,5 +93,15 @@ public class CaixaActivity extends AppCompatActivity implements NavigationView.O
         textViewTotal.setText("R$ " + FuncoesMatematicas.formataValoresDouble(caixa.getValorTotal()));
     }
 
+
+    private void criaVendaCaixa(){
+        Venda venda = new Venda();
+        venda.setTipoVenda(Venda.TIPO_CAIXA);
+        venda.getMapAtributos(true);
+        VariaveisControle.vendaSelecionada = venda;
+        Intent intent = new Intent(CaixaActivity.this, ProdutosVendaActivity.class);
+        startActivity(intent);
+
+    }
 
 }

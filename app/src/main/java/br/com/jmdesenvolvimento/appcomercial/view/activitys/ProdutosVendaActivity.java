@@ -32,7 +32,7 @@ import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas
 import br.com.jmdesenvolvimento.appcomercial.view.dialogFragment.DialogEscolherEntidade;
 import br.com.jmdesenvolvimento.appcomercial.view.dialogFragment.DialogQuantidadeProduto;
 
-public class ProdutosVendaActivity extends AppCompatActivity {
+public class ProdutosVendaActivity extends TrataOnBackPressed {
 
     private ListView lista;
     private TabelaProdutosVenda tabelaProdutosVendaClicado;
@@ -45,7 +45,9 @@ public class ProdutosVendaActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         int numeroMesaComanda = VariaveisControle.vendaSelecionada.getNumeroMesaComanda();
-        setTitle("Produtos da " + VariaveisControle.configuracoesSimples.getNomeTipoVenda() + " " + FuncoesGerais.addZeros(numeroMesaComanda, 2));
+        String titulo = "Produtos da " + VariaveisControle.configuracoesSimples.getNomeTipoVenda() + " " + FuncoesGerais.addZeros(numeroMesaComanda, 2);
+        titulo = VariaveisControle.vendaSelecionada.getTipoVenda() == Venda.TIPO_CAIXA ? "Nova venda" : titulo;
+        setTitle(titulo);
 
         lista = (ListView) findViewById(R.id.produtosDaVenda);
         VariaveisControleAndroid.produtosVendaActivity = this;
@@ -140,5 +142,16 @@ public class ProdutosVendaActivity extends AppCompatActivity {
                 .setIcon(R.drawable.icone_pergunta)
                 .show();
     }
+
+    @Override
+    public void onBackPressed() {
+
+        if(VariaveisControle.vendaSelecionada != null && VariaveisControle.vendaSelecionada.getTipoVenda() == Venda.TIPO_CAIXA){
+            FuncoesViewAndroid.addAlertDialogPerguntaSair(this,"Você vai perder todos os produtos da venda!", true);
+        } else{
+            super.onBackPressed();
+        }
+    }
+
 
 }

@@ -3,6 +3,7 @@
     <color name="corTema">#723E4A</color>
     <color name="corTemaEscuro">#6b3d48</color>
     <color name="corBarasEHints">#898989</color>
+    <color name="corItensCinzaEscuro">#505050</color>
     <color name="corItensDestaqueVerde">#77BA50</color>
     <color name="corItensDestaqueMarron">#A88089</color>
     <color name="corTextViewTexto">#ffffff</color>

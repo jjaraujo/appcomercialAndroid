@@ -29,6 +29,7 @@ import java.util.List;
 import br.com.jmdesenvolvimento.appcomercial.R;;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
 import app.jm.funcional.controller.VariaveisControle;
+import br.com.jmdesenvolvimento.appcomercial.controller.services.conexoes.ConexaoServiceRecuperaTabela;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
 import app.jm.funcional.model.entidades.vendas.Venda;
 
@@ -58,8 +59,6 @@ public class VendasAbertasActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-
         setTitle("Vendas abertas");
 
       //  VariaveisControleAndroid.textViewVendaSelectionada = vendaSelectionada;
@@ -70,16 +69,8 @@ public class VendasAbertasActivity extends AppCompatActivity
         lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Venda venda = (Venda) parent.getItemAtPosition(position);
-                VariaveisControle.vendaSelecionada = venda;
-         //       FuncoesViewAndroid.alteraViewVendaSelecionada();
-                // VariaveisControleAndroid.fragmentProdutos.carregaLista();
-                if(venda.getDataRegistro() == null){
-                    SQLiteDatabaseDao dao = new SQLiteDatabaseDao(VendasAbertasActivity.this);
-                    venda.setDataRegistro(Calendar.getInstance());
-                    dao.insert(venda);
-                    dao.close();
-                }
+
+                abreVenda((Venda) parent.getItemAtPosition(position));
 
                 Intent intent = new Intent(VendasAbertasActivity.this, ProdutosVendaActivity.class);
                 startActivity(intent);
@@ -100,10 +91,33 @@ public class VendasAbertasActivity extends AppCompatActivity
      //   cliqueButonFinalizar();
     }
 
+    private void abreVenda(Venda venda) {
+
+        venda.setTipoVenda(Venda.TIPO_MESA_COMANDA);
+        VariaveisControle.vendaSelecionada = venda;
+        //       FuncoesViewAndroid.alteraViewVendaSelecionada();
+        // VariaveisControleAndroid.fragmentProdutos.carregaLista();
+        if(venda.getDataRegistro() == null){
+            SQLiteDatabaseDao dao = new SQLiteDatabaseDao(VendasAbertasActivity.this);
+            venda.setDataRegistro(Calendar.getInstance());
+            dao.insert(venda);
+            dao.close();
+        }
+    }
+
     @Override
     protected void onResume() {
-        carregaLista();
+
         super.onResume();
+
+        Object loginI = getIntent().getSerializableExtra("login");
+        boolean login =loginI == null ? false : (boolean) loginI;
+        if(login) {
+            getIntent().putExtra("login",false);
+            new ConexaoServiceRecuperaTabela(this).execute();
+        }
+
+        carregaLista();
     }
 
     @Override

@@ -1,5 +1,6 @@
 package br.com.jmdesenvolvimento.appcomercial.view.activitys.entidades;
 
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,22 +18,24 @@ import java.util.List;
 import br.com.jmdesenvolvimento.appcomercial.R;;
 import app.jm.funcional.controller.funcoesGerais.FuncoesMatematicas;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesVendas;
+import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.FuncoesViewAndroid;
 import br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid.VariaveisControleAndroid;
 import app.jm.funcional.controller.VariaveisControle;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
 import app.jm.funcional.model.entidades.vendas.TipoPagamento;
 import app.jm.funcional.model.entidades.vendas.Venda;
 import app.jm.funcional.model.tabelasIntermediarias.TabelaPagamento;
+import br.com.jmdesenvolvimento.appcomercial.view.activitys.TrataOnBackPressed;
 import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.ArrayAdapterPagamentoEscolhido;
 import br.com.jmdesenvolvimento.appcomercial.view.adapters.arraysAdapter.tabelas.ArrayAdapterTiposPagamentos;
 import br.com.jmdesenvolvimento.appcomercial.view.dialogFragment.DialogInformarValorDesconto;
 import br.com.jmdesenvolvimento.appcomercial.view.dialogFragment.DialogInformarValorPagamento;
 
-public class PagamentoDaVendaActivity extends AppCompatActivity {
+public class PagamentoDaVendaActivity extends TrataOnBackPressed {
     private TextView textViewValorTotalPagamento;
     private TextView textViewRestantePagamento;
     private TextView textViewDesconto;
-    private RelativeLayout relativeLayoutDesconto;
+    private ConstraintLayout relativeLayoutDesconto;
     private ListView listViewPagamentosEscolhidos;
     private double valotTotal;
 
@@ -44,7 +47,7 @@ public class PagamentoDaVendaActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        GridView gridView = findViewById(R.id.gridViewPagamento);
+        ListView listView = findViewById(R.id.gridViewPagamento);
         listViewPagamentosEscolhidos = findViewById(R.id.listViewPagamento);
         textViewRestantePagamento = findViewById(R.id.textViewValorRestantePagamento);
         textViewValorTotalPagamento = findViewById(R.id.textViewValorTotalPagamento);
@@ -52,15 +55,14 @@ public class PagamentoDaVendaActivity extends AppCompatActivity {
         relativeLayoutDesconto = findViewById(R.id.relativeLayoutDescontoPagamento);
 
         VariaveisControleAndroid.activityPagamento = this;
-        VariaveisControle.valorRestante = FuncoesMatematicas.calculaValorTotalVendaDouble(VariaveisControle.vendaSelecionada);
 
-        valotTotal = FuncoesMatematicas.calculaValorTotalVendaDouble(VariaveisControle.vendaSelecionada);
         final List list = getList();
 
         ArrayAdapterTiposPagamentos adapterTabelas = new ArrayAdapterTiposPagamentos(this, list);
-        gridView.setAdapter(adapterTabelas);
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setAdapter(adapterTabelas);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Venda vendaSelecionada = VariaveisControle.vendaSelecionada;
@@ -88,6 +90,9 @@ public class PagamentoDaVendaActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        VariaveisControle.valorRestante = FuncoesMatematicas.calculaValorTotalVendaDouble(VariaveisControle.vendaSelecionada);
+        valotTotal = FuncoesMatematicas.calculaValorTotalVendaDouble(VariaveisControle.vendaSelecionada);
+
         carregaTextValores();
     }
 
@@ -140,4 +145,14 @@ public class PagamentoDaVendaActivity extends AppCompatActivity {
         return list;
     }
 
+
+    @Override
+    public void onBackPressed() {
+
+        if(VariaveisControle.vendaSelecionada != null && VariaveisControle.vendaSelecionada.getTipoVenda() == Venda.TIPO_CAIXA){
+            FuncoesViewAndroid.addAlertDialogPerguntaSair(this,"Isso vai remover todos os pagamentos escolhidos", false);
+        } else{
+            super.onBackPressed();
+        }
+    }
 }

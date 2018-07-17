@@ -1,5 +1,6 @@
 package br.com.jmdesenvolvimento.appcomercial.controller.funcionaisAndroid;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,6 +22,7 @@ import app.jm.funcional.controller.funcoesGerais.FuncoesGerais;
 import app.jm.funcional.controller.VariaveisControle;
 import app.jm.funcional.model.Tabela;
 import br.com.jmdesenvolvimento.appcomercial.model.dao.SQLiteDatabaseDao;
+import br.com.jmdesenvolvimento.appcomercial.view.activitys.TrataOnBackPressed;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.iniciais.CaixaActivity;
 import br.com.jmdesenvolvimento.appcomercial.view.activitys.iniciais.VendasAbertasActivity;
 
@@ -57,6 +59,28 @@ public final class FuncoesViewAndroid {
                 dialog.dismiss();
             }
         }).setTitle(mensagemTitulo)
+                .setIcon(R.drawable.icone_atencao).show();
+    }
+
+    public static void addAlertDialogPerguntaSair(final TrataOnBackPressed context, String mensagem, boolean apagaVenda) {
+        new AlertDialog.Builder(context).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                VariaveisControle.vendaSelecionada.setDesconto(0);
+                context.onBackPressedSuper();
+                dialog.dismiss();
+                if(apagaVenda){
+                    VariaveisControle.vendaSelecionada = null;
+                }
+
+            }
+        }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).setTitle("Deseja sair?")
+                .setMessage(mensagem)
                 .setIcon(R.drawable.icone_atencao).show();
     }
 
